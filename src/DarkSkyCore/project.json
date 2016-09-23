@@ -3,7 +3,9 @@
   "buildOptions": {
     "debugType": "portable"
   },
-  "dependencies": {},
+  "dependencies": {
+    "Newtonsoft.Json": "9.0.1"
+  },
   "frameworks": {
     "netstandard1.6": {
       "dependencies": {
