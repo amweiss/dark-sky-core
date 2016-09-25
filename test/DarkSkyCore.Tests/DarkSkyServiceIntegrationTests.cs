@@ -1,6 +1,8 @@
 using Xunit;
 using DarkSky.Services;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System;
 
 namespace DarkSky.IntegrationTests.Services
 {
@@ -26,9 +28,91 @@ namespace DarkSky.IntegrationTests.Services
 		{
             var forecast = await _darkSky.GetForecast(_latitude, _longitude);
             Assert.NotNull(forecast);
-            Assert.Equal(forecast.latitude, _latitude);
-            Assert.Equal(forecast.longitude, _longitude);
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Headers);
+            Assert.Equal(forecast.Response.Hourly.Data.Count, 49);
+            Assert.Equal(forecast.Response.Latitude, _latitude);
+            Assert.Equal(forecast.Response.Longitude, _longitude);
+        }
 
+        [Fact]
+		public async void BuffaloForecastTimeMachine()
+		{
+            var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+            {
+                UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds()
+            });
+
+            Assert.NotNull(forecast);
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Headers);
+            Assert.Equal(forecast.Response.Daily.Data.Count, 1);
+            Assert.Null(forecast.Response.Minutely);
+            Assert.Null(forecast.Response.Alerts);
+            Assert.Equal(forecast.Response.Latitude, _latitude);
+            Assert.Equal(forecast.Response.Longitude, _longitude);
+        }
+
+        [Fact]
+		public async void BuffaloForecastExclude()
+		{
+            var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+            {
+                DataBlocksToExclude = new List<string> { "daily" }
+            });
+
+            Assert.NotNull(forecast);
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Headers);
+            Assert.Null(forecast.Response.Daily);
+            Assert.Equal(forecast.Response.Latitude, _latitude);
+            Assert.Equal(forecast.Response.Longitude, _longitude);
+        }
+
+        [Fact]
+		public async void BuffaloForecastExtendHourly()
+		{
+            var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+            {
+                ExtendHourly = true
+            });
+
+            Assert.NotNull(forecast);
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Headers);
+            Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+            Assert.Equal(forecast.Response.Latitude, _latitude);
+            Assert.Equal(forecast.Response.Longitude, _longitude);
+        }
+
+        [Fact]
+		public async void BuffaloForecastPigLatin()
+		{
+            var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+            {
+                LanguageCode = "x-pig-latin"
+            });
+
+            Assert.NotNull(forecast);
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Headers);
+            Assert.Equal(forecast.Response.Latitude, _latitude);
+            Assert.Equal(forecast.Response.Longitude, _longitude);
+        }
+
+        [Fact]
+		public async void BuffaloForecastUnits()
+		{
+            var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+            {
+                MeasurementUnits = "si"
+            });
+
+            Assert.NotNull(forecast);
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Headers);
+            Assert.Equal(forecast.Response.Latitude, _latitude);
+            Assert.Equal(forecast.Response.Longitude, _longitude);
         }
     }
 

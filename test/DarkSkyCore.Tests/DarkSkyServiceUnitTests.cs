@@ -32,5 +32,9 @@ namespace DarkSky.UnitTests.Services
             var darkSkyService = new DarkSkyService("fakekey");
             Assert.NotNull(darkSkyService);
         }
+
+
+		//TODO: BuildRequestUri
+		//TODO: Save JSON from a real request and run as unit tests
 	}
 }

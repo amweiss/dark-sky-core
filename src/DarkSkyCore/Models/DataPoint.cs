@@ -1,38 +1,97 @@
-using System;
+using Newtonsoft.Json;
 
 namespace DarkSky.Models
 {
-	public class DataPoint
+    public class DataPoint
 	{
-		public double? apparentTemperature { get; set; }
-		public double? apparentTemperatureMax { get; set; }
-		public long? apparentTemperatureMaxTime { get; set; }
-		public long? apparentTemperatureMinTime { get; set; }
-		public double? cloudCover { get; set; }
-		public Double? dewPoint { get; set; }
-		public double? humidity { get; set; }
-		public string icon { get; set; }
-		public double? moonPhase { get; set; }
-		public int? nearestStormBearing { get; set; }
-		public double? nearestStormDistance { get; set; }
-		public double? ozone { get; set; }
-		public double? precipAccumulation { get; set; }
-		public double? precipIntensity { get; set; }
-		public double? precipIntensityMax { get; set; }
-		public long? precipIntensityMaxTime { get; set; }
-		public double? precipProbability { get; set; }
-		public string precipType { get; set; }
-		public double? pressure { get; set; }
-		public long? sunriseTime { get; set; }
-		public long? sunsetTime { get; set; }
-		public double? temperature { get; set; }
-		public double? temperatureMax { get; set; }
-		public long? temperatureMaxTime { get; set; }
-		public double? temperatureMin { get; set; }
-		public long? temperatureMinTime { get; set; }
-		public long time { get; set; }
-		public double? visibility { get; set; }
-		public int? windBearing { get; set; }
-		public double? windSpeed { get; set; }
+		[JsonProperty(PropertyName="apparentTemperature")]
+		public double? ApparentTemperature { get; set; }
+
+		[JsonProperty(PropertyName="apparentTemperatureMax")]
+		public double? ApparentTemperatureMax { get; set; }
+
+		[JsonProperty(PropertyName="apparentTemperatureMaxTime")]
+		public long? ApparentTemperatureMaxTime { get; set; }
+
+		[JsonProperty(PropertyName="apparentTemperatureMinTime")]
+		public long? ApparentTemperatureMinTime { get; set; }
+
+		[JsonProperty(PropertyName="cloudCover")]
+		public double? CloudCover { get; set; }
+
+		[JsonProperty(PropertyName="dewPoint")]
+		public double? DewPoint { get; set; }
+
+		[JsonProperty(PropertyName="humidity")]
+		public double? Humidity { get; set; }
+
+		[JsonProperty(PropertyName="icon")]
+		public string Icon { get; set; }
+
+		[JsonProperty(PropertyName="moonPhase")]
+		public double? MoonPhase { get; set; }
+
+		[JsonProperty(PropertyName="nearestStormBearing")]
+		public int? NearestStormBearing { get; set; }
+
+		[JsonProperty(PropertyName="nearestStormDistance")]
+		public double? NearestStormDistance { get; set; }
+
+		[JsonProperty(PropertyName="ozone")]
+		public double? Ozone { get; set; }
+
+		[JsonProperty(PropertyName="precipAccumulation")]
+		public double? PrecipAccumulation { get; set; }
+
+		[JsonProperty(PropertyName="precipIntensity")]
+		public double? PrecipIntensity { get; set; }
+
+		[JsonProperty(PropertyName="precipIntensityMax")]
+		public double? PrecipIntensityMax { get; set; }
+
+		[JsonProperty(PropertyName="precipIntensityMaxTime")]
+		public long? PrecipIntensityMaxTime { get; set; }
+
+		[JsonProperty(PropertyName="precipProbability")]
+		public double? PrecipProbability { get; set; }
+
+		[JsonProperty(PropertyName="precipType")]
+		public string PrecipType { get; set; }
+
+		[JsonProperty(PropertyName="pressure")]
+		public double? Pressure { get; set; }
+
+		[JsonProperty(PropertyName="sunriseTime")]
+		public long? SunriseTime { get; set; }
+
+		[JsonProperty(PropertyName="sunsetTime")]
+		public long? SunsetTime { get; set; }
+
+		[JsonProperty(PropertyName="temperature")]
+		public double? Temperature { get; set; }
+
+		[JsonProperty(PropertyName="temperatureMax")]
+		public double? TemperatureMax { get; set; }
+
+		[JsonProperty(PropertyName="temperatureMaxTime")]
+		public long? TemperatureMaxTime { get; set; }
+
+		[JsonProperty(PropertyName="temperatureMin")]
+		public double? TemperatureMin { get; set; }
+
+		[JsonProperty(PropertyName="temperatureMinTime")]
+		public long? TemperatureMinTime { get; set; }
+
+		[JsonProperty(PropertyName="time")]
+		public long Time { get; set; }
+
+		[JsonProperty(PropertyName="visibility")]
+		public double? Visibility { get; set; }
+
+		[JsonProperty(PropertyName="windBearing")]
+		public int? WindBearing { get; set; }
+
+		[JsonProperty(PropertyName="windSpeed")]
+		public double? WindSpeed { get; set; }
     }
 }
