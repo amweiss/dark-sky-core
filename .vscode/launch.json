@@ -1,17 +1,17 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug xunit tests",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/test/DarkSkyCore.Tests/bin/Debug/netcoreapp1.0/DarkSkyCore.Tests.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/test/DarkSkyCore.Tests",
-            "externalConsole": false,
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
-        }
-    ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug xunit tests",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build",
+			"program": "${workspaceRoot}/test/DarkSkyCore.Tests/bin/Debug/netcoreapp1.0/DarkSkyCore.Tests.dll",
+			"args": [],
+			"cwd": "${workspaceRoot}/test/DarkSkyCore.Tests",
+			"externalConsole": false,
+			"stopAtEntry": false,
+			"internalConsoleOptions": "openOnSessionStart"
+		}
+	]
 }

@@ -8,78 +8,78 @@ using Newtonsoft.Json;
 
 namespace DarkSky.Services
 {
-    public class DarkSkyService
-    {
-        readonly string _apiKey;
-        readonly IHttpClient _httpClient;
+	public class DarkSkyService
+	{
+		readonly string _apiKey;
+		readonly IHttpClient _httpClient;
 
-        public class OptionalParameters
-        {
-            public long? UnixTimeInSeconds { get; set; }
-            public List<string> DataBlocksToExclude { get; set; }
-            public bool? ExtendHourly { get; set; }
-            public string LanguageCode { get; set; }
-            public string MeasurementUnits { get; set; }
-        }
+		public class OptionalParameters
+		{
+			public long? UnixTimeInSeconds { get; set; }
+			public List<string> DataBlocksToExclude { get; set; }
+			public bool? ExtendHourly { get; set; }
+			public string LanguageCode { get; set; }
+			public string MeasurementUnits { get; set; }
+		}
 
-        public DarkSkyService(string apiKey, IHttpClient httpClient = null)
-        {
-            if (string.IsNullOrWhiteSpace(apiKey)) throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
-            _apiKey = apiKey;
-            _httpClient = httpClient ?? new ZipHttpClient("https://api.darksky.net/");
-        }
+		public DarkSkyService(string apiKey, IHttpClient httpClient = null)
+		{
+			if (string.IsNullOrWhiteSpace(apiKey)) throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
+			_apiKey = apiKey;
+			_httpClient = httpClient ?? new ZipHttpClient("https://api.darksky.net/");
+		}
 
-        string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
-        {
-            var queryString = new StringBuilder($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}");
-            if (parameters?.UnixTimeInSeconds != null)
-            {
-                queryString.Append($",{parameters.UnixTimeInSeconds}");
-            }
+		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
+		{
+			var queryString = new StringBuilder($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}");
+			if (parameters?.UnixTimeInSeconds != null)
+			{
+				queryString.Append($",{parameters.UnixTimeInSeconds}");
+			}
 
-            if (parameters != null)
-            {
-                queryString.Append("?");
-                if (parameters.DataBlocksToExclude != null)
-                {
-                    queryString.Append($"&exclude={String.Join(",", parameters.DataBlocksToExclude)}");
-                }
-                if (parameters.ExtendHourly != null && parameters.ExtendHourly.Value)
-                {
-                    queryString.Append("&extend=hourly");
-                }
-                if (!String.IsNullOrWhiteSpace(parameters.LanguageCode))
-                {
-                    queryString.Append($"&lang={parameters.LanguageCode}");
-                }
-                if (!String.IsNullOrWhiteSpace(parameters.MeasurementUnits))
-                {
-                    queryString.Append($"&units={parameters.MeasurementUnits}");
-                }
-            }
+			if (parameters != null)
+			{
+				queryString.Append("?");
+				if (parameters.DataBlocksToExclude != null)
+				{
+					queryString.Append($"&exclude={String.Join(",", parameters.DataBlocksToExclude)}");
+				}
+				if (parameters.ExtendHourly != null && parameters.ExtendHourly.Value)
+				{
+					queryString.Append("&extend=hourly");
+				}
+				if (!String.IsNullOrWhiteSpace(parameters.LanguageCode))
+				{
+					queryString.Append($"&lang={parameters.LanguageCode}");
+				}
+				if (!String.IsNullOrWhiteSpace(parameters.MeasurementUnits))
+				{
+					queryString.Append($"&units={parameters.MeasurementUnits}");
+				}
+			}
 
-            return queryString.ToString();
-        }
+			return queryString.ToString();
+		}
 
-        public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
-        {
-            var requestString = BuildRequestUri(latitude, longitude, parameters);
-            var response = await _httpClient.HttpRequest(requestString);
-            var responseContent = await response.Content.ReadAsStringAsync();
+		public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
+		{
+			var requestString = BuildRequestUri(latitude, longitude, parameters);
+			var response = await _httpClient.HttpRequest(requestString);
+			var responseContent = await response.Content.ReadAsStringAsync();
 
-            long callsParsed;
-            return new DarkSkyResponse
-            {
-                Response = JsonConvert.DeserializeObject<Forecast>(responseContent),
-                Headers = new DarkSkyResponse.ResponseHeaders
-                {
-                    CacheControl =response.Headers.CacheControl,
-                    ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out callsParsed) ?
-                                (long?)callsParsed :
-                                null,
-                    ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault()
-                }
-            };
-        }
-    }
+			long callsParsed;
+			return new DarkSkyResponse
+			{
+				Response = JsonConvert.DeserializeObject<Forecast>(responseContent),
+				Headers = new DarkSkyResponse.ResponseHeaders
+				{
+					CacheControl =response.Headers.CacheControl,
+					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out callsParsed) ?
+								(long?)callsParsed :
+								null,
+					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault()
+				}
+			};
+		}
+	}
 }

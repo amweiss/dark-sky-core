@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace DarkSky.Services
 {
-    public interface IHttpClient
+	public interface IHttpClient
 	{
-        Task<HttpResponseMessage> HttpRequest(string requestString);
-    }
+		Task<HttpResponseMessage> HttpRequest(string requestString);
+	}
 }

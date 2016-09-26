@@ -1,25 +1,25 @@
 {
-    "version": "0.1.0",
-    "command": "dotnet",
-    "isShellCommand": true,
-    "args": [],
-    "tasks": [
-        {
-            "taskName": "build",
-            "args": [
-                "./src/DarkSkyCore"
-            ],
-            "isBuildCommand": true,
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "taskName": "test",
-            "args": [
-                "./test/DarkSkyCore.Tests"
-            ],
-            "isTestCommand": true,
-            "showOutput": "always",
-            "problemMatcher": "$msCompile"
-        }
-    ]
+	"version": "0.1.0",
+	"command": "dotnet",
+	"isShellCommand": true,
+	"args": [],
+	"tasks": [
+		{
+			"taskName": "build",
+			"args": [
+				"./src/DarkSkyCore"
+			],
+			"isBuildCommand": true,
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"taskName": "test",
+			"args": [
+				"./test/DarkSkyCore.Tests"
+			],
+			"isTestCommand": true,
+			"showOutput": "always",
+			"problemMatcher": "$msCompile"
+		}
+	]
 }
