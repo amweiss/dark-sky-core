@@ -1,28 +1,35 @@
 {
-  "version": "1.0.0-*",
-  "title": "DarkSkyCore",
+	"version": "1.0.1-*",
+	"title": "DarkSkyCore",
 	"dependencies": {
-	"Newtonsoft.Json": "9.0.1",
-	"System.Net.Http": "4.1.0",
-	"NuGet.CommandLine" : {"version": "3.4.3", "type": "build"}
-  },
-  "frameworks": {
-	"netstandard1.6": {}
-  },
-	"buildOptions": {
-	"debugType": "portable"
-  },
-  "packOptions": {
-	"licenseUrl": "https://mitlicense.org/",
-	"owners": [
-	  "Adam Weiss"
-	],
-	"repository": {
-	  "url": "https://github.com/amweiss/dark-sky-core"
+		"Newtonsoft.Json": "9.0.1",
+		"System.Net.Http": "4.1.0",
+		"NuGet.CommandLine": {
+			"version": "3.4.3",
+			"type": "build"
+		}
 	},
-	"summary": "A .NET Core library for using the Dark Sky API.",
-	"tags": [
-	  "dotnetcore", "core", "darksky", "weather"
-	]
-  }
+	"frameworks": {
+		"netstandard1.6": {}
+	},
+	"buildOptions": {
+		"debugType": "portable"
+	},
+	"packOptions": {
+		"licenseUrl": "https://mitlicense.org/",
+		"owners": [
+			"Adam Weiss"
+		],
+		"repository": {
+			"type": "git",
+			"url": "https://github.com/amweiss/dark-sky-core"
+		},
+		"summary": "A .NET Core library for using the Dark Sky API.",
+		"tags": [
+			"dotnetcore",
+			"core",
+			"darksky",
+			"weather"
+		]
+	}
 }
