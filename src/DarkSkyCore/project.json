@@ -17,7 +17,7 @@
 		"debugType": "portable"
 	},
 	"packOptions": {
-		"licenseUrl": "https://mitlicense.org/",
+		"licenseUrl": "https://github.com/amweiss/dark-sky-core/blob/master/LICENSE",
 		"owners": [
 			"Adam Weiss"
 		],
