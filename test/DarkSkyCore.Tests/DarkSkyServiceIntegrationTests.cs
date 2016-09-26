@@ -6,12 +6,12 @@ using System;
 
 namespace DarkSky.IntegrationTests.Services
 {
-    public class DarkSkyServiceIntegrationTests
+    public class DarkSkyServiceIntegrationTests : IDisposable
     {
         readonly string _apiEnvVar = "DarkSkyApiKey";
-        readonly double _latitude = 42.915;
-        readonly double _longitude = -78.741;
-        readonly DarkSkyService _darkSky;
+        readonly double _latitude = 29.4264; //42.915;
+        readonly double _longitude = -98.5105; //-78.741;
+        DarkSkyService _darkSky;
 
         public DarkSkyServiceIntegrationTests()
         {
@@ -21,6 +21,11 @@ namespace DarkSky.IntegrationTests.Services
             var apiKey = config.GetValue<string>(_apiEnvVar);
             Assert.False(string.IsNullOrWhiteSpace(apiKey), $"You must set the environment variable {_apiEnvVar}");
             _darkSky = new DarkSkyService(apiKey);
+        }
+
+        public void Dispose()
+        {
+            _darkSky = null;
         }
 
 		[Fact]
@@ -38,6 +43,7 @@ namespace DarkSky.IntegrationTests.Services
         [Fact]
 		public async void BuffaloForecastTimeMachine()
 		{
+            //TODO: Why does this fail when running the suite and seem to pull in the mock client from unit tests.
             var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
             {
                 UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds()
