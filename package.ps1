@@ -1,2 +1,2 @@
 dotnet pack --configuration release -o nupkgs/ src/DarkSkyCore
-~/.nuget/packages/NuGet.CommandLine/3.4.3/tools/NuGet.exe push nupkgs/DarkSkyCore.1.0.1.nupkg -Source https://www.nuget.org/api/v2/package
+~/.nuget/packages/NuGet.CommandLine/3.4.3/tools/NuGet.exe push nupkgs/DarkSkyCore.1.0.2.nupkg -Source https://www.nuget.org/api/v2/package

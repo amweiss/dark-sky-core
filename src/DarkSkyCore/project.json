@@ -1,5 +1,5 @@
 {
-	"version": "1.0.1-*",
+	"version": "1.0.2-*",
 	"title": "DarkSkyCore",
 	"dependencies": {
 		"Newtonsoft.Json": "9.0.1",
@@ -10,7 +10,7 @@
 		}
 	},
 	"frameworks": {
-		"netstandard1.6": {}
+		"netstandard1.4": {}
 	},
 	"buildOptions": {
 		"debugType": "portable"
