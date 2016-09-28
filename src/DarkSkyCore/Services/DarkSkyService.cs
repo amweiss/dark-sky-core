@@ -22,6 +22,11 @@ namespace DarkSky.Services
 			public string MeasurementUnits { get; set; }
 		}
 
+		/// <summary>
+		/// A wrapper for the Dark Sky API.
+		/// </summary>
+		/// <param name="apiKey">Your API key for the Dark Sky API.</param>
+		/// <param name="httpClient">An optional HTTP client to contact an API with (useful for mocking data for testing).</param>
 		public DarkSkyService(string apiKey, IHttpClient httpClient = null)
 		{
 			if (string.IsNullOrWhiteSpace(apiKey)) throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
@@ -61,6 +66,13 @@ namespace DarkSky.Services
 			return queryString.ToString();
 		}
 
+		/// <summary>
+		/// Make a request to get forecast data.
+		/// </summary>
+		/// <param name="latitude">Latitude to request data for in decimal degrees.</param>
+		/// <param name="longitude">Longitude to request data for in decimal degrees.</param>
+		/// <param name="parameters">The OptionalParameters to use for the request.</param>
+		/// <returns>A DarkSkyResponse with the API headers and data.</returns>
 		public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
 		{
 			var requestString = BuildRequestUri(latitude, longitude, parameters);
