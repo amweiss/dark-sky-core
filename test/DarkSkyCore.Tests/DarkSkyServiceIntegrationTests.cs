@@ -43,7 +43,6 @@ namespace DarkSky.IntegrationTests.Services
 		[Fact]
 		public async void BuffaloForecastTimeMachine()
 		{
-			//TODO: Why does this fail when running the suite and seem to pull in the mock client from unit tests.
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds()
@@ -117,6 +116,50 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
+			Assert.Equal(forecast.Response.Latitude, _latitude);
+			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+		[Fact]
+		public async void BuffaloTimeMachineForecastCombineAllOptions()
+		{
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds(),
+				DataBlocksToExclude = new List<string> { "flags" },
+				LanguageCode = "x-pig-latin",
+				MeasurementUnits = "si"
+			});
+
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Headers);
+			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
+			Assert.Equal(forecast.Response.Hourly.Data.Count, 24);
+			Assert.Null(forecast.Response.Minutely);
+			Assert.Null(forecast.Response.Alerts);
+			Assert.Null(forecast.Response.Flags);
+			Assert.Equal(forecast.Response.Latitude, _latitude);
+			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+		[Fact]
+		public async void BuffaloForecastCombineAllOptions()
+		{
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				ExtendHourly = true,
+				DataBlocksToExclude = new List<string> { "flags" },
+				LanguageCode = "x-pig-latin",
+				MeasurementUnits = "si"
+			});
+
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Headers);
+			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
+			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
