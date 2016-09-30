@@ -1,0 +1,26 @@
+version: '{branch}-{build}'
+pull_requests:
+  do_not_increment_build_number: true
+skip_non_tags: true
+build_script:
+- ps: >-
+    cd src/DarkSkyCore
+
+    dotnet restore
+
+    dotnet build
+
+
+    cd ../../
+
+    dotnet pack --configuration release -o nupkgs/ src/DarkSkyCore
+test_script:
+- ps: >-
+    cd test/DarkSkyCore.Tests
+
+    dotnet restore
+
+    dotnet test
+artifacts:
+- path: nupkgs/
+  name: nuget
