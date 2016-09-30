@@ -1,7 +1,6 @@
 {
 	"version": "1.0.2-*",
 	"title": "DarkSkyCore",
-	"projectUrl": "https://github.com/amweiss/dark-sky-core",
 	"dependencies": {
 		"Newtonsoft.Json": "9.0.1",
 		"System.Net.Http": "4.1.0",
