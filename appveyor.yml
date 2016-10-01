@@ -7,7 +7,6 @@ build_script:
 
     dotnet build
 
-
     cd ../../
 
     dotnet pack --configuration release -o nupkgs/ src/DarkSkyCore
@@ -17,7 +16,11 @@ test_script:
 
     dotnet restore
 
-    dotnet test
+    dotnet build
+
+    dotnet test -class DarkSky.UnitTests.Services.DarkSkyServiceUnitTests
+
+    if($env:APPVEYOR_REPO_TAG) { dotnet test -class DarkSky.IntegrationTests.Services.DarkSkyServiceIntegrationTests}
 artifacts:
 - path: nupkgs/
   name: nuget
