@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace DarkSky.Models
 {
-    public class DataPoint
+	public class DataPoint
 	{
 		[JsonProperty(PropertyName="apparentTemperature")]
 		public double? ApparentTemperature { get; set; }
@@ -93,5 +93,5 @@ namespace DarkSky.Models
 
 		[JsonProperty(PropertyName="windSpeed")]
 		public double? WindSpeed { get; set; }
-    }
+	}
 }

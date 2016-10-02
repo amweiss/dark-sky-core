@@ -3,6 +3,7 @@ using DarkSky.Services;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace DarkSky.IntegrationTests.Services
 {
@@ -29,7 +30,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastReturnsFullObject()
+		public async Task BuffaloForecastReturnsFullObject()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude);
 			Assert.NotNull(forecast);
@@ -41,7 +42,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastTimeMachine()
+		public async Task BuffaloForecastTimeMachine()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
@@ -59,7 +60,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastExclude()
+		public async Task BuffaloForecastExclude()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
@@ -75,7 +76,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastExtendHourly()
+		public async Task BuffaloForecastExtendHourly()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
@@ -91,7 +92,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastPigLatin()
+		public async Task BuffaloForecastPigLatin()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
@@ -106,7 +107,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastUnits()
+		public async Task BuffaloForecastUnits()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
@@ -121,7 +122,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloTimeMachineForecastCombineAllOptions()
+		public async Task BuffaloTimeMachineForecastCombineAllOptions()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
@@ -144,7 +145,7 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
-		public async void BuffaloForecastCombineAllOptions()
+		public async Task BuffaloForecastCombineAllOptions()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{

@@ -14,5 +14,5 @@ namespace DarkSky.Models
 
 		[JsonProperty(PropertyName="icon")]
 		public string Icon { get; set; }
-    }
+	}
 }

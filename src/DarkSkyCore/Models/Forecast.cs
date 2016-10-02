@@ -6,7 +6,7 @@ namespace DarkSky.Models
 	public class Forecast
 	{
 		[JsonProperty(PropertyName="latitude")]
-        public double Latitude { get; set; }
+		public double Latitude { get; set; }
 
 		[JsonProperty(PropertyName="longitude")]
 		public double Longitude { get; set; }
@@ -30,6 +30,6 @@ namespace DarkSky.Models
 		public List<Alert> Alerts { get; set; }
 
 		[JsonProperty(PropertyName="flags")]
-        public Flags Flags { get; set; }
-    }
+		public Flags Flags { get; set; }
+	}
 }
