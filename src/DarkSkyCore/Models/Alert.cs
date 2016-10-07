@@ -16,5 +16,5 @@ namespace DarkSky.Models
 
 		[JsonProperty(PropertyName="uri")]
 		public Uri Uri { get; set; }
-    }
+	}
 }

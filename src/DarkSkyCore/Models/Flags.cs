@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 
 namespace DarkSky.Models
 {
-    public class Flags
-    {
+	public class Flags
+	{
 		[JsonProperty(PropertyName="darksky-unavailable")]
-        public string DarkskyUnavailable { get; set; }
+		public string DarkskyUnavailable { get; set; }
 
 		[JsonProperty(PropertyName="metno-license")]
 		public string MetnoLicense { get; set; }
@@ -16,5 +16,5 @@ namespace DarkSky.Models
 		
 		[JsonProperty(PropertyName="units")]
 		public string Units { get; set; }
-    }
+	}
 }

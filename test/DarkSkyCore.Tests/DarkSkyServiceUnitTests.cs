@@ -83,7 +83,7 @@ namespace DarkSky.UnitTests.Services
 		}
 
 		[Fact]
-		public async void GetForecastWithMockData()
+		public async Task GetForecastWithMockData()
 		{
 			var darkSkyService = new DarkSkyService("fakekey", _fixture.MockClient.Object);
 			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
