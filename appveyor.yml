@@ -1,4 +1,6 @@
 version: '{branch}-{build}'
+pull_requests:
+  do_not_increment_build_number: true
 build_script:
 - ps: >-
     cd src/DarkSkyCore
@@ -6,6 +8,7 @@ build_script:
     dotnet restore
 
     dotnet build
+
 
     cd ../../
 
@@ -16,8 +19,16 @@ test_script:
 
     dotnet restore
 
-    dotnet build
-
-    dotnet test -class DarkSky.UnitTests.Services.DarkSkyServiceUnitTests
-
-    if($env:APPVEYOR_REPO_TAG -eq "true") { dotnet test -class DarkSky.IntegrationTests.Services.DarkSkyServiceIntegrationTests}
+    dotnet test
+artifacts:
+- path: nupkgs/
+  name: nuget
+deploy:
+- provider: NuGet
+  server: nuget.org
+  api_key:
+    secure: YAF0FoHQVDwWAUmD/H8JUYkjiv4baMyRNdTaOgIw/NVMmo9IiYPq1wPOY525ubJG
+  artifact: nuget
+  on:
+    branch: master
+    APPVEYOR_REPO_TAG: true
