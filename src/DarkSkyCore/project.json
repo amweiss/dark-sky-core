@@ -1,5 +1,5 @@
 {
-	"version": "1.0.4-*",
+	"version": "1.0.5-*",
 	"title": "DarkSkyCore",
 	"description": "A .NET Standard library for using the Dark Sky API.",
 	"authors": [
