@@ -21,13 +21,12 @@ test_script:
 
     dotnet test
 artifacts:
-- path: nupkgs/
+- path: .\nupkgs\**\*.nupkg
   name: nuget
 deploy:
 - provider: NuGet
   server: nuget.org
   api_key:
     secure: YAF0FoHQVDwWAUmD/H8JUYkjiv4baMyRNdTaOgIw/NVMmo9IiYPq1wPOY525ubJG
-  artifact: /nupkgs\/.*\.nupkg/
   on:
     APPVEYOR_REPO_TAG: true
