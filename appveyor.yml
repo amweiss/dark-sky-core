@@ -21,6 +21,3 @@ test_script:
     dotnet test -class DarkSky.UnitTests.Services.DarkSkyServiceUnitTests
 
     if($env:APPVEYOR_REPO_TAG -eq "true") { dotnet test -class DarkSky.IntegrationTests.Services.DarkSkyServiceIntegrationTests}
-artifacts:
-- path: nupkgs/
-  name: nuget
