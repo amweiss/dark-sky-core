@@ -6,7 +6,6 @@
 		"Adam Weiss"
 	],
 	"copyright": "Copyright (c) 2016 Adam Weiss",
-	"projectUrl": "https://github.com/amweiss/dark-sky-core",
 	"dependencies": {
 		"Newtonsoft.Json": "9.0.2-beta1",
 		"System.Net.Http": "4.1.0",
