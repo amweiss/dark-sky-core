@@ -1,6 +1,12 @@
 {
 	"version": "1.0.3-*",
 	"title": "DarkSkyCore",
+	"description": "A .NET Standard library for using the Dark Sky API.",
+	"authors": [
+		"Adam Weiss"
+	],
+	"copyright": "Copyright (c) 2016 Adam Weiss",
+	"projectUrl": "https://github.com/amweiss/dark-sky-core",
 	"dependencies": {
 		"Newtonsoft.Json": "9.0.2-beta1",
 		"System.Net.Http": "4.1.0",
@@ -22,12 +28,13 @@
 		],
 		"repository": {
 			"type": "git",
-			"url": "https://github.com/amweiss/dark-sky-core"
+			"url": "https://github.com/amweiss/dark-sky-core.git"
 		},
-		"summary": "A .NET Core library for using the Dark Sky API.",
+		"summary": "A service wrapper for the Dark Sky API and the models needed to use the service.",
 		"tags": [
 			"dotnetcore",
 			"core",
+			"netstandard",
 			"darksky",
 			"weather"
 		]
