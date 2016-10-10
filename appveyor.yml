@@ -28,7 +28,7 @@ deploy:
   server: nuget.org
   api_key:
     secure: YAF0FoHQVDwWAUmD/H8JUYkjiv4baMyRNdTaOgIw/NVMmo9IiYPq1wPOY525ubJG
-  artifact: nuget
+  artifact: /nupkgs//.*\.nupkg/
   on:
     branch: master
     APPVEYOR_REPO_TAG: true
