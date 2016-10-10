@@ -4,7 +4,7 @@ Dark Sky Core
 [![NuGet](https://img.shields.io/nuget/v/DarkSkyCore.svg?maxAge=2592000)](https://www.nuget.org/packages/DarkSkyCore) [![Build status](https://ci.appveyor.com/api/projects/status/inpb8i62aev5redy/branch/master?svg=true)](https://ci.appveyor.com/project/amweiss/dark-sky-core/branch/master)
 
 
-A .NET Core Class Library for using the [Dark Sky API](https://darksky.net/dev/docs).
+A .NET Standard Library for using the [Dark Sky API](https://darksky.net/dev/docs).
 
 ## Usage
 The main class is [`DarkSkyService`](https://github.com/amweiss/dark-sky-core/blob/master/src/DarkSkyCore/Services/DarkSkyService.cs). When using it you will need provide your API key after [signing up](https://darksky.net/dev/) for a dev account.
