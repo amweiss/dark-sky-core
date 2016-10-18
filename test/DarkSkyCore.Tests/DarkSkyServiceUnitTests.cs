@@ -25,11 +25,11 @@ namespace DarkSky.UnitTests.Services
 				cannedJson = File.ReadAllText("Data/BexarTx.json");
 			}
 
-			var mockHttpResponse = new HttpResponseMessage()
+			var mockHttpResponse = new HttpResponseMessage
 			{
 				Content = new StringContent(cannedJson)
 			};
-			mockHttpResponse.Headers.CacheControl = new CacheControlHeaderValue() { MaxAge = new TimeSpan(0 ,CacheMinutes, 0)};
+			mockHttpResponse.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = new TimeSpan(0 ,CacheMinutes, 0)};
 			mockHttpResponse.Headers.Add("X-Forecast-API-Calls", ApiCalls.ToString());
 			mockHttpResponse.Headers.Add("X-Response-Time", ResponseTime);
 
@@ -52,7 +52,7 @@ namespace DarkSky.UnitTests.Services
 		readonly double _latitude = 29.4264; //42.915;
 		readonly double _longitude = -98.5105; //-78.741;
 
-		MockClientFixture _fixture;
+		readonly MockClientFixture _fixture;
 
 		public DarkSkyServiceUnitTests(MockClientFixture fixture)
 		{
