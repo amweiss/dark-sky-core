@@ -8,8 +8,11 @@ namespace DarkSky.Models
 		[JsonProperty(PropertyName="description")]
 		public string Description { get; set; }
 
+		[JsonProperty(PropertyName = "time")]
+		public long Time { get; set; }
+
 		[JsonProperty(PropertyName="expires")]
-		public long? Expires { get; set; }
+		public long Expires { get; set; }
 
 		[JsonProperty(PropertyName="title")]
 		public string Title { get; set; }

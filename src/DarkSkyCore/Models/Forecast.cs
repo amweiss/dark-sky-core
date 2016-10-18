@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
 
 namespace DarkSky.Models
 {
@@ -13,6 +14,10 @@ namespace DarkSky.Models
 
 		[JsonProperty(PropertyName="timezone")]
 		public string Timezone { get; set; }
+
+		[Obsolete("Use Timezone instead")]
+		[JsonProperty(PropertyName = "offset")]
+		public string Offset { get; set; }
 
 		[JsonProperty(PropertyName="currently")]
 		public DataPoint Currently { get; set; }
