@@ -28,6 +28,10 @@ namespace DarkSky.IntegrationTests.Services
 		public void Dispose()
 		{
 			_darkSky = null;
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				MissingMemberHandling = MissingMemberHandling.Ignore
+			};
 		}
 
 		[Fact]

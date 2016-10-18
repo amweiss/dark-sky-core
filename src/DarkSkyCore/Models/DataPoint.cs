@@ -49,7 +49,10 @@ namespace DarkSky.Models
 		[JsonProperty(PropertyName="precipIntensity")]
 		public double? PrecipIntensity { get; set; }
 
-		[JsonProperty(PropertyName="precipIntensityMax")]
+		[JsonPropertyAttribute(PropertyName="precipIntensityError")]
+		public double? PrecipIntensityError { get; set; }
+
+        [JsonProperty(PropertyName="precipIntensityMax")]
 		public double? PrecipIntensityMax { get; set; }
 
 		[JsonProperty(PropertyName="precipIntensityMaxTime")]
