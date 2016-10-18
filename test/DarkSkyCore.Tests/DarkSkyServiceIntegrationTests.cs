@@ -4,14 +4,15 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DarkSky.IntegrationTests.Services
 {
 	public class DarkSkyServiceIntegrationTests : IDisposable
 	{
 		readonly string _apiEnvVar = "DarkSkyApiKey";
-		readonly double _latitude = 29.4264; //42.915;
-		readonly double _longitude = -98.5105; //-78.741;
+		readonly double _latitude = 42.915;
+		readonly double _longitude = -78.741;
 		DarkSkyService _darkSky;
 
 		public DarkSkyServiceIntegrationTests()
@@ -42,6 +43,16 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
+		public async Task BuffaloForecastEverythingParsed()
+		{
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				MissingMemberHandling = MissingMemberHandling.Error
+			};
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude);
+		}
+
+		[Fact]
 		public async Task BuffaloForecastTimeMachine()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
@@ -54,7 +65,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast.Headers);
 			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
 			Assert.Null(forecast.Response.Minutely);
-			Assert.Null(forecast.Response.Alerts);
+			// Contrary to documentation, Alerts is not always omitted for time machine requests.
+			// Assert.Null(forecast.Response.Alerts);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -138,7 +150,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
 			Assert.Equal(forecast.Response.Hourly.Data.Count, 24);
 			Assert.Null(forecast.Response.Minutely);
-			Assert.Null(forecast.Response.Alerts);
+			// Contrary to documentation, Alerts is not always omitted for time machine requests.
+			// Assert.Null(forecast.Response.Alerts);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);

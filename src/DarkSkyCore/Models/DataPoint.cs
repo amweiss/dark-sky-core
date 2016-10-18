@@ -13,6 +13,9 @@ namespace DarkSky.Models
 		[JsonProperty(PropertyName="apparentTemperatureMaxTime")]
 		public long? ApparentTemperatureMaxTime { get; set; }
 
+		[JsonProperty(PropertyName = "apparentTemperatureMin")]
+		public double? ApparentTemperatureMin { get; set; }
+
 		[JsonProperty(PropertyName="apparentTemperatureMinTime")]
 		public long? ApparentTemperatureMinTime { get; set; }
 
@@ -60,6 +63,9 @@ namespace DarkSky.Models
 
 		[JsonProperty(PropertyName="pressure")]
 		public double? Pressure { get; set; }
+
+		[JsonProperty(PropertyName = "summary")]
+		public string Summary { get; set; }
 
 		[JsonProperty(PropertyName="sunriseTime")]
 		public long? SunriseTime { get; set; }
