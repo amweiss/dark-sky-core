@@ -77,18 +77,7 @@ namespace DarkSky.UnitTests.Services
 	{
 		public MockClientFixture()
 		{
-			var cannedJson = string.Empty;
-			//TODO: Find a better way to do this.
-			// Load file for individual test or suite.
-			try
-			{
-				cannedJson = File.ReadAllText("test/DarkSkyCore.Tests/Data/BexarTx.json");
-			}
-			catch (Exception)
-			{
-				cannedJson = File.ReadAllText("Data/BexarTx.json");
-			}
-
+			var cannedJson = File.ReadAllText($"{AppContext.BaseDirectory}/Data/BexarTX.json");
 			var mockHttpResponse = new HttpResponseMessage
 			{
 				Content = new StringContent(cannedJson)
