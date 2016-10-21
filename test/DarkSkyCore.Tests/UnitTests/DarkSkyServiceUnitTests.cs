@@ -71,8 +71,7 @@ namespace DarkSky.UnitTests.Services
 			{
 				var darkSkyService = new DarkSkyService(value);
 				var result = darkSkyService.GetForecast(0, 0);
-			}
-			);
+			});
 		}
 
 		[Fact]
@@ -89,7 +88,7 @@ namespace DarkSky.UnitTests.Services
 			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
 
 			Assert.NotNull(forecast);
-			
+
 			//Check Response (basic deserialization check)
 			Assert.NotNull(forecast.Response);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
