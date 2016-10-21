@@ -1,62 +1,30 @@
-﻿using Xunit;
-using DarkSky.Services;
-using System;
+﻿using DarkSky.Services;
 using Moq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Net.Http.Headers;
+using System;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace DarkSky.UnitTests.Services
 {
-	public class MockClientFixture : IDisposable
-	{
-		public MockClientFixture()
-		{
-			var cannedJson = string.Empty;
-			//TODO: Find a better way to do this.
-			// Load file for individual test or suite.
-			try
-			{
-				cannedJson = File.ReadAllText("test/DarkSkyCore.Tests/Data/BexarTx.json");
-			}
-			catch (Exception)
-			{
-				cannedJson = File.ReadAllText("Data/BexarTx.json");
-			}
-
-			var mockHttpResponse = new HttpResponseMessage
-			{
-				Content = new StringContent(cannedJson)
-			};
-			mockHttpResponse.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = new TimeSpan(0 ,CacheMinutes, 0)};
-			mockHttpResponse.Headers.Add("X-Forecast-API-Calls", ApiCalls.ToString());
-			mockHttpResponse.Headers.Add("X-Response-Time", ResponseTime);
-
-			MockClient = new Mock<IHttpClient>();
-			MockClient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(mockHttpResponse));
-		}
-		public void Dispose()
-		{
-			MockClient = null;
-		}
-
-		public Mock<IHttpClient> MockClient { get; set; }
-		public int CacheMinutes => 1;
-		public int ApiCalls => 10;
-		public string ResponseTime => "30ms";
-	}
-
 	public class DarkSkyServiceUnitTests : IClassFixture<MockClientFixture>
 	{
+		readonly MockClientFixture _fixture;
 		readonly double _latitude = 29.4264; //42.915;
 		readonly double _longitude = -98.5105; //-78.741;
-
-		readonly MockClientFixture _fixture;
 
 		public DarkSkyServiceUnitTests(MockClientFixture fixture)
 		{
 			_fixture = fixture;
+		}
+
+		[Fact]
+		public void ConstructorWithNonEmptyApiKey()
+		{
+			var darkSkyService = new DarkSkyService("fakekey");
+			Assert.NotNull(darkSkyService);
 		}
 
 		[Theory]
@@ -72,13 +40,6 @@ namespace DarkSky.UnitTests.Services
 				var darkSkyService = new DarkSkyService(value);
 				var result = darkSkyService.GetForecast(0, 0);
 			});
-		}
-
-		[Fact]
-		public void ConstructorWithNonEmptyApiKey()
-		{
-			var darkSkyService = new DarkSkyService("fakekey");
-			Assert.NotNull(darkSkyService);
 		}
 
 		[Fact]
@@ -109,6 +70,48 @@ namespace DarkSky.UnitTests.Services
 			Assert.Equal(forecast.Headers.ApiCalls.Value, _fixture.ApiCalls);
 			Assert.Equal(forecast.Headers.CacheControl.MaxAge.Value.TotalMinutes, _fixture.CacheMinutes);
 			Assert.Equal(forecast.Headers.ResponseTime, _fixture.ResponseTime);
+		}
+	}
+
+	public class MockClientFixture : IDisposable
+	{
+		public MockClientFixture()
+		{
+			var cannedJson = string.Empty;
+			//TODO: Find a better way to do this.
+			// Load file for individual test or suite.
+			try
+			{
+				cannedJson = File.ReadAllText("test/DarkSkyCore.Tests/Data/BexarTx.json");
+			}
+			catch (Exception)
+			{
+				cannedJson = File.ReadAllText("Data/BexarTx.json");
+			}
+
+			var mockHttpResponse = new HttpResponseMessage
+			{
+				Content = new StringContent(cannedJson)
+			};
+			mockHttpResponse.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = new TimeSpan(0, CacheMinutes, 0) };
+			mockHttpResponse.Headers.Add("X-Forecast-API-Calls", ApiCalls.ToString());
+			mockHttpResponse.Headers.Add("X-Response-Time", ResponseTime);
+
+			MockClient = new Mock<IHttpClient>();
+			MockClient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(mockHttpResponse));
+		}
+
+		public int ApiCalls => 10;
+
+		public int CacheMinutes => 1;
+
+		public Mock<IHttpClient> MockClient { get; set; }
+
+		public string ResponseTime => "30ms";
+
+		public void Dispose()
+		{
+			MockClient = null;
 		}
 	}
 }
