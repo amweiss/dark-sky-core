@@ -1,0 +1,13 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.DS_Store": true,
+		"**/bin": true,
+		"**/obj": true,
+		"**/*.xproj*": true,
+		"**/*.sln": true,
+		".vs": true,
+		".vscode": true,
+		"**/project.lock.json": true
+	}
+}

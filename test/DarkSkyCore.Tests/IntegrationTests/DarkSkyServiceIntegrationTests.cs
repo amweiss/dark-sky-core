@@ -1,10 +1,10 @@
-using Xunit;
 using DarkSky.Services;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace DarkSky.IntegrationTests.Services
 {
@@ -25,23 +25,23 @@ namespace DarkSky.IntegrationTests.Services
 			_darkSky = new DarkSkyService(apiKey);
 		}
 
-		public void Dispose()
-		{
-			_darkSky = null;
-			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-			{
-				MissingMemberHandling = MissingMemberHandling.Ignore
-			};
-		}
-
 		[Fact]
-		public async Task BuffaloForecastReturnsFullObject()
+		public async Task BuffaloForecastCombineAllOptions()
 		{
-			var forecast = await _darkSky.GetForecast(_latitude, _longitude);
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				ExtendHourly = true,
+				DataBlocksToExclude = new List<string> { "flags" },
+				LanguageCode = "x-pig-latin",
+				MeasurementUnits = "si"
+			});
+
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 49);
+			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
+			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -54,25 +54,6 @@ namespace DarkSky.IntegrationTests.Services
 				MissingMemberHandling = MissingMemberHandling.Error
 			};
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude);
-		}
-
-		[Fact]
-		public async Task BuffaloForecastTimeMachine()
-		{
-			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
-			{
-				UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds()
-			});
-
-			Assert.NotNull(forecast);
-			Assert.NotNull(forecast.Response);
-			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
-			Assert.Null(forecast.Response.Minutely);
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
-			Assert.Equal(forecast.Response.Latitude, _latitude);
-			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
 
 		[Fact]
@@ -123,6 +104,37 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
+		public async Task BuffaloForecastReturnsFullObject()
+		{
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude);
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Headers);
+			Assert.Equal(forecast.Response.Hourly.Data.Count, 49);
+			Assert.Equal(forecast.Response.Latitude, _latitude);
+			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+		[Fact]
+		public async Task BuffaloForecastTimeMachine()
+		{
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds()
+			});
+
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Headers);
+			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
+			Assert.Null(forecast.Response.Minutely);
+			// Contrary to documentation, Alerts is not always omitted for time machine requests.
+			// Assert.Null(forecast.Response.Alerts);
+			Assert.Equal(forecast.Response.Latitude, _latitude);
+			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+		[Fact]
 		public async Task BuffaloForecastUnits()
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
@@ -161,26 +173,13 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
 
-		[Fact]
-		public async Task BuffaloForecastCombineAllOptions()
+		public void Dispose()
 		{
-			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			_darkSky = null;
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 			{
-				ExtendHourly = true,
-				DataBlocksToExclude = new List<string> { "flags" },
-				LanguageCode = "x-pig-latin",
-				MeasurementUnits = "si"
-			});
-
-			Assert.NotNull(forecast);
-			Assert.NotNull(forecast.Response);
-			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
-			Assert.Null(forecast.Response.Flags);
-			Assert.Equal(forecast.Response.Latitude, _latitude);
-			Assert.Equal(forecast.Response.Longitude, _longitude);
+				MissingMemberHandling = MissingMemberHandling.Ignore
+			};
 		}
 	}
-
 }
