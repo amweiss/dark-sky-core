@@ -1,5 +1,4 @@
-Dark Sky Core
-=============
+# Dark Sky Core
 
 [![NuGet](https://img.shields.io/nuget/v/DarkSkyCore.svg?maxAge=2592000)](https://www.nuget.org/packages/DarkSkyCore) [![Build status](https://ci.appveyor.com/api/projects/status/inpb8i62aev5redy/branch/master?svg=true)](https://ci.appveyor.com/project/amweiss/dark-sky-core/branch/master)
 
