@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace DarkSky.Models
 {
@@ -10,6 +11,12 @@ namespace DarkSky.Models
 
 		[JsonProperty(PropertyName = "expires")]
 		public long Expires { get; set; }
+
+		[JsonProperty(PropertyName = "regions")]
+		public List<string> Regions { get; set; }
+
+		[JsonProperty(PropertyName = "severity")]
+		public string Severity { get; set; }
 
 		[JsonProperty(PropertyName = "time")]
 		public long Time { get; set; }
