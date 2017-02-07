@@ -16,6 +16,7 @@ namespace DarkSky.IntegrationTests.Services
 		readonly double _longitude = -78.741;
 		DarkSkyService _darkSky;
 
+/*
 		public DarkSkyServiceIntegrationTests()
 		{
 			var configBuilder = new ConfigurationBuilder()
@@ -25,6 +26,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.False(string.IsNullOrWhiteSpace(apiKey), $"You must set the environment variable {_apiEnvVar}");
 			_darkSky = new DarkSkyService(apiKey);
 		}
+*/
 
 		[Fact]
 		public async Task BuffaloForecastCombineAllOptions()
@@ -194,6 +196,24 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+
+		[Fact]
+		public async Task HandleInvalidApiKey()
+		{
+			// Arrange
+			var client = new DarkSkyService(_apiEnvVar);
+			
+			// Act
+			var forecast = await client.GetForecast(_latitude, _longitude);
+
+			// Assert
+			Assert.NotNull(forecast);
+
+			Assert.False(forecast.IsSuccessful);
+			Assert.NotEmpty(forecast.ResponseReasonPhrase);
+
 		}
 
 		public void Dispose()
