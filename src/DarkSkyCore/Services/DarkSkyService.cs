@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.FormattableString;
 
 namespace DarkSky.Services
 {
@@ -55,7 +56,7 @@ namespace DarkSky.Services
 
 		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
 		{
-			var queryString = new StringBuilder($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}");
+			var queryString = new StringBuilder(Invariant($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}"));
 			if (parameters?.UnixTimeInSeconds != null)
 			{
 				queryString.Append($",{parameters.UnixTimeInSeconds}");
