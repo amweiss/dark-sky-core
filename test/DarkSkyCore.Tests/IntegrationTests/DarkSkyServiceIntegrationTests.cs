@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using System.Globalization;
 
 namespace DarkSky.IntegrationTests.Services
 {
@@ -28,6 +29,28 @@ namespace DarkSky.IntegrationTests.Services
 		[Fact]
 		public async Task BuffaloForecastCombineAllOptions()
 		{
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				ExtendHourly = true,
+				DataBlocksToExclude = new List<string> { "flags" },
+				LanguageCode = "x-pig-latin",
+				MeasurementUnits = "si"
+			});
+
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Headers);
+			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
+			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Null(forecast.Response.Flags);
+			Assert.Equal(forecast.Response.Latitude, _latitude);
+			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+		[Fact]
+		public async Task BuffaloForecastCombineAllOptionsGermanCulture()
+		{
+			CultureInfo.CurrentCulture = new CultureInfo("de-DE");
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ExtendHourly = true,
@@ -180,6 +203,7 @@ namespace DarkSky.IntegrationTests.Services
 			{
 				MissingMemberHandling = MissingMemberHandling.Ignore
 			};
+			CultureInfo.CurrentCulture = new CultureInfo("en-US");
 		}
 	}
 }
