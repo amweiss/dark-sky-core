@@ -1,10 +1,10 @@
 {
 	"version": "1.0.0-*",
 	"dependencies": {
-		"System.Runtime.Serialization.Primitives": "4.1.1",
-		"Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-		"Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
-		"xunit": "2.2.0-beta3-build3402",
+		"System.Runtime.Serialization.Primitives": "4.3.0",
+		"Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
+		"Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
+		"xunit": "2.2.0-beta5-build3474",
 		"dotnet-test-xunit": "2.2.0-preview2-build1029",
 		"Moq": "4.6.38-alpha",
 		"DarkSkyCore": {
@@ -12,15 +12,15 @@
 		}
 	},
 	"tools": {
-		"Microsoft.DotNet.Watcher.Tools": "1.0.0-preview2-final"
+		"Microsoft.DotNet.Watcher.Tools": "1.0.0-preview4-final"
 	},
 	"testRunner": "xunit",
 	"frameworks": {
-		"netcoreapp1.0": {
+		"netcoreapp1.1": {
 			"dependencies": {
 				"Microsoft.NETCore.App": {
 					"type": "platform",
-					"version": "1.0.1"
+					"version": "1.1.0"
 				}
 			}
 		}
