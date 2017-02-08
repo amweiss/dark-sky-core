@@ -57,9 +57,9 @@ namespace DarkSky.Services
 		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
 		{
 			var queryString = new StringBuilder(Invariant($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}"));
-			if (parameters?.UnixTimeInSeconds != null)
+			if (parameters?.ForecastDateTime != null)
 			{
-				queryString.Append($",{parameters.UnixTimeInSeconds}");
+				queryString.Append($",{new DateTimeOffset(parameters.ForecastDateTime.Value).ToUnixTimeSeconds()}");
 			}
 
 			if (parameters != null)
@@ -92,7 +92,7 @@ namespace DarkSky.Services
 			public bool? ExtendHourly { get; set; }
 			public string LanguageCode { get; set; }
 			public string MeasurementUnits { get; set; }
-			public long? UnixTimeInSeconds { get; set; }
+			public DateTime? ForecastDateTime { get; set; }
 		}
 	}
 }

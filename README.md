@@ -11,7 +11,7 @@ You can also provide an implementaion of [`IHttpClient`](https://github.com/amwe
 for testing or other purposes.
 
 Once you have an instance of the class, use `GetForecast` to use the API. The method by default is a [forecast](https://darksky.net/dev/docs/forecast) request.
-If you specify a value for `UnixTimeInSeconds` in an `OptionalParameters` instance it will become a [time machine](https://darksky.net/dev/docs/time-machine) request.
+If you specify a value for `ForecastDateTime` in an `OptionalParameters` instance it will become a [time machine](https://darksky.net/dev/docs/time-machine) request.
 
 The responses all take the form of a [CamelCase](https://en.wikipedia.org/wiki/PascalCase) version of the [Dark Sky Response](https://darksky.net/dev/docs/response) in `DarkSkyResponse`.
 This includes the [headers](https://darksky.net/dev/docs/response#response) and properties for the required text and link to use based on the [Terms of Service](https://darksky.net/dev/docs/terms).
