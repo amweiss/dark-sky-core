@@ -1,3 +1,4 @@
+image: Visual Studio 2017 RC
 version: '{branch}-{build}'
 pull_requests:
   do_not_increment_build_number: true
