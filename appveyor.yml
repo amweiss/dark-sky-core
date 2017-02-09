@@ -19,9 +19,9 @@ test_script:
 
     dotnet restore
 
-    dotnet test -class DarkSkyCore.UnitTests.Services.DarkSkyServiceUnitTests
+    dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
 
-    if (Test-Path End:\APPVEYOR_REPO_TAG) { dotnet test -class DarkSkyCore.IntegrationTests.Services.DarkSkyServiceIntegrationTests }
+    if (Test-Path End:\APPVEYOR_REPO_TAG) { dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests" }
 artifacts:
 - path: .\nupkgs\**\*.nupkg
   name: nuget
