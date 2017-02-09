@@ -1,13 +1,13 @@
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace DarkSky.Services
+﻿namespace DarkSky.Services
 {
+	using System;
+	using System.Net;
+	using System.Net.Http;
+	using System.Threading.Tasks;
+
 	public class ZipHttpClient : IHttpClient
 	{
-		readonly string _baseUri = String.Empty;
+		readonly string _baseUri = string.Empty;
 
 		public ZipHttpClient(string baseUri)
 		{
@@ -22,6 +22,7 @@ namespace DarkSky.Services
 				{
 					handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 				}
+
 				using (var client = new HttpClient(handler))
 				{
 					client.BaseAddress = new Uri(_baseUri);

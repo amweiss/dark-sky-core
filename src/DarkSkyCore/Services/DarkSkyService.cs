@@ -1,14 +1,14 @@
-﻿using DarkSky.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.FormattableString;
-
-namespace DarkSky.Services
+﻿namespace DarkSky.Services
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using DarkSky.Models;
+	using Newtonsoft.Json;
+	using static System.FormattableString;
+
 	public class DarkSkyService
 	{
 		readonly string _apiKey;
@@ -21,7 +21,11 @@ namespace DarkSky.Services
 		/// <param name="httpClient">An optional HTTP client to contact an API with (useful for mocking data for testing).</param>
 		public DarkSkyService(string apiKey, IHttpClient httpClient = null)
 		{
-			if (string.IsNullOrWhiteSpace(apiKey)) throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
+			if (string.IsNullOrWhiteSpace(apiKey))
+			{
+				throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
+			}
+
 			_apiKey = apiKey;
 			_httpClient = httpClient ?? new ZipHttpClient("https://api.darksky.net/");
 		}
@@ -49,8 +53,8 @@ namespace DarkSky.Services
 					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out callsParsed) ?
 								(long?)callsParsed :
 								null,
-					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault()
-				}
+					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault(),
+				},
 			};
 		}
 
@@ -67,17 +71,20 @@ namespace DarkSky.Services
 				queryString.Append("?");
 				if (parameters.DataBlocksToExclude != null)
 				{
-					queryString.Append($"&exclude={String.Join(",", parameters.DataBlocksToExclude)}");
+					queryString.Append($"&exclude={string.Join(",", parameters.DataBlocksToExclude)}");
 				}
+
 				if (parameters.ExtendHourly != null && parameters.ExtendHourly.Value)
 				{
 					queryString.Append("&extend=hourly");
 				}
-				if (!String.IsNullOrWhiteSpace(parameters.LanguageCode))
+
+				if (!string.IsNullOrWhiteSpace(parameters.LanguageCode))
 				{
 					queryString.Append($"&lang={parameters.LanguageCode}");
 				}
-				if (!String.IsNullOrWhiteSpace(parameters.MeasurementUnits))
+
+				if (!string.IsNullOrWhiteSpace(parameters.MeasurementUnits))
 				{
 					queryString.Append($"&units={parameters.MeasurementUnits}");
 				}

@@ -1,7 +1,7 @@
-using System.Net.Http.Headers;
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+	using System.Net.Http.Headers;
+
 	public class DarkSkyResponse
 	{
 		public string AttributionLine => "Powered by Dark Sky";
