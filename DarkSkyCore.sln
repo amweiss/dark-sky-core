@@ -1,16 +1,15 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26114.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DarkSkyCore", "src\DarkSkyCore\DarkSkyCore.xproj", "{60D442FD-5BDE-4F72-9EBC-6C711572DC94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyCore", "src\DarkSkyCore\DarkSkyCore.csproj", "{60D442FD-5BDE-4F72-9EBC-6C711572DC94}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DarkSkyCore.Tests", "test\DarkSkyCore.Tests\DarkSkyCore.Tests.xproj", "{0658DDF8-0A3B-4AB9-9163-A22D53FE30DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSkyCore.Tests", "test\DarkSkyCore.Tests\DarkSkyCore.Tests.csproj", "{0658DDF8-0A3B-4AB9-9163-A22D53FE30DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B149007-D7E3-49EB-AF1F-F80E29DCFF20}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
