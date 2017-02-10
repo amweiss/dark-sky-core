@@ -39,19 +39,28 @@ namespace DarkSky.Services
 			var response = await _httpClient.HttpRequest(requestString);
 			var responseContent = await response.Content.ReadAsStringAsync();
 
-			long callsParsed;
-			return new DarkSkyResponse
+			var darkSkyResponse = new DarkSkyResponse()
 			{
-				Response = JsonConvert.DeserializeObject<Forecast>(responseContent),
-				Headers = new DarkSkyResponse.ResponseHeaders
+				IsSuccessful = response.IsSuccessStatusCode,
+				ResponseReasonPhrase = response.ReasonPhrase,
+			};
+
+			if (darkSkyResponse.IsSuccessful)
+			{
+				long callsParsed;
+
+				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(responseContent);
+				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
 				{
 					CacheControl = response.Headers.CacheControl,
 					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out callsParsed) ?
-								(long?)callsParsed :
-								null,
+						(long?)callsParsed :
+						null,
 					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault()
-				}
-			};
+				};
+			}
+
+			return darkSkyResponse;
 		}
 
 		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)

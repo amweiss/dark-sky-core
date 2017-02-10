@@ -12,6 +12,16 @@ namespace DarkSky.Models
 
 		public Forecast Response { get; set; }
 
+		/// <summary>
+		/// Call to DarkSky webservice is successful
+		/// </summary>
+		public bool IsSuccessful { get; set; }
+
+		/// <summary>
+		/// DarkSky response ReasonPhrase text
+		/// </summary>
+		public string ResponseReasonPhrase { get; set; }
+
 		public class ResponseHeaders
 		{
 			public long? ApiCalls { get; set; }

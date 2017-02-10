@@ -14,12 +14,11 @@ namespace DarkSky.IntegrationTests.Services
 		readonly string _apiEnvVar = "DarkSkyApiKey";
 		readonly double _latitude = 42.915;
 		readonly double _longitude = -78.741;
-		DarkSkyService _darkSky;
+		private DarkSkyService _darkSky;
 
 		public DarkSkyServiceIntegrationTests()
 		{
-			var configBuilder = new ConfigurationBuilder()
-				.AddEnvironmentVariables();
+			var configBuilder = new ConfigurationBuilder().AddEnvironmentVariables();
 			var config = configBuilder.Build();
 			var apiKey = config.GetValue<string>(_apiEnvVar);
 			Assert.False(string.IsNullOrWhiteSpace(apiKey), $"You must set the environment variable {_apiEnvVar}");
@@ -194,6 +193,19 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
+		}
+
+		[Fact]
+		public async Task HandleInvalidApiKey()
+		{
+			// Use a different client to create one with an invalid API key.
+			var client = new DarkSkyService("ThisIsAFakeKey");
+
+			var forecast = await client.GetForecast(_latitude, _longitude);
+
+			Assert.NotNull(forecast);
+			Assert.False(forecast.IsSuccessful);
+			Assert.NotEmpty(forecast.ResponseReasonPhrase);
 		}
 
 		public void Dispose()
