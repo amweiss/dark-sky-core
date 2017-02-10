@@ -159,7 +159,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds()
+				ForecastDateTime = DateTime.UtcNow.AddHours(2)
 			});
 
 			Assert.NotNull(forecast);
@@ -193,7 +193,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				UnixTimeInSeconds = new DateTimeOffset(DateTime.UtcNow.AddHours(2)).ToUnixTimeSeconds(),
+				ForecastDateTime = DateTime.UtcNow.AddHours(2),
 				DataBlocksToExclude = new List<string> { "flags" },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si"
