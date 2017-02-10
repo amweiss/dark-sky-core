@@ -14,33 +14,33 @@ namespace DarkSky.IntegrationTests.Services
 		readonly string _apiEnvVar = "DarkSkyApiKey";
 		readonly double _latitude = 42.915;
 		readonly double _longitude = -78.741;
-	    private DarkSkyService __darkSky;
-        object lockObject = new object();
+		private DarkSkyService __darkSky;
+		object lockObject = new object();
 
-	    private DarkSkyService _darkSky
-	    {
-	        get
-	        {
-	            lock (lockObject)
-	            {
-	                if (__darkSky == null)
-                        __darkSky = GetDarkSkyService();
-	            }
-	            return __darkSky;
-	        }
-	    }
+		private DarkSkyService _darkSky
+		{
+			get
+			{
+				lock (lockObject)
+				{
+					if (__darkSky == null)
+						__darkSky = GetDarkSkyService();
+				}
+				return __darkSky;
+			}
+		}
 
 
-        DarkSkyService GetDarkSkyService()
+		DarkSkyService GetDarkSkyService()
 		{
 			var configBuilder = new ConfigurationBuilder()
 				.AddEnvironmentVariables();
 			var config = configBuilder.Build();
 			var apiKey = config.GetValue<string>(_apiEnvVar);
 			Assert.False(string.IsNullOrWhiteSpace(apiKey), $"You must set the environment variable {_apiEnvVar}");
-			return  new DarkSkyService(apiKey);
+			return new DarkSkyService(apiKey);
 		}
- 
+
 
 		[Fact]
 		public async Task BuffaloForecastCombineAllOptions()
@@ -218,7 +218,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			// Arrange
 			var client = new DarkSkyService(_apiEnvVar);
-			
+
 			// Act
 			var forecast = await client.GetForecast(_latitude, _longitude);
 
