@@ -13,7 +13,7 @@ build_script:
 
     cd ../../
 
-    dotnet pack --configuration release -o nupkgs/ src/DarkSkyCore
+    dotnet pack --configuration release -o ../../nupkgs/ src/DarkSkyCore
 test_script:
 - ps: >-
     cd test/DarkSkyCore.Tests
