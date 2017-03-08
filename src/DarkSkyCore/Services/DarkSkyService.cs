@@ -68,7 +68,7 @@ namespace DarkSky.Services
 			var queryString = new StringBuilder(Invariant($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}"));
 			if (parameters?.ForecastDateTime != null)
 			{
-				queryString.Append($",{new DateTimeOffset(parameters.ForecastDateTime.Value).ToUnixTimeSeconds()}");
+				queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ss")}");
 			}
 
 			if (parameters != null)
