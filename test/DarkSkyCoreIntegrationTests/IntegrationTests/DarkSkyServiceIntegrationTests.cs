@@ -40,8 +40,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Equal(8, forecast.Response.Daily.Data.Count);
+			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -62,8 +62,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Equal(8, forecast.Response.Daily.Data.Count);
+			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -106,7 +106,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -133,7 +133,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 49);
+			Assert.Equal(49, forecast.Response.Hourly.Data.Count);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -149,7 +149,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
+			Assert.Equal(1, forecast.Response.Daily.Data.Count);
 			Assert.Null(forecast.Response.Minutely);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -187,8 +187,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 24);
+			Assert.Equal(1, forecast.Response.Daily.Data.Count);
+			Assert.Equal(24, forecast.Response.Hourly.Data.Count);
 			Assert.Null(forecast.Response.Minutely);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
