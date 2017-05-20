@@ -1,9 +1,9 @@
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+	using System;
+	using System.Collections.Generic;
+	using Newtonsoft.Json;
+
 	public class Forecast
 	{
 		[JsonProperty(PropertyName = "alerts")]

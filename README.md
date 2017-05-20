@@ -17,3 +17,4 @@ The responses all take the form of a [CamelCase](https://en.wikipedia.org/wiki/P
 This includes the [headers](https://darksky.net/dev/docs/response#response) and properties for the required text and link to use based on the [Terms of Service](https://darksky.net/dev/docs/terms).
 
 You can see an example usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/test/DarkSkyCore.Tests/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
+

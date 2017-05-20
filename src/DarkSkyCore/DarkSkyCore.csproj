@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>A .NET Standard library for using the Dark Sky API.</Description>
-    <Copyright>Copyright (c) 2016 Adam Weiss</Copyright>
+    <Copyright>Copyright (c) 2017 Adam Weiss</Copyright>
     <AssemblyTitle>DarkSkyCore</AssemblyTitle>
     <VersionPrefix>1.5.0</VersionPrefix>
     <Authors>Adam Weiss</Authors>
@@ -16,11 +16,13 @@
     <RepositoryUrl>https://github.com/amweiss/dark-sky-core.git</RepositoryUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType></DebugType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1701;1702;1705;1633;SA1027;SA1633;SA1516;SA1309;SA1101;SA1400;SA0001</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.1</Version>
-    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
-
 </Project>

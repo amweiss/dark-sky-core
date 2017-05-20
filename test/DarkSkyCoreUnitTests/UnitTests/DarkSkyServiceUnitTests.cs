@@ -1,19 +1,15 @@
-﻿using DarkSky.Services;
-using Moq;
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace DarkSky.UnitTests.Services
+﻿namespace DarkSky.UnitTests.Services
 {
+	using System;
+	using System.Threading.Tasks;
+	using DarkSky.Services;
+	using Xunit;
+
 	public class DarkSkyServiceUnitTests : IClassFixture<MockClientFixture>
 	{
 		readonly MockClientFixture _fixture;
-		readonly double _latitude = 29.4264; //42.915;
-		readonly double _longitude = -98.5105; //-78.741;
+		readonly double _latitude = 29.4264; // 42.915;
+		readonly double _longitude = -98.5105; // -78.741;
 
 		public DarkSkyServiceUnitTests(MockClientFixture fixture)
 		{
@@ -50,7 +46,7 @@ namespace DarkSky.UnitTests.Services
 
 			Assert.NotNull(forecast);
 
-			//Check Response (basic deserialization check)
+			// Check Response (basic deserialization check)
 			Assert.NotNull(forecast.Response);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -70,37 +66,6 @@ namespace DarkSky.UnitTests.Services
 			Assert.Equal(forecast.Headers.ApiCalls.Value, _fixture.ApiCalls);
 			Assert.Equal(forecast.Headers.CacheControl.MaxAge.Value.TotalMinutes, _fixture.CacheMinutes);
 			Assert.Equal(forecast.Headers.ResponseTime, _fixture.ResponseTime);
-		}
-	}
-
-	public class MockClientFixture : IDisposable
-	{
-		public MockClientFixture()
-		{
-			var cannedJson = File.ReadAllText($"{AppContext.BaseDirectory}/Data/BexarTX.json");
-			var mockHttpResponse = new HttpResponseMessage
-			{
-				Content = new StringContent(cannedJson)
-			};
-			mockHttpResponse.Headers.CacheControl = new CacheControlHeaderValue { MaxAge = new TimeSpan(0, CacheMinutes, 0) };
-			mockHttpResponse.Headers.Add("X-Forecast-API-Calls", ApiCalls.ToString());
-			mockHttpResponse.Headers.Add("X-Response-Time", ResponseTime);
-
-			MockClient = new Mock<IHttpClient>();
-			MockClient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(mockHttpResponse));
-		}
-
-		public int ApiCalls => 10;
-
-		public int CacheMinutes => 1;
-
-		public Mock<IHttpClient> MockClient { get; set; }
-
-		public string ResponseTime => "30ms";
-
-		public void Dispose()
-		{
-			MockClient = null;
 		}
 	}
 }

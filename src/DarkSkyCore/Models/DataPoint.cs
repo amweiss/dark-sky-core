@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+	using Newtonsoft.Json;
+
 	public class DataPoint
 	{
 		[JsonProperty(PropertyName = "apparentTemperature")]

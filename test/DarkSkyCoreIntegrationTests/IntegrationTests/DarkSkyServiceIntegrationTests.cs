@@ -1,14 +1,14 @@
-using DarkSky.Services;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
-using System.Globalization;
-
 namespace DarkSky.IntegrationTests.Services
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Globalization;
+	using System.Threading.Tasks;
+	using DarkSky.Services;
+	using Microsoft.Extensions.Configuration;
+	using Newtonsoft.Json;
+	using Xunit;
+
 	public class DarkSkyServiceIntegrationTests : IDisposable
 	{
 		readonly string _apiEnvVar = "DarkSkyApiKey";
@@ -33,14 +33,14 @@ namespace DarkSky.IntegrationTests.Services
 				ExtendHourly = true,
 				DataBlocksToExclude = new List<string> { "flags" },
 				LanguageCode = "x-pig-latin",
-				MeasurementUnits = "si"
+				MeasurementUnits = "si",
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Equal(8, forecast.Response.Daily.Data.Count);
+			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -55,14 +55,14 @@ namespace DarkSky.IntegrationTests.Services
 				ExtendHourly = true,
 				DataBlocksToExclude = new List<string> { "flags" },
 				LanguageCode = "x-pig-latin",
-				MeasurementUnits = "si"
+				MeasurementUnits = "si",
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 8);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Equal(8, forecast.Response.Daily.Data.Count);
+			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -73,7 +73,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 			{
-				MissingMemberHandling = MissingMemberHandling.Error
+				MissingMemberHandling = MissingMemberHandling.Error,
 			};
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude);
 		}
@@ -83,7 +83,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				DataBlocksToExclude = new List<string> { "daily" }
+				DataBlocksToExclude = new List<string> { "daily" },
 			});
 
 			Assert.NotNull(forecast);
@@ -99,13 +99,13 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				ExtendHourly = true
+				ExtendHourly = true,
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 169);
+			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -115,7 +115,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				LanguageCode = "x-pig-latin"
+				LanguageCode = "x-pig-latin",
 			});
 
 			Assert.NotNull(forecast);
@@ -132,7 +132,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 49);
+			Assert.Equal(49, forecast.Response.Hourly.Data.Count);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -142,18 +142,19 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				ForecastDateTime = DateTime.UtcNow.AddHours(2)
+				ForecastDateTime = DateTime.UtcNow.AddHours(2),
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
+			Assert.Equal(1, forecast.Response.Daily.Data.Count);
 			Assert.Null(forecast.Response.Minutely);
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
+
+			// Contrary to documentation, Alerts is not always omitted for time machine requests.
+			// Assert.Null(forecast.Response.Alerts);
 		}
 
 		[Fact]
@@ -162,18 +163,19 @@ namespace DarkSky.IntegrationTests.Services
 			CultureInfo.CurrentCulture = new CultureInfo("de-DE");
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				ForecastDateTime = DateTime.UtcNow.AddHours(2)
+				ForecastDateTime = DateTime.UtcNow.AddHours(2),
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
+			Assert.Equal(1, forecast.Response.Daily.Data.Count);
 			Assert.Null(forecast.Response.Minutely);
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
+
+			// Contrary to documentation, Alerts is not always omitted for time machine requests.
+			// Assert.Null(forecast.Response.Alerts);
 		}
 
 		[Fact]
@@ -181,7 +183,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				MeasurementUnits = "si"
+				MeasurementUnits = "si",
 			});
 
 			Assert.NotNull(forecast);
@@ -199,20 +201,21 @@ namespace DarkSky.IntegrationTests.Services
 				ForecastDateTime = DateTime.UtcNow.AddHours(2),
 				DataBlocksToExclude = new List<string> { "flags" },
 				LanguageCode = "x-pig-latin",
-				MeasurementUnits = "si"
+				MeasurementUnits = "si",
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(forecast.Response.Daily.Data.Count, 1);
-			Assert.Equal(forecast.Response.Hourly.Data.Count, 24);
+			Assert.Equal(1, forecast.Response.Daily.Data.Count);
+			Assert.Equal(24, forecast.Response.Hourly.Data.Count);
 			Assert.Null(forecast.Response.Minutely);
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
+
+			// Contrary to documentation, Alerts is not always omitted for time machine requests.
+			// Assert.Null(forecast.Response.Alerts);
 		}
 
 		[Fact]
@@ -233,7 +236,7 @@ namespace DarkSky.IntegrationTests.Services
 			_darkSky = null;
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 			{
-				MissingMemberHandling = MissingMemberHandling.Ignore
+				MissingMemberHandling = MissingMemberHandling.Ignore,
 			};
 			CultureInfo.CurrentCulture = new CultureInfo("en-US");
 		}
