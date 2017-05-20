@@ -1,3 +1,4 @@
+image: Visual Studio 2017 RC
 version: '{branch}-{build}'
 pull_requests:
   do_not_increment_build_number: true
@@ -12,16 +13,16 @@ build_script:
 
     cd ../../
 
-    dotnet pack --configuration release -o nupkgs/ src/DarkSkyCore
+    dotnet pack --configuration release -o ../../nupkgs/ src/DarkSkyCore
 test_script:
 - ps: >-
     cd test/DarkSkyCore.Tests
 
     dotnet restore
 
-    dotnet test -class DarkSkyCore.UnitTests.Services.DarkSkyServiceUnitTests
+    dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
 
-    if (Test-Path End:\APPVEYOR_REPO_TAG) { dotnet test -class DarkSkyCore.IntegrationTests.Services.DarkSkyServiceIntegrationTests }
+    if (Test-Path End:\APPVEYOR_REPO_TAG) { dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests" }
 artifacts:
 - path: .\nupkgs\**\*.nupkg
   name: nuget

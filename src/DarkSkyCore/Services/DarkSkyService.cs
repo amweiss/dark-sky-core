@@ -43,19 +43,28 @@
 			var response = await _httpClient.HttpRequest(requestString);
 			var responseContent = await response.Content.ReadAsStringAsync();
 
-			long callsParsed;
-			return new DarkSkyResponse
+			var darkSkyResponse = new DarkSkyResponse()
 			{
-				Response = JsonConvert.DeserializeObject<Forecast>(responseContent),
-				Headers = new DarkSkyResponse.ResponseHeaders
+				IsSuccessful = response.IsSuccessStatusCode,
+				ResponseReasonPhrase = response.ReasonPhrase,
+			};
+
+			if (darkSkyResponse.IsSuccessful)
+			{
+				long callsParsed;
+
+				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(responseContent);
+				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
 				{
 					CacheControl = response.Headers.CacheControl,
 					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out callsParsed) ?
-								(long?)callsParsed :
-								null,
-					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault(),
-				},
-			};
+						(long?)callsParsed :
+						null,
+					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault()
+				};
+			}
+
+			return darkSkyResponse;
 		}
 
 		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
@@ -63,7 +72,7 @@
 			var queryString = new StringBuilder(Invariant($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}"));
 			if (parameters?.ForecastDateTime != null)
 			{
-				queryString.Append($",{new DateTimeOffset(parameters.ForecastDateTime.Value).ToUnixTimeSeconds()}");
+				queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ss")}");
 			}
 
 			if (parameters != null)
