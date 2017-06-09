@@ -8,12 +8,12 @@ build_script:
 
     dotnet restore
 
-    dotnet build
+    dotnet build --configuration release
 
 
     cd ../../
 
-    dotnet pack --configuration release -o ../../nupkgs/ src/DarkSkyCore
+    dotnet pack --configuration release --include-symbols -o ../../nupkgs/ src/DarkSkyCore
 test_script:
 - ps: >-
     cd test/DarkSkyCore.Tests
