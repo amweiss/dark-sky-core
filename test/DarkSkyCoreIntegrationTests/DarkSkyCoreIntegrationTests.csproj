@@ -4,7 +4,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>DarkSkyCoreTests</AssemblyName>
+    <AssemblyName>DarkSkyCoreIntegrationTests</AssemblyName>
     <PackageId>DarkSkyCoreTests</PackageId>
     <ApplicationIcon />
     <OutputTypeEx>exe</OutputTypeEx>
