@@ -22,7 +22,7 @@ test_script:
 
     dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
 
-    if (Test-Path End:\APPVEYOR_REPO_TAG) {
+    if ($env:APPVEYOR_REPO_TAG -eq $true) {
         cd ../DarkSkyCoreIntegrationTests
         dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests"
     }
