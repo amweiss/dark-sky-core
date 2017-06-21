@@ -96,7 +96,10 @@
 		public long Time { get; set; }
 
 		[JsonProperty(PropertyName = "uvIndex")]
-		public int? UVIndex { get; set; }
+		public int? UvIndex { get; set; }
+
+		[JsonProperty(PropertyName = "uvIndexTime")]
+		public int? UvIndexTime { get; set; }
 
 		[JsonProperty(PropertyName = "visibility")]
 		public double? Visibility { get; set; }

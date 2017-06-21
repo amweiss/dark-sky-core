@@ -25,7 +25,9 @@
 		public class ResponseHeaders
 		{
 			public long? ApiCalls { get; set; }
+
 			public CacheControlHeaderValue CacheControl { get; set; }
+
 			public string ResponseTime { get; set; }
 		}
 	}

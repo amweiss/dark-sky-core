@@ -11,10 +11,11 @@
 
 	public class DarkSkyService
 	{
-		readonly string _apiKey;
-		readonly IHttpClient _httpClient;
+		readonly string apiKey;
+		readonly IHttpClient httpClient;
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="DarkSkyService"/> class.
 		/// A wrapper for the Dark Sky API.
 		/// </summary>
 		/// <param name="apiKey">Your API key for the Dark Sky API.</param>
@@ -26,8 +27,8 @@
 				throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
 			}
 
-			_apiKey = apiKey;
-			_httpClient = httpClient ?? new ZipHttpClient("https://api.darksky.net/");
+			this.apiKey = apiKey;
+			this.httpClient = httpClient ?? new ZipHttpClient("https://api.darksky.net/");
 		}
 
 		/// <summary>
@@ -40,7 +41,7 @@
 		public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
 		{
 			var requestString = BuildRequestUri(latitude, longitude, parameters);
-			var response = await _httpClient.HttpRequest(requestString);
+			var response = await httpClient.HttpRequest(requestString);
 			var responseContent = await response.Content.ReadAsStringAsync();
 
 			var darkSkyResponse = new DarkSkyResponse()
@@ -51,13 +52,11 @@
 
 			if (darkSkyResponse.IsSuccessful)
 			{
-				long callsParsed;
-
 				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(responseContent);
 				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
 				{
 					CacheControl = response.Headers.CacheControl,
-					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out callsParsed) ?
+					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out long callsParsed) ?
 						(long?)callsParsed :
 						null,
 					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault()
@@ -69,7 +68,7 @@
 
 		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
 		{
-			var queryString = new StringBuilder(Invariant($"forecast/{_apiKey}/{latitude:N4},{longitude:N4}"));
+			var queryString = new StringBuilder(Invariant($"forecast/{apiKey}/{latitude:N4},{longitude:N4}"));
 			if (parameters?.ForecastDateTime != null)
 			{
 				queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ss")}");
@@ -105,9 +104,13 @@
 		public class OptionalParameters
 		{
 			public List<string> DataBlocksToExclude { get; set; }
+
 			public bool? ExtendHourly { get; set; }
+
 			public string LanguageCode { get; set; }
+
 			public string MeasurementUnits { get; set; }
+
 			public DateTime? ForecastDateTime { get; set; }
 		}
 	}
