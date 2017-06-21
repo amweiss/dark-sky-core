@@ -7,11 +7,11 @@
 
 	public class ZipHttpClient : IHttpClient
 	{
-		readonly string _baseUri = string.Empty;
+		readonly string baseUri = string.Empty;
 
 		public ZipHttpClient(string baseUri)
 		{
-			_baseUri = baseUri;
+			this.baseUri = baseUri;
 		}
 
 		public async Task<HttpResponseMessage> HttpRequest(string requestString)
@@ -25,7 +25,7 @@
 
 				using (var client = new HttpClient(handler))
 				{
-					client.BaseAddress = new Uri(_baseUri);
+					client.BaseAddress = new Uri(baseUri);
 					return await client.GetAsync(requestString);
 				}
 			}

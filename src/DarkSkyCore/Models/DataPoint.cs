@@ -49,6 +49,7 @@
 		[JsonProperty(PropertyName = "precipIntensity")]
 		public double? PrecipIntensity { get; set; }
 
+		[System.Obsolete("precipIntensityError is no longer provided by the DarkSky API.")]
 		[JsonPropertyAttribute(PropertyName = "precipIntensityError")]
 		public double? PrecipIntensityError { get; set; }
 
@@ -94,11 +95,20 @@
 		[JsonProperty(PropertyName = "time")]
 		public long Time { get; set; }
 
+		[JsonProperty(PropertyName = "uvIndex")]
+		public int? UvIndex { get; set; }
+
+		[JsonProperty(PropertyName = "uvIndexTime")]
+		public int? UvIndexTime { get; set; }
+
 		[JsonProperty(PropertyName = "visibility")]
 		public double? Visibility { get; set; }
 
 		[JsonProperty(PropertyName = "windBearing")]
 		public int? WindBearing { get; set; }
+
+		[JsonProperty(PropertyName = "windGust")]
+		public double? WindGust { get; set; }
 
 		[JsonProperty(PropertyName = "windSpeed")]
 		public double? WindSpeed { get; set; }
