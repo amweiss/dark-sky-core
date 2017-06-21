@@ -49,6 +49,7 @@
 		[JsonProperty(PropertyName = "precipIntensity")]
 		public double? PrecipIntensity { get; set; }
 
+		[System.Obsolete("precipIntensityError is no longer provided by the DarkSky API.")]
 		[JsonPropertyAttribute(PropertyName = "precipIntensityError")]
 		public double? PrecipIntensityError { get; set; }
 
