@@ -21,7 +21,11 @@
     <DebugType></DebugType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1701;1702;1705;1633;SA1652;SA1633;SA1027;SA1600;SA1623;CS1591;SA1400;SA1101</NoWarn>
-    <DocumentationFile>bin\Debug\netstandard1.4\DarkSkyCore.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1705;1633;SA1652;SA1633;SA1027;SA1600;SA1623;CS1591;SA1400;SA1101</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

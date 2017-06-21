@@ -16,13 +16,16 @@ build_script:
     dotnet pack --configuration release --include-symbols -o ../../nupkgs/ src/DarkSkyCore
 test_script:
 - ps: >-
-    cd test/DarkSkyCore.Tests
+    cd test/DarkSkyCoreUnitTests
 
     dotnet restore
 
     dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
 
-    if (Test-Path End:\APPVEYOR_REPO_TAG) { dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests" }
+    if (Test-Path End:\APPVEYOR_REPO_TAG) {
+        cd ../DarkSkyCoreIntegrationTests
+        dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests"
+    }
 artifacts:
 - path: .\nupkgs\**\*.nupkg
   name: nuget
