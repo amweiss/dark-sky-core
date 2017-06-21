@@ -22,7 +22,7 @@ test_script:
 
     dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
 
-    if ($env:APPVEYOR_REPO_TAG -eq $true) {
+    if ($env:APPVEYOR_REPO_TAG -eq $true -Or $env:APPVEYOR_SCHEDULED_BUILD -eq $true) {
         cd ../DarkSkyCoreIntegrationTests
         dotnet restore
         dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests"
