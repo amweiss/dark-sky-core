@@ -24,6 +24,7 @@ test_script:
 
     if ($env:APPVEYOR_REPO_TAG -eq $true) {
         cd ../DarkSkyCoreIntegrationTests
+        dotnet restore
         dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests"
     }
 artifacts:
