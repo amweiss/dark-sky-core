@@ -13,7 +13,7 @@
     <PackageLicenseUrl>https://github.com/amweiss/dark-sky-core/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/amweiss/dark-sky-core.git</RepositoryUrl>
-    <Version>1.6.1</Version>
+    <Version>1.6.2</Version>
     <PackageProjectUrl>https://github.com/amweiss/dark-sky-core</PackageProjectUrl>
   </PropertyGroup>
 
