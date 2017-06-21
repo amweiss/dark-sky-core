@@ -94,11 +94,17 @@
 		[JsonProperty(PropertyName = "time")]
 		public long Time { get; set; }
 
+		[JsonProperty(PropertyName = "uvIndex")]
+		public int? UVIndex { get; set; }
+
 		[JsonProperty(PropertyName = "visibility")]
 		public double? Visibility { get; set; }
 
 		[JsonProperty(PropertyName = "windBearing")]
 		public int? WindBearing { get; set; }
+
+		[JsonProperty(PropertyName = "windGust")]
+		public double? WindGust { get; set; }
 
 		[JsonProperty(PropertyName = "windSpeed")]
 		public double? WindSpeed { get; set; }
