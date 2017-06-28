@@ -110,6 +110,9 @@
 		[JsonProperty(PropertyName = "windGust")]
 		public double? WindGust { get; set; }
 
+		[JsonProperty(PropertyName = "windGustTime")]
+		public long? WindGustTime { get; set; }
+
 		[JsonProperty(PropertyName = "windSpeed")]
 		public double? WindSpeed { get; set; }
 	}
