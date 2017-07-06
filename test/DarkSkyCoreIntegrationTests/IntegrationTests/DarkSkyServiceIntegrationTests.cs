@@ -31,7 +31,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ExtendHourly = true,
-				DataBlocksToExclude = new List<string> { "flags" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si",
 			});
@@ -53,7 +53,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ExtendHourly = true,
-				DataBlocksToExclude = new List<string> { "flags" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si",
 			});
@@ -83,7 +83,7 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				DataBlocksToExclude = new List<string> { "daily" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Daily },
 			});
 
 			Assert.NotNull(forecast);
@@ -199,7 +199,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ForecastDateTime = DateTime.UtcNow.AddHours(2),
-				DataBlocksToExclude = new List<string> { "flags" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si",
 			});
@@ -227,7 +227,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await client.GetForecast(_latitude, _longitude);
 
 			Assert.NotNull(forecast);
-			Assert.False(forecast.IsSuccessful);
+			Assert.False(forecast.IsSuccessStatus);
 			Assert.NotEmpty(forecast.ResponseReasonPhrase);
 		}
 
