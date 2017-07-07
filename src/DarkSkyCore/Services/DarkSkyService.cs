@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Text;
 	using System.Threading.Tasks;
@@ -19,11 +18,13 @@
 		readonly IHttpClient httpClient;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DarkSkyService"/> class.
-		/// A wrapper for the Dark Sky API.
+		/// Initializes a new instance of the <see cref="DarkSkyService"/> class. A wrapper for the
+		/// Dark Sky API.
 		/// </summary>
 		/// <param name="apiKey">Your API key for the Dark Sky API.</param>
-		/// <param name="httpClient">An optional HTTP client to contact an API with (useful for mocking data for testing).</param>
+		/// <param name="httpClient">
+		/// An optional HTTP client to contact an API with (useful for mocking data for testing).
+		/// </param>
 		public DarkSkyService(string apiKey, IHttpClient httpClient = null)
 		{
 			if (string.IsNullOrWhiteSpace(apiKey))
@@ -57,16 +58,16 @@
 			if (darkSkyResponse.IsSuccessStatus)
 			{
 				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(responseContent);
+				response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
+				response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
+
 				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
 				{
 					CacheControl = response.Headers.CacheControl,
-					ApiCalls = long.TryParse(response.Headers.GetValues("X-Forecast-API-Calls")?.FirstOrDefault(), out long callsParsed) ?
+					ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed) ?
 						(long?)callsParsed :
 						null,
-					ResponseTime = response.Headers.GetValues("X-Response-Time")?.FirstOrDefault(),
-#pragma warning disable CS0612 // Type or member is obsolete
-					Expires = response.Content.Headers.Expires
-#pragma warning restore CS0612 // Type or member is obsolete
+					ResponseTime = responseTimeHeader?.FirstOrDefault(),
 				};
 			}
 
@@ -114,7 +115,8 @@
 		public partial class OptionalParameters
 		{
 			/// <summary>
-			/// A List of <see cref="ExclusionBlock"/> that prevent specific <see cref="DataBlock"/> properties from being populated from the API.
+			/// A List of <see cref="ExclusionBlock"/> that prevent specific <see cref="DataBlock"/>
+			/// properties from being populated from the API.
 			/// </summary>
 			public List<ExclusionBlock> DataBlocksToExclude { get; set; }
 
@@ -125,30 +127,64 @@
 			public bool? ExtendHourly { get; set; }
 
 			/// <summary>
+			/// A Time Machine Request returns the observed (in the past) or forecasted (in the
+			/// future) hour-by-hour weather and daily weather conditions for a particular date.
+			/// <para>
+			/// A Time Machine request is identical in structure to a <see cref="Forecast"/>, except:
+			/// </para>
+			/// <list type="bullet">
+			/// <item>
+			/// <description>
+			/// The currently data point will refer to the time provided, rather than the current time.
+			/// </description>
+			/// </item>
+			/// <item>
+			/// <description>
+			/// The minutely data block will be omitted, unless you are requesting a time within an
+			/// hour of the present.
+			/// </description>
+			/// </item>
+			/// <item>
+			/// <description>
+			/// The hourly data block will contain data points starting at midnight (local time) of
+			/// the day requested, and continuing until midnight (local time) of the following day.
+			/// </description>
+			/// </item>
+			/// <item>
+			/// <description>
+			/// The daily data block will contain a single data point referring to the requested date.
+			/// </description>
+			/// </item>
+			/// <item>
+			/// <description>The alerts data block will be omitted.</description>
+			/// </item>
+			/// </list>
+			/// </summary>
+			public DateTime? ForecastDateTime { get; set; }
+
+			/// <summary>
 			/// Return <see cref="DataBlock.Summary"/> properties in the desired language.
-			/// <para>(Note that units in the summary will be set according to the <see cref="MeasurementUnits"/> parameter, so be sure to set both parameters appropriately.).</para>
-			/// <para>English is the default, but see the <a href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for supported languages</para>
+			/// <para>
+			/// (Note that units in the summary will be set according to the <see
+			/// cref="MeasurementUnits"/> parameter, so be sure to set both parameters appropriately.).
+			/// </para>
+			/// <para>
+			/// English is the default, but see the <a
+			/// href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for
+			/// supported languages
+			/// </para>
 			/// </summary>
 			public string LanguageCode { get; set; }
 
 			/// <summary>
 			/// Return weather conditions in the requested units.
-			/// <para>US Imperial Units are the default, but see the <a href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for supported units</para>
+			/// <para>
+			/// US Imperial Units are the default, but see the <a
+			/// href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for
+			/// supported units
+			/// </para>
 			/// </summary>
 			public string MeasurementUnits { get; set; }
-
-			/// <summary>
-			/// A Time Machine Request returns the observed (in the past) or forecasted (in the future) hour-by-hour weather and daily weather conditions for a particular date.
-			/// <para>A Time Machine request is identical in structure to a <see cref="Forecast"/>, except:</para>
-			/// <list type="bullet">
-			/// <item><description>The currently data point will refer to the time provided, rather than the current time.</description></item>
-			/// <item><description>The minutely data block will be omitted, unless you are requesting a time within an hour of the present.</description></item>
-			/// <item><description>The hourly data block will contain data points starting at midnight (local time) of the day requested, and continuing until midnight (local time) of the following day.</description></item>
-			/// <item><description>The daily data block will contain a single data point referring to the requested date.</description></item>
-			/// <item><description>The alerts data block will be omitted.</description></item>
-			/// </list>
-			/// </summary>
-			public DateTime? ForecastDateTime { get; set; }
 		}
 	}
 }

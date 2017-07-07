@@ -218,6 +218,16 @@ namespace DarkSky.IntegrationTests.Services
 			// Assert.Null(forecast.Response.Alerts);
 		}
 
+		public void Dispose()
+		{
+			_darkSky = null;
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				MissingMemberHandling = MissingMemberHandling.Ignore,
+			};
+			CultureInfo.CurrentCulture = new CultureInfo("en-US");
+		}
+
 		[Fact]
 		public async Task HandleInvalidApiKey()
 		{
@@ -229,16 +239,6 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.False(forecast.IsSuccessStatus);
 			Assert.NotEmpty(forecast.ResponseReasonPhrase);
-		}
-
-		public void Dispose()
-		{
-			_darkSky = null;
-			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-			{
-				MissingMemberHandling = MissingMemberHandling.Ignore,
-			};
-			CultureInfo.CurrentCulture = new CultureInfo("en-US");
 		}
 	}
 }

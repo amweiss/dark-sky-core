@@ -41,6 +41,9 @@
 		[Fact]
 		public async Task GetForecastWithMockData()
 		{
+			_fixture.AddApiCallsHeader = true;
+			_fixture.ApiCallsResponseText = _fixture.ApiCalls.ToString();
+			_fixture.AddResponseTimeHeader = true;
 			var darkSkyService = new DarkSkyService("fakekey", _fixture.MockClient.Object);
 			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
 
@@ -66,6 +69,62 @@
 			Assert.Equal(forecast.Headers.ApiCalls.Value, _fixture.ApiCalls);
 			Assert.Equal(forecast.Headers.CacheControl.MaxAge.Value.TotalMinutes, _fixture.CacheMinutes);
 			Assert.Equal(forecast.Headers.ResponseTime, _fixture.ResponseTime);
+		}
+
+		[Fact]
+		public async Task ApiCallsHeaderBadValueTest()
+		{
+			_fixture.ApiCallsResponseText = "cows";
+			_fixture.AddApiCallsHeader = true;
+			_fixture.AddResponseTimeHeader = true;
+			var darkSkyService = new DarkSkyService("fakekey", _fixture.MockClient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ApiCalls);
+		}
+
+		[Fact]
+		public async Task ApiCallsHeaderNullValueTest()
+		{
+			_fixture.ApiCallsResponseText = null;
+			_fixture.AddApiCallsHeader = true;
+			_fixture.AddResponseTimeHeader = true;
+			var darkSkyService = new DarkSkyService("fakekey", _fixture.MockClient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ApiCalls);
+		}
+
+		[Fact]
+		public async Task ApiCallsHeaderMissingTest()
+		{
+			_fixture.ApiCallsResponseText = null;
+			_fixture.AddApiCallsHeader = false;
+			_fixture.AddResponseTimeHeader = true;
+			var darkSkyService = new DarkSkyService("fakekey", _fixture.MockClient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ApiCalls);
+		}
+
+		[Fact]
+		public async Task ResponseTimeHeaderMissingTest()
+		{
+			_fixture.AddApiCallsHeader = true;
+			_fixture.ApiCallsResponseText = _fixture.ApiCalls.ToString();
+			_fixture.AddResponseTimeHeader = false;
+			var darkSkyService = new DarkSkyService("fakekey", _fixture.MockClient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ResponseTime);
 		}
 	}
 }

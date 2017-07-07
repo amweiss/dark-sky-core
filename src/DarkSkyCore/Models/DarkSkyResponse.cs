@@ -26,14 +26,14 @@
 		public ResponseHeaders Headers { get; set; }
 
 		/// <summary>
-		/// The API <see cref="Forecast"/> response.
-		/// </summary>
-		public Forecast Response { get; set; }
-
-		/// <summary>
 		/// The response from the Dark Sky API is a success status.
 		/// </summary>
 		public bool IsSuccessStatus { get; set; }
+
+		/// <summary>
+		/// The API <see cref="Forecast"/> response.
+		/// </summary>
+		public Forecast Response { get; set; }
 
 		/// <summary>
 		/// Dark Sky response ReasonPhrase.

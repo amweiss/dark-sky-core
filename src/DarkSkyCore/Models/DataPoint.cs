@@ -1,7 +1,6 @@
 ﻿namespace DarkSky.Models
 {
 	using System;
-	using DarkSky.Services;
 	using Newtonsoft.Json;
 
 	/// <summary>

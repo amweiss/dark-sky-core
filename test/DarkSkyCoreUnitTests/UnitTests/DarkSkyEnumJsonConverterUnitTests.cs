@@ -1,7 +1,6 @@
 ﻿namespace DarkSky.UnitTests.Services
 {
 	using DarkSky.Models;
-	using DarkSky.Services;
 	using Newtonsoft.Json;
 	using Xunit;
 
