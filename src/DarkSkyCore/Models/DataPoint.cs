@@ -2,9 +2,13 @@
 {
 	using System;
 	using Newtonsoft.Json;
+	using static DarkSky.Extensions.LongExtensions;
 
 	/// <summary>
-	/// A data point object contains various properties, each representing the average (unless otherwise specified) of a particular weather phenomenon occurring during a period of time: an instant in the case of <see cref="Forecast.Currently"/>, a minute for <see cref="Forecast.Minutely"/>, an hour for <see cref="Forecast.Hourly"/>, and a day for <see cref="Forecast.Daily"/>.
+	/// A data point object contains various properties, each representing the average (unless
+	/// otherwise specified) of a particular weather phenomenon occurring during a period of time: an
+	/// instant in the case of <see cref="Forecast.Currently"/>, a minute for <see
+	/// cref="Forecast.Minutely"/>, an hour for <see cref="Forecast.Hourly"/>, and a day for <see cref="Forecast.Daily"/>.
 	/// </summary>
 	public class DataPoint
 	{
@@ -23,11 +27,10 @@
 		public double? ApparentTemperatureMax { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
+		/// The time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "apparentTemperatureMaxTime")]
-		public long? ApparentTemperatureMaxTime { get; set; }
+		public DateTimeOffset? ApparentTemperatureMaxTime => ApparentTemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The minimum value of <see cref="ApparentTemperature"/> during a given day.
@@ -37,11 +40,10 @@
 		public double? ApparentTemperatureMin { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="ApparentTemperatureMin"/> occurs during a given day.
+		/// The time of when <see cref="ApparentTemperatureMin"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "apparentTemperatureMinTime")]
-		public long? ApparentTemperatureMinTime { get; set; }
+		public DateTimeOffset? ApparentTemperatureMinTime => ApparentTemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The percentage of sky occluded by clouds, between 0 and 1, inclusive.
@@ -72,15 +74,21 @@
 		public Icon Icon { get; set; }
 
 		/// <summary>
-		/// The fractional part of the lunation number during the given day: a value of 0 corresponds to a new moon, 0.25 to a first quarter moon, 0.5 to a full moon, and 0.75 to a last quarter moon.
-		/// <para>(The ranges in between these represent waxing crescent, waxing gibbous, waning gibbous, and waning crescent moons, respectively.)</para>
+		/// The fractional part of the lunation number during the given day: a value of 0 corresponds
+		/// to a new moon, 0.25 to a first quarter moon, 0.5 to a full moon, and 0.75 to a last
+		/// quarter moon.
+		/// <para>
+		/// (The ranges in between these represent waxing crescent, waxing gibbous, waning gibbous,
+		/// and waning crescent moons, respectively.)
+		/// </para>
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
 		[JsonProperty(PropertyName = "moonPhase")]
 		public double? MoonPhase { get; set; }
 
 		/// <summary>
-		/// The approximate direction of the nearest storm in degrees, with true north at 0° and progressing clockwise.
+		/// The approximate direction of the nearest storm in degrees, with true north at 0° and
+		/// progressing clockwise.
 		/// <para>(If <see cref="NearestStormDistance"/> is zero, then this value will not be defined.)</para>
 		/// </summary>
 		/// <remarks>optional, only on currently</remarks>
@@ -89,7 +97,10 @@
 
 		/// <summary>
 		/// The approximate distance to the nearest storm in miles.
-		/// <para>(A storm distance of 0 doesn’t necessarily refer to a storm at the requested location, but rather a storm in the vicinity of that location.)</para>
+		/// <para>
+		/// (A storm distance of 0 doesn’t necessarily refer to a storm at the requested location,
+		/// but rather a storm in the vicinity of that location.)
+		/// </para>
 		/// </summary>
 		/// <remarks>optional, only on currently</remarks>
 		[JsonProperty(PropertyName = "nearestStormDistance")]
@@ -111,7 +122,9 @@
 		public double? PrecipAccumulation { get; set; }
 
 		/// <summary>
-		/// The intensity (in inches of liquid water per hour) of precipitation occurring at the given time. This value is conditional on probability (that is, assuming any precipitation occurs at all) for minutely data points, and unconditional otherwise.
+		/// The intensity (in inches of liquid water per hour) of precipitation occurring at the
+		/// given time. This value is conditional on probability (that is, assuming any precipitation
+		/// occurs at all) for minutely data points, and unconditional otherwise.
 		/// </summary>
 		/// <remarks>optional</remarks>
 		[JsonProperty(PropertyName = "precipIntensity")]
@@ -133,11 +146,10 @@
 		public double? PrecipIntensityMax { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="PrecipIntensityMax"/> occurs during a given day.
+		/// The time of when <see cref="PrecipIntensityMax"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "precipIntensityMaxTime")]
-		public long? PrecipIntensityMaxTime { get; set; }
+		public DateTimeOffset? PrecipIntensityMaxTime => PrecipIntensityMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The probability of precipitation occurring, between 0 and 1, inclusive.
@@ -163,25 +175,26 @@
 
 		/// <summary>
 		/// A human-readable text summary of this data point.
-		/// <para>(This property has millions of possible values, so don’t use it for automated purposes: use the <see cref="Icon"/> property, instead!)</para>
+		/// <para>
+		/// (This property has millions of possible values, so don’t use it for automated purposes:
+		/// use the <see cref="Icon"/> property, instead!)
+		/// </para>
 		/// </summary>
 		/// <remarks>optional</remarks>
 		[JsonProperty(PropertyName = "summary")]
 		public string Summary { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when the sun will rise during a given day.
+		/// The time of when the sun will rise during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "sunriseTime")]
-		public long? SunriseTime { get; set; }
+		public DateTimeOffset? SunriseTime => SunriseTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
-		/// The UNIX time of when the sun will set during a given day.
+		/// The time of when the sun will set during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "sunsetTime")]
-		public long? SunsetTime { get; set; }
+		public DateTimeOffset? SunsetTime => SunsetTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The air temperature in degrees Fahrenheit.
@@ -198,11 +211,10 @@
 		public double? TemperatureMax { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="TemperatureMax"/> occurs during a given day.
+		/// The time of when <see cref="TemperatureMax"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "temperatureMaxTime")]
-		public long? TemperatureMaxTime { get; set; }
+		public DateTimeOffset? TemperatureMaxTime => TemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The minimum value of <see cref="Temperature"/> during a given day.
@@ -212,17 +224,17 @@
 		public double? TemperatureMin { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="TemperatureMin"/> occurs during a given day.
+		/// The time of when <see cref="TemperatureMin"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "temperatureMinTime")]
-		public long? TemperatureMinTime { get; set; }
+		public DateTimeOffset? TemperatureMinTime => TemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
-		/// The UNIX time at which this data point begins. minutely data point are always aligned to the top of the minute, hourly data point objects to the top of the hour, and daily data point objects to midnight of the day, all according to the local time zone.
+		/// The time at which this data point begins. minutely data point are always aligned to the
+		/// top of the minute, hourly data point objects to the top of the hour, and daily data point
+		/// objects to midnight of the day, all according to the local time zone.
 		/// </summary>
-		[JsonProperty(PropertyName = "time")]
-		public long Time { get; set; }
+		public DateTimeOffset Time => TimeUnix.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The UV index.
@@ -232,11 +244,10 @@
 		public int? UvIndex { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when the maximum <see cref="UvIndex"/> occurs during a given day.
+		/// The time of when the maximum <see cref="UvIndex"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "uvIndexTime")]
-		public int? UvIndexTime { get; set; }
+		public DateTimeOffset? UvIndexTime => UvIndexTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The average visibility in miles, capped at 10 miles.
@@ -246,7 +257,8 @@
 		public double? Visibility { get; set; }
 
 		/// <summary>
-		/// The direction that the wind is coming from in degrees, with true north at 0° and progressing clockwise.
+		/// The direction that the wind is coming from in degrees, with true north at 0° and
+		/// progressing clockwise.
 		/// <para>(If <see cref="WindSpeed"/> is zero, then this value will not be defined.)</para>
 		/// </summary>
 		/// <remarks>optional</remarks>
@@ -261,11 +273,10 @@
 		public double? WindGust { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when the maximum <see cref="WindGust"/> occurs during a given day.
+		/// The time of when the maximum <see cref="WindGust"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		[JsonProperty(PropertyName = "windGustTime")]
-		public long? WindGustTime { get; set; }
+		public DateTimeOffset? WindGustTime => WindGustTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The wind speed in miles per hour.
@@ -273,5 +284,81 @@
 		/// <remarks>optional</remarks>
 		[JsonProperty(PropertyName = "windSpeed")]
 		public double? WindSpeed { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "apparentTemperatureMaxTime")]
+		internal long? ApparentTemperatureMaxTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="ApparentTemperatureMin"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "apparentTemperatureMinTime")]
+		internal long? ApparentTemperatureMinTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="PrecipIntensityMax"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "precipIntensityMaxTime")]
+		internal long? PrecipIntensityMaxTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when the sun will rise during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "sunriseTime")]
+		internal long? SunriseTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when the sun will set during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "sunsetTime")]
+		internal long? SunsetTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="TemperatureMax"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "temperatureMaxTime")]
+		internal long? TemperatureMaxTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="TemperatureMin"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "temperatureMinTime")]
+		internal long? TemperatureMinTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time at which this data point begins. minutely data point are always aligned to
+		/// the top of the minute, hourly data point objects to the top of the hour, and daily data
+		/// point objects to midnight of the day, all according to the local time zone.
+		/// </summary>
+		[JsonProperty(PropertyName = "time")]
+		internal long TimeUnix { get; set; }
+
+		/// <summary>
+		/// TimeZone from the parent Forecast object.
+		/// </summary>
+		internal string TimeZone { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when the maximum <see cref="UvIndex"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "uvIndexTime")]
+		internal long? UvIndexTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when the maximum <see cref="WindGust"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "windGustTime")]
+		internal long? WindGustTimeUnix { get; set; }
 	}
 }

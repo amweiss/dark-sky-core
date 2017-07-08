@@ -69,6 +69,19 @@
 						null,
 					ResponseTime = responseTimeHeader?.FirstOrDefault(),
 				};
+
+				if (darkSkyResponse.Response != null)
+				{
+					if (darkSkyResponse.Response.Currently != null)
+					{
+						darkSkyResponse.Response.Currently.TimeZone = darkSkyResponse.Response.TimeZone;
+					}
+
+					darkSkyResponse.Response.Alerts?.ForEach(a => a.TimeZone = darkSkyResponse.Response.TimeZone);
+					darkSkyResponse.Response.Daily?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
+					darkSkyResponse.Response.Hourly?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
+					darkSkyResponse.Response.Minutely?.Data?.ForEach(m => m.TimeZone = darkSkyResponse.Response.TimeZone);
+				}
 			}
 
 			return darkSkyResponse;
