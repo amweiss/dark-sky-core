@@ -4,7 +4,7 @@
 	using Newtonsoft.Json;
 	using Xunit;
 
-	public class DarkSkyEnumJsonConverterUnitTests : IClassFixture<MockClientFixture>
+	public class DarkSkyEnumJsonConverterUnitTests
 	{
 		[Theory]
 		[InlineData(null, Icon.None)]

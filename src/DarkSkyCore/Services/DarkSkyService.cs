@@ -79,7 +79,7 @@
 
 					darkSkyResponse.Response.Alerts?.ForEach(a => a.TimeZone = darkSkyResponse.Response.TimeZone);
 					darkSkyResponse.Response.Daily?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
-					darkSkyResponse.Response.Hourly?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
+					darkSkyResponse.Response.Hourly?.Data?.ForEach(h => h.TimeZone = darkSkyResponse.Response.TimeZone);
 					darkSkyResponse.Response.Minutely?.Data?.ForEach(m => m.TimeZone = darkSkyResponse.Response.TimeZone);
 				}
 			}

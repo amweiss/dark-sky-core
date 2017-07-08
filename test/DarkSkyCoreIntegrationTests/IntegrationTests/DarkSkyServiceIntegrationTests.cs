@@ -83,13 +83,14 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Daily },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Daily, ExclusionBlock.Hourly },
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
 			Assert.Null(forecast.Response.Daily);
+			Assert.Null(forecast.Response.Hourly);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
