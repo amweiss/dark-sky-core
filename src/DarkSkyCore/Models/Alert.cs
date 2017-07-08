@@ -50,12 +50,12 @@
 		/// The time at which the alert will expire. (Some alerts sources, unfortunately, do not
 		/// define expiration time, and in these cases this parameter will not be defined.)
 		/// </summary>
-		public DateTimeOffset Expires => UnixExpires.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset ExpiresDateTime => UnixExpires.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The time at which the alert was issued.
 		/// </summary>
-		public DateTimeOffset Time => UnixTime.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset DateTime => UnixTime.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The UNIX time at which the alert will expire. (Some alerts sources, unfortunately, do not

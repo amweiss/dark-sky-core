@@ -30,7 +30,7 @@
 		/// The time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? ApparentTemperatureMaxTime => ApparentTemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? ApparentTemperatureMaxDateTime => ApparentTemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The minimum value of <see cref="ApparentTemperature"/> during a given day.
@@ -43,7 +43,7 @@
 		/// The time of when <see cref="ApparentTemperatureMin"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? ApparentTemperatureMinTime => ApparentTemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? ApparentTemperatureMinDateTime => ApparentTemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The percentage of sky occluded by clouds, between 0 and 1, inclusive.
@@ -149,7 +149,7 @@
 		/// The time of when <see cref="PrecipIntensityMax"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? PrecipIntensityMaxTime => PrecipIntensityMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? PrecipIntensityMaxDateTime => PrecipIntensityMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The probability of precipitation occurring, between 0 and 1, inclusive.
@@ -188,13 +188,13 @@
 		/// The time of when the sun will rise during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? SunriseTime => SunriseTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? SunriseDateTime => SunriseTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The time of when the sun will set during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? SunsetTime => SunsetTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? SunsetDateTime => SunsetTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The air temperature in degrees Fahrenheit.
@@ -214,7 +214,7 @@
 		/// The time of when <see cref="TemperatureMax"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? TemperatureMaxTime => TemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? TemperatureMaxDateTime => TemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The minimum value of <see cref="Temperature"/> during a given day.
@@ -227,14 +227,14 @@
 		/// The time of when <see cref="TemperatureMin"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? TemperatureMinTime => TemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? TemperatureMinDateTime => TemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The time at which this data point begins. minutely data point are always aligned to the
 		/// top of the minute, hourly data point objects to the top of the hour, and daily data point
 		/// objects to midnight of the day, all according to the local time zone.
 		/// </summary>
-		public DateTimeOffset Time => TimeUnix.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset DateTime => TimeUnix.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The UV index.
@@ -247,7 +247,7 @@
 		/// The time of when the maximum <see cref="UvIndex"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? UvIndexTime => UvIndexTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? UvIndexDateTime => UvIndexTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The average visibility in miles, capped at 10 miles.
@@ -276,7 +276,7 @@
 		/// The time of when the maximum <see cref="WindGust"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
-		public DateTimeOffset? WindGustTime => WindGustTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		public DateTimeOffset? WindGustDateTime => WindGustTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The wind speed in miles per hour.
