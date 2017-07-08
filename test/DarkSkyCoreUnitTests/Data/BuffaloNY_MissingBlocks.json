@@ -1,0 +1,89 @@
+{
+	"latitude": 42.915,
+	"longitude": -78.741,
+	"timezone": "America/New_York",
+	"offset": -4,
+	"currently": {
+		"time": 1474894556,
+		"summary": "Partly Cloudy",
+		"icon": "partly-cloudy-day",
+		"nearestStormDistance": 16,
+		"nearestStormBearing": 268,
+		"precipIntensity": 0,
+		"precipProbability": 0,
+		"temperature": 55.97,
+		"apparentTemperature": 55.97,
+		"dewPoint": 44.64,
+		"humidity": 0.66,
+		"windSpeed": 7.92,
+		"windBearing": 150,
+		"visibility": 10,
+		"cloudCover": 0.5,
+		"pressure": 1015.28,
+		"ozone": 275.99
+	},
+	"minutely": {
+		"summary": "Partly cloudy for the hour.",
+		"icon": "partly-cloudy-day"
+	},
+	"hourly": {
+		"summary": "Light rain starting this afternoon.",
+		"icon": "rain"
+	},
+	"daily": {
+		"summary": "Light rain today through Sunday, with temperatures falling to 63°F on Monday.",
+		"icon": "rain"
+		
+	},
+	"flags": {
+		"sources": [
+			"darksky",
+			"lamp",
+			"gfs",
+			"cmc",
+			"nam",
+			"rap",
+			"rtma",
+			"sref",
+			"fnmoc",
+			"isd",
+			"nwspa",
+			"madis",
+			"nearest-precip"
+		],
+		"darksky-stations": [
+			"KBUF"
+		],
+		"lamp-stations": [
+			"KBUF",
+			"KDKK",
+			"KIAG"
+		],
+		"isd-stations": [
+			"725280-14733",
+			"725285-99999",
+			"725287-04724",
+			"997254-99999",
+			"999999-94753"
+		],
+		"madis-stations": [
+			"AT970",
+			"BUFN6",
+			"C7832",
+			"C9854",
+			"D1806",
+			"D2056",
+			"D2713",
+			"D5977",
+			"D7817",
+			"E1657",
+			"E1847",
+			"E1913",
+			"E3103",
+			"E8961",
+			"E9789",
+			"KBUF"
+		],
+		"units": "us"
+	}
+}

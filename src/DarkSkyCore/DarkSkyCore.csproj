@@ -15,20 +15,23 @@
     <RepositoryUrl>https://github.com/amweiss/dark-sky-core.git</RepositoryUrl>
     <Version>1.6.3</Version>
     <PackageProjectUrl>https://github.com/amweiss/dark-sky-core</PackageProjectUrl>
+    <RootNamespace>DarkSky</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType></DebugType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>1701;1702;1705;1633;SA1652;SA1633;SA1027;SA1600;SA1623;CS1591;SA1400;SA1101</NoWarn>
-    <DocumentationFile></DocumentationFile>
+    <NoWarn>SA1027;SA1101;SA1400;SA1602;SA1623;SA1633</NoWarn>
+    <DocumentationFile>bin\Debug\netstandard1.4\DarkSkyCore.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;1705;1633;SA1652;SA1633;SA1027;SA1600;SA1623;CS1591;SA1400;SA1101</NoWarn>
+    <NoWarn>SA1027;SA1101;SA1400;SA1602;SA1623;SA1633</NoWarn>
+    <DocumentationFile>bin\Release\netstandard1.4\DarkSkyCore.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="NodaTime" Version="2.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

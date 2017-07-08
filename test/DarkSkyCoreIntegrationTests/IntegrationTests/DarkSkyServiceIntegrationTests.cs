@@ -31,7 +31,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ExtendHourly = true,
-				DataBlocksToExclude = new List<string> { "flags" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si",
 			});
@@ -53,7 +53,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ExtendHourly = true,
-				DataBlocksToExclude = new List<string> { "flags" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si",
 			});
@@ -83,13 +83,14 @@ namespace DarkSky.IntegrationTests.Services
 		{
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
-				DataBlocksToExclude = new List<string> { "daily" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Daily, ExclusionBlock.Hourly },
 			});
 
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
 			Assert.Null(forecast.Response.Daily);
+			Assert.Null(forecast.Response.Hourly);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -199,7 +200,7 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
 			{
 				ForecastDateTime = DateTime.UtcNow.AddHours(2),
-				DataBlocksToExclude = new List<string> { "flags" },
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
 				LanguageCode = "x-pig-latin",
 				MeasurementUnits = "si",
 			});
@@ -218,6 +219,16 @@ namespace DarkSky.IntegrationTests.Services
 			// Assert.Null(forecast.Response.Alerts);
 		}
 
+		public void Dispose()
+		{
+			_darkSky = null;
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				MissingMemberHandling = MissingMemberHandling.Ignore,
+			};
+			CultureInfo.CurrentCulture = new CultureInfo("en-US");
+		}
+
 		[Fact]
 		public async Task HandleInvalidApiKey()
 		{
@@ -227,18 +238,8 @@ namespace DarkSky.IntegrationTests.Services
 			var forecast = await client.GetForecast(_latitude, _longitude);
 
 			Assert.NotNull(forecast);
-			Assert.False(forecast.IsSuccessful);
+			Assert.False(forecast.IsSuccessStatus);
 			Assert.NotEmpty(forecast.ResponseReasonPhrase);
-		}
-
-		public void Dispose()
-		{
-			_darkSky = null;
-			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-			{
-				MissingMemberHandling = MissingMemberHandling.Ignore,
-			};
-			CultureInfo.CurrentCulture = new CultureInfo("en-US");
 		}
 	}
 }
