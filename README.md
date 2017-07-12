@@ -20,4 +20,4 @@ You can see an example usage in the [integration tests](https://github.com/amwei
 
 ## Additional Information
 
-[Code of Conduct](CODE_OF_CONDUCT.md) for the project.
+[Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing Guidelines](CONTRIBUTING.md)for the project.
