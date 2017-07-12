@@ -18,3 +18,6 @@ This includes the [headers](https://darksky.net/dev/docs/response#response) and 
 
 You can see an example usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/test/DarkSkyCoreIntegrationTests/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
 
+## Additional Information
+
+[Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing Guidelines](CONTRIBUTING.md)for the project.
