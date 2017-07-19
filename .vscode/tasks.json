@@ -7,8 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "src/DarkSkyCore",
-                "test/DarkSkyCore.Tests"
+                "DarkSkyCore.sln"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
@@ -16,7 +15,7 @@
         {
             "taskName": "test",
             "args": [
-                "test/DarkSkyCore.Tests"
+				"DarkSkyCore.sln",
             ],
             "isTestCommand": true,
             "problemMatcher": "$msCompile"
