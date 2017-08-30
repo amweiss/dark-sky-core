@@ -24,10 +24,83 @@
 		};
 
 		[Fact]
+		public async Task ApiCallsHeaderBadValueTest()
+		{
+			var mockCLient = new Mock<IHttpClient>();
+			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
+
+			HttpResponseMessage MockResponse()
+			{
+				var response = _mockHttpResponse;
+				response.Headers.Add("X-Forecast-API-Calls", "cows");
+				return response;
+			}
+
+			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ApiCalls);
+		}
+
+		[Fact]
+		public async Task ApiCallsHeaderMissingTest()
+		{
+			var mockCLient = new Mock<IHttpClient>();
+			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponse));
+
+			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ApiCalls);
+		}
+
+		[Fact]
+		public async Task ApiCallsHeaderNullValueTest()
+		{
+			var mockCLient = new Mock<IHttpClient>();
+			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
+
+			HttpResponseMessage MockResponse()
+			{
+				var response = _mockHttpResponse;
+				response.Headers.Add("X-Forecast-API-Calls", (string)null);
+				return response;
+			}
+
+			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			// Check Headers (match pre-defined values)
+			Assert.NotNull(forecast.Headers);
+			Assert.Null(forecast.Headers.ApiCalls);
+		}
+
+		[Fact]
 		public void ConstructorWithNonEmptyApiKey()
 		{
 			var darkSkyService = new DarkSkyService("fakekey");
 			Assert.NotNull(darkSkyService);
+		}
+
+		[Fact]
+		public async Task DailyBlockEmptyTest()
+		{
+			var mockCLient = new Mock<IHttpClient>();
+			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponseMissingData));
+
+			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
+			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+
+			Assert.NotNull(forecast);
+
+			// Check Response (basic deserialization check)
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Response.Daily);
+			Assert.Null(forecast.Response.Daily.Data);
 		}
 
 		[Theory]
@@ -73,23 +146,6 @@
 		}
 
 		[Fact]
-		public async Task DailyBlockEmptyTest()
-		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponseMissingData));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
-
-			Assert.NotNull(forecast);
-
-			// Check Response (basic deserialization check)
-			Assert.NotNull(forecast.Response);
-			Assert.NotNull(forecast.Response.Daily);
-			Assert.Null(forecast.Response.Daily.Data);
-		}
-
-		[Fact]
 		public async Task HourlyBlockEmptyTest()
 		{
 			var mockCLient = new Mock<IHttpClient>();
@@ -124,49 +180,7 @@
 		}
 
 		[Fact]
-		public async Task ApiCallsHeaderBadValueTest()
-		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
-
-			HttpResponseMessage MockResponse()
-			{
-				var response = _mockHttpResponse;
-				response.Headers.Add("X-Forecast-API-Calls", "cows");
-				return response;
-			}
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
-
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ApiCalls);
-		}
-
-		[Fact]
-		public async Task ApiCallsHeaderNullValueTest()
-		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
-
-			HttpResponseMessage MockResponse()
-			{
-				var response = _mockHttpResponse;
-				response.Headers.Add("X-Forecast-API-Calls", (string)null);
-				return response;
-			}
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
-
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ApiCalls);
-		}
-
-		[Fact]
-		public async Task ApiCallsHeaderMissingTest()
+		public async Task ResponseTimeHeaderMissingTest()
 		{
 			var mockCLient = new Mock<IHttpClient>();
 			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponse));
@@ -176,7 +190,7 @@
 
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ApiCalls);
+			Assert.Null(forecast.Headers.ResponseTime);
 		}
 
 		[Fact]
@@ -199,20 +213,6 @@
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
 			Assert.Equal(responseTimeText, forecast.Headers.ResponseTime);
-		}
-
-		[Fact]
-		public async Task ResponseTimeHeaderMissingTest()
-		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponse));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
-
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ResponseTime);
 		}
 	}
 }

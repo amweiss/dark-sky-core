@@ -16,7 +16,9 @@
 		/// <param name="objectType">Type to convert to</param>
 		/// <param name="existingValue">Existing object being populated</param>
 		/// <param name="serializer">Serializer being used</param>
-		/// <returns>The populated object or the null instance of <paramref name="objectType"/> if an error occurs</returns>
+		/// <returns>
+		/// The populated object or the null instance of <paramref name="objectType"/> if an error occurs
+		/// </returns>
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
 			try

@@ -15,7 +15,9 @@
 		public List<string> DarkskyStations { get; set; }
 
 		/// <summary>
-		/// The presence of this property indicates that the Dark Sky data source supports the given location, but a temporary error (such as a radar station being down for maintenance) has made the data unavailable.
+		/// The presence of this property indicates that the Dark Sky data source supports the given
+		/// location, but a temporary error (such as a radar station being down for maintenance) has
+		/// made the data unavailable.
 		/// </summary>
 		/// <remarks>optional</remarks>
 		[JsonProperty(PropertyName = "darksky-unavailable")]
@@ -46,7 +48,8 @@
 		public string MetnoLicense { get; set; }
 
 		/// <summary>
-		/// This property contains an array of IDs for each <a href="https://darksky.net/dev/docs/sources">data source</a> utilized in servicing this request.
+		/// This property contains an array of IDs for each <a
+		/// href="https://darksky.net/dev/docs/sources">data source</a> utilized in servicing this request.
 		/// </summary>
 		[JsonProperty(PropertyName = "sources")]
 		public List<string> Sources { get; set; }

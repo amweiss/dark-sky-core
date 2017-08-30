@@ -83,6 +83,13 @@
 		public double? CloudCover { get; set; }
 
 		/// <summary>
+		/// The time at which this data point begins. minutely data point are always aligned to the
+		/// top of the minute, hourly data point objects to the top of the hour, and daily data point
+		/// objects to midnight of the day, all according to the local time zone.
+		/// </summary>
+		public DateTimeOffset DateTime => TimeUnix.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+
+		/// <summary>
 		/// The dew point in degrees Fahrenheit.
 		/// </summary>
 		/// <remarks>optional</remarks>
@@ -288,13 +295,6 @@
 		/// <remarks>deprecated, optional, only on daily</remarks>
 		[Obsolete("Use temperatureLowDateTime instead.")]
 		public DateTimeOffset? TemperatureMinDateTime => TemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
-
-		/// <summary>
-		/// The time at which this data point begins. minutely data point are always aligned to the
-		/// top of the minute, hourly data point objects to the top of the hour, and daily data point
-		/// objects to midnight of the day, all according to the local time zone.
-		/// </summary>
-		public DateTimeOffset DateTime => TimeUnix.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The UV index.

@@ -154,8 +154,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
+			// Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
 		}
 
 		[Fact]
@@ -175,8 +174,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
+			// Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
 		}
 
 		[Fact]
@@ -215,8 +213,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 
-			// Contrary to documentation, Alerts is not always omitted for time machine requests.
-			// Assert.Null(forecast.Response.Alerts);
+			// Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
 		}
 
 		public void Dispose()

@@ -13,10 +13,21 @@
 	public class Alert
 	{
 		/// <summary>
+		/// The time at which the alert was issued.
+		/// </summary>
+		public DateTimeOffset DateTime => UnixTime.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+
+		/// <summary>
 		/// A detailed description of the alert.
 		/// </summary>
 		[JsonProperty(PropertyName = "description")]
 		public string Description { get; set; }
+
+		/// <summary>
+		/// The time at which the alert will expire. (Some alerts sources, unfortunately, do not
+		/// define expiration time, and in these cases this parameter will not be defined.)
+		/// </summary>
+		public DateTimeOffset ExpiresDateTime => UnixExpires.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// A <see cref="List{T}"/> of strings representing the names of the regions covered by this
@@ -47,15 +58,9 @@
 		public Uri Uri { get; set; }
 
 		/// <summary>
-		/// The time at which the alert will expire. (Some alerts sources, unfortunately, do not
-		/// define expiration time, and in these cases this parameter will not be defined.)
+		/// TimeZone from the parent Forecast object.
 		/// </summary>
-		public DateTimeOffset ExpiresDateTime => UnixExpires.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
-
-		/// <summary>
-		/// The time at which the alert was issued.
-		/// </summary>
-		public DateTimeOffset DateTime => UnixTime.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+		internal string TimeZone { get; set; }
 
 		/// <summary>
 		/// The UNIX time at which the alert will expire. (Some alerts sources, unfortunately, do not
@@ -70,10 +75,5 @@
 		/// </summary>
 		[JsonProperty(PropertyName = "time")]
 		internal long UnixTime { get; set; }
-
-		/// <summary>
-		/// TimeZone from the parent Forecast object.
-		/// </summary>
-		internal string TimeZone { get; set; }
 	}
 }

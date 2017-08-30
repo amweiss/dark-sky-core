@@ -9,7 +9,8 @@
 	public class DataBlock
 	{
 		/// <summary>
-		/// An List of <see cref="DataPoint"/>, ordered by time, which together describe the weather conditions at the requested location over time.
+		/// An List of <see cref="DataPoint"/>, ordered by time, which together describe the weather
+		/// conditions at the requested location over time.
 		/// </summary>
 		[JsonProperty(PropertyName = "data")]
 		public List<DataPoint> Data { get; set; }

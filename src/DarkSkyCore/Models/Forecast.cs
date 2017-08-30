@@ -10,7 +10,8 @@
 	public class Forecast
 	{
 		/// <summary>
-		/// An <see cref="Alert"/> list, which, if present, contains any severe weather alerts pertinent to the requested location.
+		/// An <see cref="Alert"/> list, which, if present, contains any severe weather alerts
+		/// pertinent to the requested location.
 		/// </summary>
 		/// <remarks>optional</remarks>
 		[JsonProperty(PropertyName = "alerts")]
@@ -64,14 +65,17 @@
 		public DataBlock Minutely { get; set; }
 
 		/// <summary>
-		/// The current timezone offset in hours. (Use of this property will almost certainly result in Daylight Saving Time bugs. Please use <see cref="TimeZone"/>, instead.)
+		/// The current timezone offset in hours. (Use of this property will almost certainly result
+		/// in Daylight Saving Time bugs. Please use <see cref="TimeZone"/>, instead.)
 		/// </summary>
 		[Obsolete("Use of this property will almost certainly result in Daylight Saving Time bugs. Please use timezone, instead.")]
 		[JsonProperty(PropertyName = "offset")]
 		public string Offset { get; set; }
 
 		/// <summary>
-		/// The IANA timezone name for the requested location. This is used for text summaries and for determining when <see cref="Hourly"/> and <see cref="Daily"/> <see cref="DataBlock"/> objects begin.
+		/// The IANA timezone name for the requested location. This is used for text summaries and
+		/// for determining when <see cref="Hourly"/> and <see cref="Daily"/><see cref="DataBlock"/>
+		/// objects begin.
 		/// </summary>
 		[JsonProperty(PropertyName = "timezone")]
 		public string TimeZone { get; set; }

@@ -6,7 +6,10 @@
 
 	/// <summary>
 	/// A machine-readable text summary of this data point, suitable for selecting an icon for display.
-	/// <para>(Developers should ensure that a sensible default is defined, as additional values, such as hail, thunderstorm, or tornado, may be defined in the future.)</para>
+	/// <para>
+	/// (Developers should ensure that a sensible default is defined, as additional values, such as
+	/// hail, thunderstorm, or tornado, may be defined in the future.)
+	/// </para>
 	/// </summary>
 	[JsonConverter(typeof(DarkSkyEnumJsonConverter))]
 	public enum Icon
