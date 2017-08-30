@@ -20,29 +20,59 @@
 		public double? ApparentTemperature { get; set; }
 
 		/// <summary>
-		/// The maximum value of <see cref="ApparentTemperature"/> during a given day.
+		/// The daytime high apparent temperature.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "apparentTemperatureHigh")]
+		public double? ApparentTemperatureHigh { get; set; }
+
+		/// <summary>
+		/// The time of when <see cref="ApparentTemperatureHigh"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		public DateTimeOffset? ApparentTemperatureHighDateTime => ApparentTemperatureHighTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+
+		/// <summary>
+		/// The overnight low apparent temperature.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "apparentTemperatureLow")]
+		public double? ApparentTemperatureLow { get; set; }
+
+		/// <summary>
+		/// The time of when <see cref="ApparentTemperatureLow"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		public DateTimeOffset? ApparentTemperatureLowDateTime => ApparentTemperatureLowTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+
+		/// <summary>
+		/// The maximum value of <see cref="ApparentTemperature"/> during a given day.
+		/// </summary>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use apparentTemperatureHigh instead.")]
 		[JsonProperty(PropertyName = "apparentTemperatureMax")]
 		public double? ApparentTemperatureMax { get; set; }
 
 		/// <summary>
 		/// The time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use apparentTemperatureHighDateTime instead.")]
 		public DateTimeOffset? ApparentTemperatureMaxDateTime => ApparentTemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The minimum value of <see cref="ApparentTemperature"/> during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use apparentTemperatureLow instead.")]
 		[JsonProperty(PropertyName = "apparentTemperatureMin")]
 		public double? ApparentTemperatureMin { get; set; }
 
 		/// <summary>
 		/// The time of when <see cref="ApparentTemperatureMin"/> occurs during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use apparentTemperatureLowDateTime instead.")]
 		public DateTimeOffset? ApparentTemperatureMinDateTime => ApparentTemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
@@ -204,29 +234,59 @@
 		public double? Temperature { get; set; }
 
 		/// <summary>
-		/// The maximum value of <see cref="Temperature"/> during a given day.
+		/// The daytime high temperature.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "temperatureHigh")]
+		public double? TemperatureHigh { get; set; }
+
+		/// <summary>
+		/// The time of when <see cref="TemperatureHigh"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		public DateTimeOffset? TemperatureHighDateTime => TemperatureHighTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+
+		/// <summary>
+		/// The overnight low temperature.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "temperatureLow")]
+		public double? TemperatureLow { get; set; }
+
+		/// <summary>
+		/// The time of when <see cref="TemperatureLow"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		public DateTimeOffset? TemperatureLowDateTime => TemperatureLowTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
+
+		/// <summary>
+		/// The maximum value of <see cref="Temperature"/> during a given day.
+		/// </summary>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use temperatureHigh instead.")]
 		[JsonProperty(PropertyName = "temperatureMax")]
 		public double? TemperatureMax { get; set; }
 
 		/// <summary>
 		/// The time of when <see cref="TemperatureMax"/> occurs during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use temperatureHighDateTime instead.")]
 		public DateTimeOffset? TemperatureMaxDateTime => TemperatureMaxTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
 		/// The minimum value of <see cref="Temperature"/> during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use temperatureLow instead.")]
 		[JsonProperty(PropertyName = "temperatureMin")]
 		public double? TemperatureMin { get; set; }
 
 		/// <summary>
 		/// The time of when <see cref="TemperatureMin"/> occurs during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use temperatureLowDateTime instead.")]
 		public DateTimeOffset? TemperatureMinDateTime => TemperatureMinTimeUnix?.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
 		/// <summary>
@@ -286,16 +346,32 @@
 		public double? WindSpeed { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
+		/// The UNIX time of when <see cref="ApparentTemperatureHigh"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "apparentTemperatureHighTime")]
+		internal long? ApparentTemperatureHighTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="ApparentTemperatureLow"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "apparentTemperatureLowTime")]
+		internal long? ApparentTemperatureLowTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="ApparentTemperatureMax"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use apparentTemperatureHighTimeUnix instead.")]
 		[JsonProperty(PropertyName = "apparentTemperatureMaxTime")]
 		internal long? ApparentTemperatureMaxTimeUnix { get; set; }
 
 		/// <summary>
 		/// The UNIX time of when <see cref="ApparentTemperatureMin"/> occurs during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use apparentTemperatureLowTimeUnix instead.")]
 		[JsonProperty(PropertyName = "apparentTemperatureMinTime")]
 		internal long? ApparentTemperatureMinTimeUnix { get; set; }
 
@@ -321,16 +397,32 @@
 		internal long? SunsetTimeUnix { get; set; }
 
 		/// <summary>
-		/// The UNIX time of when <see cref="TemperatureMax"/> occurs during a given day.
+		/// The UNIX time of when <see cref="TemperatureHigh"/> occurs during a given day.
 		/// </summary>
 		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "temperatureHighTime")]
+		internal long? TemperatureHighTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="TemperatureLow"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>optional, only on daily</remarks>
+		[JsonProperty(PropertyName = "temperatureLowTime")]
+		internal long? TemperatureLowTimeUnix { get; set; }
+
+		/// <summary>
+		/// The UNIX time of when <see cref="TemperatureMax"/> occurs during a given day.
+		/// </summary>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use temperatureHighTimeUnix instead.")]
 		[JsonProperty(PropertyName = "temperatureMaxTime")]
 		internal long? TemperatureMaxTimeUnix { get; set; }
 
 		/// <summary>
 		/// The UNIX time of when <see cref="TemperatureMin"/> occurs during a given day.
 		/// </summary>
-		/// <remarks>optional, only on daily</remarks>
+		/// <remarks>deprecated, optional, only on daily</remarks>
+		[Obsolete("Use temperatureLowTimeUnix instead.")]
 		[JsonProperty(PropertyName = "temperatureMinTime")]
 		internal long? TemperatureMinTimeUnix { get; set; }
 
