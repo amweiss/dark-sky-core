@@ -33,6 +33,6 @@
 		/// <para>(which refers to each of freezing rain, ice pellets, and “wintery mix”)</para>
 		/// </summary>
 		[EnumMember(Value = "sleet")]
-		Sleet
+		Sleet,
 	}
 }

@@ -40,6 +40,6 @@
 		/// <summary>
 		/// Flags.
 		/// </summary>
-		Flags = 1 << 6
+		Flags = 1 << 6,
 	}
 }

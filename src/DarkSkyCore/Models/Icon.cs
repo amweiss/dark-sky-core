@@ -78,6 +78,6 @@
 		/// Partly Cloudy Night.
 		/// </summary>
 		[EnumMember(Value = "partly-cloudy-night")]
-		PartlyCloudyNight
+		PartlyCloudyNight,
 	}
 }
