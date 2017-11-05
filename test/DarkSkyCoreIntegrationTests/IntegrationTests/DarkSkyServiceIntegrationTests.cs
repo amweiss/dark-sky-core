@@ -39,8 +39,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(8, forecast.Response.Daily.Data.Count);
-			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
+			Assert.NotEmpty(forecast.Response.Daily.Data);
+			Assert.NotEmpty(forecast.Response.Hourly.Data);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -61,8 +61,8 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(8, forecast.Response.Daily.Data.Count);
-			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
+			Assert.NotEmpty(forecast.Response.Daily.Data);
+			Assert.NotEmpty(forecast.Response.Hourly.Data);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
@@ -106,7 +106,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(169, forecast.Response.Hourly.Data.Count);
+			Assert.NotEmpty(forecast.Response.Hourly.Data);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -133,7 +133,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast);
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
-			Assert.Equal(49, forecast.Response.Hourly.Data.Count);
+			Assert.NotEmpty(forecast.Response.Hourly.Data);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
 			Assert.Equal(forecast.Response.Longitude, _longitude);
 		}
@@ -207,7 +207,7 @@ namespace DarkSky.IntegrationTests.Services
 			Assert.NotNull(forecast.Response);
 			Assert.NotNull(forecast.Headers);
 			Assert.Single(forecast.Response.Daily.Data);
-			Assert.Equal(24, forecast.Response.Hourly.Data.Count);
+			Assert.NotEmpty(forecast.Response.Hourly.Data);
 			Assert.Null(forecast.Response.Minutely);
 			Assert.Null(forecast.Response.Flags);
 			Assert.Equal(forecast.Response.Latitude, _latitude);
