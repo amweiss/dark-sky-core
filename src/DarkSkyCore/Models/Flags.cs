@@ -51,7 +51,7 @@
 		/// Undocumented.
 		/// </summary>
 		[JsonProperty(PropertyName = "nearest-station")]
-		public string NearestStation { get; set; }
+		public double? NearestStation { get; set; }
 
 		/// <summary>
 		/// This property contains an array of IDs for each <a
