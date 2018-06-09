@@ -48,6 +48,12 @@
 		public string MetnoLicense { get; set; }
 
 		/// <summary>
+		/// Undocumented.
+		/// </summary>
+		[JsonProperty(PropertyName = "nearest-station")]
+		public string NearestStation { get; set; }
+
+		/// <summary>
 		/// This property contains an array of IDs for each <a
 		/// href="https://darksky.net/dev/docs/sources">data source</a> utilized in servicing this request.
 		/// </summary>
