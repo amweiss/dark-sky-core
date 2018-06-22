@@ -184,7 +184,7 @@
 			/// <para>
 			/// English is the default, but see the <a
 			/// href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for
-			/// supported languages
+			/// supported languages.
 			/// </para>
 			/// </summary>
 			public string LanguageCode { get; set; }
@@ -194,7 +194,7 @@
 			/// <para>
 			/// US Imperial Units are the default, but see the <a
 			/// href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for
-			/// supported units
+			/// supported units.
 			/// </para>
 			/// </summary>
 			public string MeasurementUnits { get; set; }

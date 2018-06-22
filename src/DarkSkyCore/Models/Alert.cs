@@ -25,7 +25,7 @@
 
 		/// <summary>
 		/// The time at which the alert will expire. (Some alerts sources, unfortunately, do not
-		/// define expiration time, and in these cases this parameter will not be defined.)
+		/// define expiration time, and in these cases this parameter will not be defined).
 		/// </summary>
 		public DateTimeOffset ExpiresDateTime => UnixExpires.ToDateTimeOffsetFromUnixTimestamp(TimeZone);
 
@@ -64,9 +64,9 @@
 
 		/// <summary>
 		/// The UNIX time at which the alert will expire. (Some alerts sources, unfortunately, do not
-		/// define expiration time, and in these cases this parameter will not be defined.)
+		/// define expiration time, and in these cases this parameter will not be defined).
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "expires")]
 		internal long UnixExpires { get; set; }
 

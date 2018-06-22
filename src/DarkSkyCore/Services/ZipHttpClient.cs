@@ -7,7 +7,7 @@
 
 	/// <summary>
 	/// An implementation of <see cref="IHttpClient"/> that uses <see
-	/// cref="DecompressionMethods.GZip"/> and <see cref="DecompressionMethods.Deflate"/>
+	/// cref="DecompressionMethods.GZip"/> and <see cref="DecompressionMethods.Deflate"/>.
 	/// </summary>
 	public class ZipHttpClient : IHttpClient
 	{

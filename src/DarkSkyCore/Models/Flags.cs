@@ -19,7 +19,7 @@
 		/// location, but a temporary error (such as a radar station being down for maintenance) has
 		/// made the data unavailable.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "darksky-unavailable")]
 		public string DarkskyUnavailable { get; set; }
 

@@ -13,35 +13,35 @@
 		/// An <see cref="Alert"/> list, which, if present, contains any severe weather alerts
 		/// pertinent to the requested location.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "alerts")]
 		public List<Alert> Alerts { get; set; }
 
 		/// <summary>
 		/// A <see cref="DataPoint"/> containing the current weather conditions at the requested location.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "currently")]
 		public DataPoint Currently { get; set; }
 
 		/// <summary>
 		/// A <see cref="DataBlock"/> containing the weather conditions day-by-day for the next week.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "daily")]
 		public DataBlock Daily { get; set; }
 
 		/// <summary>
 		/// A <see cref="Models.Flags"/> containing miscellaneous metadata about the request.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "flags")]
 		public Flags Flags { get; set; }
 
 		/// <summary>
 		/// A <see cref="DataBlock"/> containing the weather conditions hour-by-hour for the next two days.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "hourly")]
 		public DataBlock Hourly { get; set; }
 
@@ -60,13 +60,13 @@
 		/// <summary>
 		/// A <see cref="DataBlock"/> containing the weather conditions minute-by-minute for the next hour.
 		/// </summary>
-		/// <remarks>optional</remarks>
+		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "minutely")]
 		public DataBlock Minutely { get; set; }
 
 		/// <summary>
 		/// The current timezone offset in hours. (Use of this property will almost certainly result
-		/// in Daylight Saving Time bugs. Please use <see cref="TimeZone"/>, instead.)
+		/// in Daylight Saving Time bugs. Please use <see cref="TimeZone"/>, instead).
 		/// </summary>
 		[Obsolete("Use of this property will almost certainly result in Daylight Saving Time bugs. Please use timezone, instead.")]
 		[JsonProperty(PropertyName = "offset")]
