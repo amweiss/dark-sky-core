@@ -1,9 +1,9 @@
 {
 	"extends": [
-	  "config:base"
+		"config:base"
 	],
 	"ignorePaths": [],
 	"nuget": {
-    	"enabled": true
+		"enabled": true
 	}
 }
