@@ -92,7 +92,7 @@
 			var queryString = new StringBuilder(Invariant($"forecast/{apiKey}/{latitude:N4},{longitude:N4}"));
 			if (parameters?.ForecastDateTime != null)
 			{
-				queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ss")}");
+				queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ssK")}");
 			}
 
 			if (parameters != null)
