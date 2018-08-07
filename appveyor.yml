@@ -21,7 +21,7 @@ test_script:
 
     dotnet test /p:AltCover=true
 
-	codecov -f "coverage.xml"
+    codecov -f "coverage.xml"
 artifacts:
 - path: .\nupkgs\**\*.nupkg
   name: nuget
