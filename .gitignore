@@ -313,3 +313,4 @@ __pycache__/
 *.pyc
 
 .vscode
+coverage.xml
