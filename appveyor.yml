@@ -2,14 +2,15 @@ image: Visual Studio 2017
 version: '{branch}-{build}'
 pull_requests:
   do_not_increment_build_number: true
+before_build:
+- dotnet restore
+- choco install codecov
+
 build_script:
 - ps: >-
     cd src
 
-    dotnet restore
-
     dotnet build --configuration release
-
 
     cd ../
 
@@ -18,13 +19,9 @@ test_script:
 - ps: >-
     cd test
 
-    dotnet restore
+    dotnet test /p:AltCover=true
 
-    dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
-
-    if ($env:APPVEYOR_REPO_TAG -eq $true -Or $env:APPVEYOR_SCHEDULED_BUILD -eq $true) {
-        dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests"
-    }
+	codecov -f "coverage.xml"
 artifacts:
 - path: .\nupkgs\**\*.nupkg
   name: nuget
