@@ -21,7 +21,7 @@ build_script:
 test_script:
 - pwsh: >-
     if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) {
-	    dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../coverage.xml"
+        dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../coverage.xml"
         codecov -f "coverage.xml"
     }
     else {
