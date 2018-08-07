@@ -158,6 +158,25 @@ namespace DarkSky.IntegrationTests.Services
 		}
 
 		[Fact]
+		public async Task BuffaloForecastTimeMachineLocalTimezone()
+		{
+			var forecast = await _darkSky.GetForecast(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				ForecastDateTime = DateTime.Now.AddHours(2),
+			});
+
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Response);
+			Assert.NotNull(forecast.Headers);
+			Assert.Single(forecast.Response.Daily.Data);
+			Assert.Null(forecast.Response.Minutely);
+			Assert.Equal(forecast.Response.Latitude, _latitude);
+			Assert.Equal(forecast.Response.Longitude, _longitude);
+
+			// Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
+		}
+
+		[Fact]
 		public async Task BuffaloForecastTimeMachineGermanCulture()
 		{
 			CultureInfo.CurrentCulture = new CultureInfo("de-DE");
