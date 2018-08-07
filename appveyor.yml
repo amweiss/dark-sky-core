@@ -7,21 +7,11 @@ before_build:
 - choco install codecov
 
 build_script:
-- ps: >-
-    cd src
-
-    dotnet build --configuration release
-
-    cd ../
-
-    dotnet pack --configuration release --include-symbols -o ../nupkgs/ src
+- dotnet build src --configuration release
+- dotnet pack --configuration release --include-symbols -o ../nupkgs/ src
 test_script:
-- ps: >-
-    cd test
-
-    dotnet test /p:AltCover=true
-
-    codecov -f "coverage.xml"
+- dotnet test test /p:AltCover=true /p:AltCoverXmlReport="./coverage.xml"
+- codecov -f "coverage.xml"
 artifacts:
 - path: .\nupkgs\**\*.nupkg
   name: nuget
