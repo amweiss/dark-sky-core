@@ -4,27 +4,25 @@ pull_requests:
   do_not_increment_build_number: true
 build_script:
 - ps: >-
-    cd src/DarkSkyCore
+    cd src
 
     dotnet restore
 
     dotnet build --configuration release
 
 
-    cd ../../
+    cd ../
 
-    dotnet pack --configuration release --include-symbols -o ../../nupkgs/ src/DarkSkyCore
+    dotnet pack --configuration release --include-symbols -o ../nupkgs/ src
 test_script:
 - ps: >-
-    cd test/DarkSkyCoreUnitTests
+    cd test
 
     dotnet restore
 
     dotnet test --filter "FullyQualifiedName~DarkSky.UnitTests"
 
     if ($env:APPVEYOR_REPO_TAG -eq $true -Or $env:APPVEYOR_SCHEDULED_BUILD -eq $true) {
-        cd ../DarkSkyCoreIntegrationTests
-        dotnet restore
         dotnet test --filter "FullyQualifiedName~DarkSky.IntegrationTests"
     }
 artifacts:
