@@ -19,8 +19,8 @@ build_script:
 - dotnet build src --configuration release
 - dotnet pack --configuration release --include-symbols -o ../nupkgs/ src
 test_script:
-- dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='..\coverage.xml'
-- codecov -f 'coverage.xml'
+- dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../coverage.xml"
+- codecov -f "coverage.xml"
 artifacts:
 - path: '.\nupkgs\**\*.nupkg'
   name: nuget
