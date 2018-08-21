@@ -18,7 +18,7 @@
 		{
 			var dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(time);
 			var instant = Instant.FromDateTimeOffset(dateTimeOffset);
-			var zdt = instant.InZone(DateTimeZoneProviders.Tzdb[timezone]);
+			var zdt = string.IsNullOrWhiteSpace(timezone) ? instant.InUtc() : instant.InZone(DateTimeZoneProviders.Tzdb[timezone]);
 			return zdt.ToDateTimeOffset();
 		}
 	}
