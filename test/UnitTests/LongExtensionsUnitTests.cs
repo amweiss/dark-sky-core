@@ -13,6 +13,8 @@
 			yield return new object[] { DateTimeOffset.MaxValue, "UTC" };
 			yield return new object[] { new DateTimeOffset(2017, 1, 1, 1, 0, 0, new TimeSpan(0)), "UTC" };
 			yield return new object[] { new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235), DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(), "America/New_York" };
+			yield return new object[] { new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235), DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(), string.Empty };
+			yield return new object[] { new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235), DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(), null };
 		}
 
 		[Theory]
