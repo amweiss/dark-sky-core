@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using Newtonsoft.Json;
+	using Newtonsoft.Json.Linq;
 
 	/// <summary>
 	/// The flags object contains various metadata information related to the request.
@@ -9,10 +10,11 @@
 	public class Flags
 	{
 		/// <summary>
-		/// Undocumented, presumably a list of stations.
+		/// Additional unmapped flags end up here.
 		/// </summary>
-		[JsonProperty(PropertyName = "darksky-stations")]
-		public List<string> DarkskyStations { get; set; }
+		/// <remarks>optional.</remarks>
+		[JsonExtensionData]
+		public IDictionary<string, JToken> AdditionalData { get; set; }
 
 		/// <summary>
 		/// The presence of this property indicates that the Dark Sky data source supports the given
@@ -22,30 +24,6 @@
 		/// <remarks>optional.</remarks>
 		[JsonProperty(PropertyName = "darksky-unavailable")]
 		public string DarkskyUnavailable { get; set; }
-
-		/// <summary>
-		/// Undocumented.
-		/// </summary>
-		[JsonProperty(PropertyName = "isd-stations")]
-		public List<string> IsdStations { get; set; }
-
-		/// <summary>
-		/// Undocumented.
-		/// </summary>
-		[JsonProperty(PropertyName = "lamp-stations")]
-		public List<string> LampStations { get; set; }
-
-		/// <summary>
-		/// Undocumented.
-		/// </summary>
-		[JsonProperty(PropertyName = "madis-stations")]
-		public List<string> MadisStations { get; set; }
-
-		/// <summary>
-		/// Undocumented.
-		/// </summary>
-		[JsonProperty(PropertyName = "metno-license")]
-		public string MetnoLicense { get; set; }
 
 		/// <summary>
 		/// Undocumented.
