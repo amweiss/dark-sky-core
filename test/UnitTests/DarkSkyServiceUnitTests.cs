@@ -4,24 +4,20 @@
 	using System.IO;
 	using System.Net.Http;
 	using System.Threading.Tasks;
+	using DarkSky.Models;
 	using DarkSky.Services;
+	using DarkSky.UnitTests.Fixtures;
 	using Moq;
 	using Xunit;
 
-	public class DarkSkyServiceUnitTests
+	public class DarkSkyServiceUnitTests : IClassFixture<ResponseFixture>
 	{
-		readonly double _latitude = 29.4264; // 42.915;
-		readonly double _longitude = -98.5105; // -78.741;
+		ResponseFixture _fixture;
 
-		readonly HttpResponseMessage _mockHttpResponse = new HttpResponseMessage
+		public DarkSkyServiceUnitTests(ResponseFixture fixture)
 		{
-			Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/BexarTX.json")),
-		};
-
-		readonly HttpResponseMessage _mockHttpResponseMissingData = new HttpResponseMessage
-		{
-			Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/BuffaloNY_MissingBlocks.json")),
-		};
+			_fixture = fixture;
+		}
 
 		[Fact]
 		public async Task ApiCallsHeaderBadValueTest()
@@ -31,13 +27,13 @@
 
 			HttpResponseMessage MockResponse()
 			{
-				var response = _mockHttpResponse;
+				var response = _fixture.MockHttpResponse;
 				response.Headers.Add("X-Forecast-API-Calls", "cows");
 				return response;
 			}
 
 			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = await darkSkyService.GetForecast(_fixture.Latitude, _fixture.Longitude);
 
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
@@ -45,13 +41,9 @@
 		}
 
 		[Fact]
-		public async Task ApiCallsHeaderMissingTest()
+		public void ApiCallsHeaderMissingTest()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponse));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = _fixture.NormalResponse;
 
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
@@ -66,13 +58,13 @@
 
 			HttpResponseMessage MockResponse()
 			{
-				var response = _mockHttpResponse;
+				var response = _fixture.MockHttpResponse;
 				response.Headers.Add("X-Forecast-API-Calls", (string)null);
 				return response;
 			}
 
 			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = await darkSkyService.GetForecast(_fixture.Latitude, _fixture.Longitude);
 
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
@@ -87,13 +79,9 @@
 		}
 
 		[Fact]
-		public async Task DailyBlockEmptyTest()
+		public void DailyBlockEmptyTest()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponseMissingData));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = _fixture.MissingDataResponse;
 
 			Assert.NotNull(forecast);
 
@@ -119,20 +107,16 @@
 		}
 
 		[Fact]
-		public async Task GetForecastWithMockData()
+		public void GetForecastWithMockData()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponse));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = _fixture.NormalResponse;
 
 			Assert.NotNull(forecast);
 
 			// Check Response (basic deserialization check)
 			Assert.NotNull(forecast.Response);
-			Assert.Equal(forecast.Response.Latitude, _latitude);
-			Assert.Equal(forecast.Response.Longitude, _longitude);
+			Assert.Equal(forecast.Response.Latitude, _fixture.Latitude);
+			Assert.Equal(forecast.Response.Longitude, _fixture.Longitude);
 			Assert.NotEmpty(forecast.Response.Alerts);
 			Assert.NotNull(forecast.Response.Currently);
 			Assert.NotNull(forecast.Response.Daily);
@@ -146,13 +130,9 @@
 		}
 
 		[Fact]
-		public async Task HourlyBlockEmptyTest()
+		public void HourlyBlockEmptyTest()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponseMissingData));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = _fixture.MissingDataResponse;
 
 			Assert.NotNull(forecast);
 
@@ -163,13 +143,9 @@
 		}
 
 		[Fact]
-		public async Task MinutelyBlockEmptyTest()
+		public void MinutelyBlockEmptyTest()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponseMissingData));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = _fixture.MissingDataResponse;
 
 			Assert.NotNull(forecast);
 
@@ -180,13 +156,9 @@
 		}
 
 		[Fact]
-		public async Task ResponseTimeHeaderMissingTest()
+		public void ResponseTimeHeaderMissingTest()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(_mockHttpResponse));
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = _fixture.NormalResponse;
 
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
@@ -202,13 +174,13 @@
 
 			HttpResponseMessage MockResponse()
 			{
-				var response = _mockHttpResponse;
+				var response = _fixture.MockHttpResponse;
 				response.Headers.Add("X-Response-Time", responseTimeText);
 				return response;
 			}
 
 			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_latitude, _longitude);
+			var forecast = await darkSkyService.GetForecast(_fixture.Latitude, _fixture.Longitude);
 
 			// Check Headers (match pre-defined values)
 			Assert.NotNull(forecast.Headers);
