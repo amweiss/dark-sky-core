@@ -44,5 +44,21 @@ namespace DarkSky.UnitTests.Models
 
 			Assert.Equal(dataPoint.PrecipIntensityMaxDateTime, new DateTime(2018, 9, 20, 15, 0, 0, DateTimeKind.Utc));
 		}
+
+		[Fact]
+		public void SunriseDateTimeTest()
+		{
+			var dataPoint = _fixture.NormalResponse.Response.Daily.Data[0]; // Thursday, September 20, 2018 5:44:55 AM UTC
+
+			Assert.Equal(dataPoint.SunriseDateTime, new DateTime(2018, 9, 20, 5, 44, 55, DateTimeKind.Utc));
+		}
+
+		[Fact]
+		public void SunsetDateTimeTest()
+		{
+			var dataPoint = _fixture.NormalResponse.Response.Daily.Data[0]; // Thursday, September 20, 2018 6:07:18 PM UTC
+
+			Assert.Equal(dataPoint.SunsetDateTime, new DateTime(2018, 9, 20, 18, 07, 18, DateTimeKind.Utc));
+		}
 	}
 }
