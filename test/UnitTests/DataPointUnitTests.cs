@@ -76,5 +76,21 @@ namespace DarkSky.UnitTests.Models
 
 			Assert.Equal(dataPoint.TemperatureLowDateTime, new DateTime(2018, 9, 21, 6, 0, 0, DateTimeKind.Utc));
 		}
+
+		[Fact]
+		public void UvIndexDateTimeTest()
+		{
+			var dataPoint = _fixture.NormalResponse.Response.Daily.Data[0]; // Thursday, September 20, 2018 11:00:00 AM UTC
+
+			Assert.Equal(dataPoint.UvIndexDateTime, new DateTime(2018, 9, 20, 11, 0, 0, DateTimeKind.Utc));
+		}
+
+		[Fact]
+		public void WindGustDateTimeTest()
+		{
+			var dataPoint = _fixture.NormalResponse.Response.Daily.Data[0]; // Thursday, September 20, 2018 7:00:00 PM UTC
+
+			Assert.Equal(dataPoint.WindGustDateTime, new DateTime(2018, 9, 20, 19, 0, 0, DateTimeKind.Utc));
+		}
 	}
 }
