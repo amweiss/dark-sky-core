@@ -10,9 +10,6 @@ steps:
   inputs:
     command: restore
 
-    projects: '$(Parameters.RestoreBuildProjects)'
-
-
 - powershell: 'choco install codecov'
   displayName: 'Install tools'
 
