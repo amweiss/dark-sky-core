@@ -1,4 +1,4 @@
-name: $(Build.DefinitionName)_$(Build.DefinitionVersion)_$(Build.BuildId)_$(Build.BuildNumber)
+name: $(Build.SourceBranchName)_$(Build.BuildId)
 trigger:
 - master
 
@@ -32,3 +32,5 @@ steps:
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+
+- task: PublishBuildArtifacts@1
