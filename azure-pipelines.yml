@@ -1,4 +1,4 @@
-name: DarkSkyCore Master Build
+name: $(Build.DefinitionName)_$(Build.DefinitionVersion)_$(Build.BuildId)_$(Build.BuildNumber)
 trigger:
 - master
 
