@@ -10,10 +10,13 @@ queue:
 
 steps:
 - script: dotnet restore
+  displayName: Restore
 
 - script: dotnet build src --configuration $(BuildConfiguration)
+  displayName: Build
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols -o (Build.ArtifactStagingDirectory) src
+  displayName: Pack
 
 - powershell: |
    if ($env:BUILD_REASON -eq "PullRequest") {
@@ -27,8 +30,10 @@ steps:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
 - task: PublishTestResults@2
+  displayName: Publish Tests
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
 - task: PublishBuildArtifacts@1
+  displayName: Publish Artifacts
