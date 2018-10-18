@@ -23,7 +23,7 @@ steps:
      dotnet test test --logger trx --collect "Code coverage"
    }
    else {
-     dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests"
+     dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
    }
   displayName: Test
   env:
