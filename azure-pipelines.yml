@@ -9,42 +9,17 @@ queue:
   name: Hosted VS2017
 
 steps:
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
+- script: dotnet restore
 
-- powershell: 'choco install codecov'
-  displayName: 'Install tools'
+- script: choco install codecov
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: custom
+- script: dotnet build src --configuration $(BuildConfiguration)
 
-    projects: src
-
-    custom: build
-
-    arguments: '--configuration $(BuildConfiguration)'
-
-
-- task: DotNetCoreCLI@2
-  displayName: Pack
-  inputs:
-    command: custom
-
-    projects: src
-
-    custom: pack
-
-    arguments: '--configuration $(BuildConfiguration) --include-symbols -o $(Build.ArtifactStagingDirectory)'
-
+- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols -o (Build.ArtifactStagingDirectory) src
 
 - powershell: |
    if ($env:BUILD_REASON -eq "PullRequest") {
-     dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../coverage.xml"
-     codecov -f "coverage.xml"
+     dotnet test test --logger trx --collect "Code coverage"
    }
    else {
      dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests"
@@ -53,3 +28,7 @@ steps:
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
+- task: PublishTestResults@2
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
