@@ -15,7 +15,7 @@ steps:
 - script: dotnet build src --configuration $(BuildConfiguration)
   displayName: Build
 
-- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols -o (Build.ArtifactStagingDirectory) src
+- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack
 
 - powershell: |
