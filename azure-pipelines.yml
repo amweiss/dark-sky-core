@@ -11,8 +11,6 @@ queue:
 steps:
 - script: dotnet restore
 
-- script: choco install codecov
-
 - script: dotnet build src --configuration $(BuildConfiguration)
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols -o (Build.ArtifactStagingDirectory) src
