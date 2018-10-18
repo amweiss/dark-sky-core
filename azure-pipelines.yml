@@ -1,3 +1,7 @@
+name: DarkSkyCore Master Build
+trigger:
+- master
+
 resources:
 - repo: self
   fetchDepth: 1
