@@ -15,7 +15,7 @@ steps:
 - powershell: |
     if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
       $ver = $env:BUILD_SOURCEBRANCHNAME.TrimStart("v")
-      Write-Host '##vso[task.setvariable variable=version]$ver'
+      Write-Host "##vso[task.setvariable variable=version]$ver"
     }
 
 - script: dotnet restore
