@@ -1,6 +1,6 @@
 # Dark Sky Core
 
-[![NuGet](https://img.shields.io/nuget/v/DarkSkyCore.svg?maxAge=2592000)](https://www.nuget.org/packages/DarkSkyCore) [![Build status](https://ci.appveyor.com/api/projects/status/inpb8i62aev5redy/branch/master?svg=true)](https://ci.appveyor.com/project/amweiss/dark-sky-core/branch/master) [![codecov](https://codecov.io/gh/amweiss/dark-sky-core/branch/master/graph/badge.svg)](https://codecov.io/gh/amweiss/dark-sky-core)
+[![NuGet](https://img.shields.io/nuget/v/DarkSkyCore.svg?maxAge=2592000)](https://www.nuget.org/packages/DarkSkyCore) [![Build Status](https://dev.azure.com/amweiss/dark-sky-core/_apis/build/status/dark-sky-core-CI)](https://dev.azure.com/amweiss/dark-sky-core/_build/latest)
 
 A .NET Standard Library for using the [Dark Sky API](https://darksky.net/dev/docs).
 

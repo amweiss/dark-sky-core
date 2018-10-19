@@ -27,10 +27,10 @@ steps:
 
 - powershell: |
    if ($env:BUILD_REASON -eq "PullRequest") {
-     dotnet test test --logger trx --collect "Code coverage"
+     dotnet test test --settings CodeCoverage.runsettings --logger trx --collect "Code coverage"
    }
    else {
-     dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
+     dotnet test test --settings CodeCoverage.runsettings --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
    }
   displayName: Test
   env:
