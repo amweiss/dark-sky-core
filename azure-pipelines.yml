@@ -13,10 +13,8 @@ queue:
 
 steps:
 - powershell: |
-  if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*")
-  {
-    $ver = $env:BUILD_SOURCEBRANCHNAME.TrimStart("v")
-    Write-Host "##vso[task.setvariable variable=version]$ver"
+  if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
+    Write-Host "##vso[task.setvariable variable=version]$env:BUILD_SOURCEBRANCHNAME.TrimStart("v")"
   }
 
 - script: dotnet restore
