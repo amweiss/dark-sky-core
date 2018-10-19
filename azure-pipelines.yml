@@ -11,10 +11,12 @@ resources:
 queue:
   name: Hosted VS2017
 
+
 steps:
+
 - powershell: |
   if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
-    Write-Host '##vso[task.setvariable variable=version] 0'
+    Write-Host '##vso[task.setvariable variable=version] $($env:BUILD_SOURCEBRANCHNAME.TrimStart("v"))'
   }
 
 - script: dotnet restore
