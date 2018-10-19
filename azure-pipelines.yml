@@ -15,9 +15,9 @@ queue:
 steps:
 
 - powershell: |
-  if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
-    Write-Host '##vso[task.setvariable variable=version] $($env:BUILD_SOURCEBRANCHNAME.TrimStart("v"))'
-  }
+    if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
+      Write-Host '##vso[task.setvariable variable=version] $($env:BUILD_SOURCEBRANCHNAME.TrimStart("v"))'
+    }
 
 - script: dotnet restore
   displayName: Restore
@@ -26,12 +26,12 @@ steps:
   displayName: Build
 
 - powershell: |
-   if ($env:BUILD_REASON -eq "PullRequest") {
-     dotnet test test --settings CodeCoverage.runsettings --logger trx --collect "Code coverage"
-   }
-   else {
-     dotnet test test --settings CodeCoverage.runsettings --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
-   }
+    if ($env:BUILD_REASON -eq "PullRequest") {
+      dotnet test test --settings CodeCoverage.runsettings --logger trx --collect "Code coverage"
+    }
+    else {
+      dotnet test test --settings CodeCoverage.runsettings --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
+    }
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
