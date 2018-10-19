@@ -1,6 +1,9 @@
 name: $(Build.SourceBranch)_$(Build.BuildId)
+variables:
+  version: 0.$(Build.BuildId)
 trigger:
 - master
+- refs/tags/v*
 
 resources:
 - repo: self
@@ -9,14 +12,18 @@ queue:
   name: Hosted VS2017
 
 steps:
+- powershell: |
+    if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*")
+    {
+		$ver = $env:BUILD_SOURCEBRANCHNAME.TrimStart("v")
+		Write-Host "##vso[task.setvariable variable=version]$ver"
+    }
+
 - script: dotnet restore
   displayName: Restore
 
 - script: dotnet build src --configuration $(BuildConfiguration)
   displayName: Build
-
-- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols -o $(Build.ArtifactStagingDirectory) src
-  displayName: Pack
 
 - powershell: |
    if ($env:BUILD_REASON -eq "PullRequest") {
@@ -34,6 +41,9 @@ steps:
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+
+- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -o $(Build.ArtifactStagingDirectory) src
+  displayName: Pack
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifacts
