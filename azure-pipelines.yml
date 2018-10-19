@@ -1,3 +1,10 @@
+name: $(Build.SourceBranch)_$(Build.BuildId)
+variables:
+  version: 0.$(Build.BuildId)
+trigger:
+- master
+- refs/tags/v*
+
 resources:
 - repo: self
   fetchDepth: 1
@@ -5,47 +12,36 @@ queue:
   name: Hosted VS2017
 
 steps:
-- task: DotNetCoreCLI@2
+- powershell: |
+    if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
+      Write-Host '##vso[task.setvariable variable=version] $($env:BUILD_SOURCEBRANCHNAME.TrimStart("v"))'
+    }
+
+- script: dotnet restore
   displayName: Restore
-  inputs:
-    command: restore
 
-- powershell: 'choco install codecov'
-  displayName: 'Install tools'
-
-- task: DotNetCoreCLI@2
+- script: dotnet build src --configuration $(BuildConfiguration)
   displayName: Build
-  inputs:
-    command: custom
-
-    projects: src
-
-    custom: build
-
-    arguments: '--configuration $(BuildConfiguration)'
-
-
-- task: DotNetCoreCLI@2
-  displayName: Pack
-  inputs:
-    command: custom
-
-    projects: src
-
-    custom: pack
-
-    arguments: '--configuration $(BuildConfiguration) --include-symbols -o $(Build.ArtifactStagingDirectory)'
-
 
 - powershell: |
-   if ($env:BUILD_REASON -eq "PullRequest") {
-     dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../coverage.xml"
-     codecov -f "coverage.xml"
-   }
-   else {
-     dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests"
-   }
+    if ($env:BUILD_REASON -eq "PullRequest") {
+      dotnet test test --settings CodeCoverage.runsettings --logger trx --collect "Code coverage"
+    }
+    else {
+      dotnet test test --settings CodeCoverage.runsettings --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
+    }
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
+- task: PublishTestResults@2
+  displayName: Publish Tests
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -o $(Build.ArtifactStagingDirectory) src
+  displayName: Pack
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifacts
