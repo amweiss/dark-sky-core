@@ -26,10 +26,10 @@ steps:
 
 - powershell: |
     if ($env:BUILD_REASON -eq "PullRequest") {
-      dotnet test test --settings CodeCoverage.runsettings --logger trx --collect "Code coverage"
+      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
     }
     else {
-      dotnet test test --settings CodeCoverage.runsettings --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
+      dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
     }
   displayName: Test
   env:
@@ -40,6 +40,12 @@ steps:
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+
+- task: PublishCodeCoverageResults@1
+  displayName: Publish Coverage
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml'
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack
