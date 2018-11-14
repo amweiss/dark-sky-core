@@ -21,19 +21,25 @@ steps:
 - script: dotnet restore
   displayName: Restore
 
+- script: choco install codecov
+  displayName: Choco Install Tools
+
 - script: dotnet build src --configuration $(BuildConfiguration)
   displayName: Build
 
 - powershell: |
     if ($env:BUILD_REASON -eq "PullRequest") {
-      dotnet test test --settings CodeCoverage.runsettings --logger trx --collect "Code coverage"
+      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
     }
     else {
-      dotnet test test --settings CodeCoverage.runsettings --filter "FullyQualifiedName~DarkSky.UnitTests" --logger trx --collect "Code coverage"
+      dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
     }
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
+
+- script: codecov -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
+  displayName: Publish Coverage
 
 - task: PublishTestResults@2
   displayName: Publish Tests
