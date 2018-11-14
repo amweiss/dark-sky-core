@@ -21,31 +21,31 @@ steps:
 - script: dotnet restore
   displayName: Restore
 
+- script: choco install codecov
+  displayName: Choco Install Tools
+
 - script: dotnet build src --configuration $(BuildConfiguration)
   displayName: Build
 
 - powershell: |
     if ($env:BUILD_REASON -eq "PullRequest") {
-      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
+      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
     }
     else {
-      dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
+      dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
     }
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
+
+- script: codecov -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml"
+  displayName: Publish Coverage
 
 - task: PublishTestResults@2
   displayName: Publish Tests
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
-
-- task: PublishCodeCoverageResults@1
-  displayName: Publish Coverage
-  inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml'
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack
