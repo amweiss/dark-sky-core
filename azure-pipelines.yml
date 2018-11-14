@@ -38,7 +38,7 @@ steps:
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
-- script: codecov -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml"
+- script: codecov -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
   displayName: Publish Coverage
 
 - task: PublishTestResults@2
