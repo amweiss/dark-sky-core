@@ -8,8 +8,8 @@ trigger:
 resources:
 - repo: self
   fetchDepth: 1
-queue:
-  name: ubuntu-16.04
+pool:
+  vmImage: ubuntu-16.04
 
 steps:
 - task: DotNetCoreInstaller@0
@@ -26,9 +26,6 @@ steps:
 - script: dotnet restore
   displayName: Restore
 
-- script: choco install codecov
-  displayName: Choco Install Tools
-
 - script: dotnet build src --configuration $(BuildConfiguration)
   displayName: Build
 
@@ -43,7 +40,7 @@ steps:
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
-- script: codecov -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
+- script: bash <(curl -s https://codecov.io/bash) -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
   displayName: Publish Coverage
 
 - task: PublishTestResults@2
