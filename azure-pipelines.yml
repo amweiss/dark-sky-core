@@ -15,7 +15,7 @@ steps:
 - task: DotNetCoreInstaller@0
   inputs:
     packageType: sdk
-	version: 2.2.100-preview3-009430
+    version: 2.2.100-preview3-009430
 
 - powershell: |
     if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
