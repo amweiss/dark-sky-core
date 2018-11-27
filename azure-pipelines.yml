@@ -47,7 +47,7 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
-- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -o $(Build.ArtifactStagingDirectory) src
+- script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -p:SymbolPackageFormat=snupkg -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack
 
 - task: PublishBuildArtifacts@1
