@@ -9,9 +9,14 @@ resources:
 - repo: self
   fetchDepth: 1
 queue:
-  name: Hosted VS2017
+  name: ubuntu-16.04
 
 steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    packageType: sdk
+	version: 2.2.100-preview3-009430
+
 - powershell: |
     if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
       $ver = $env:BUILD_SOURCEBRANCHNAME.TrimStart("v")
