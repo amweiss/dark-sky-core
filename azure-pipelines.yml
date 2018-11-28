@@ -30,12 +30,7 @@ steps:
   displayName: Build
 
 - powershell: |
-    if ($env:BUILD_REASON -eq "PullRequest" -Or $env:BUILD_REASON -eq "Schedule") {
       dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
-    }
-    else {
-      dotnet test test --filter "FullyQualifiedName~DarkSky.UnitTests" /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
-    }
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
