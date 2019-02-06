@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="2.5.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.94">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
