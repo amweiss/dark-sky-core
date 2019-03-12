@@ -25,15 +25,15 @@
 	<DebugType></DebugType>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<NoWarn>SA1027;SA1101;SA1400;SA1602;SA1623;SA1633</NoWarn>
-	<DocumentationFile>bin\Debug\netstandard1.4\DarkSkyCore.xml</DocumentationFile>
+	<DocumentationFile>bin\Debug\netstandard2.0\DarkSkyCore.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	<NoWarn>SA1027;SA1101;SA1400;SA1602;SA1623;SA1633</NoWarn>
-	<DocumentationFile>bin\Release\netstandard1.4\DarkSkyCore.xml</DocumentationFile>
+	<DocumentationFile>bin\Release\netstandard2.0\DarkSkyCore.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-	<PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.101">
+	<PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
 	  <PrivateAssets>all</PrivateAssets>
 	</PackageReference>
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
