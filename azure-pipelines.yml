@@ -30,7 +30,7 @@ steps:
   displayName: Build
 
 - powershell: |
-      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" --logger trx
+      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" /p:Exclude="[xunit*]*" --logger trx
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
