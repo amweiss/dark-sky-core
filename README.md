@@ -16,7 +16,7 @@ If you specify a value for `ForecastDateTime` in an `OptionalParameters` instanc
 The responses all take the form of a [CamelCase](https://en.wikipedia.org/wiki/PascalCase) version of the [Dark Sky Response](https://darksky.net/dev/docs/response) in `DarkSkyResponse`.
 This includes the [headers](https://darksky.net/dev/docs/response#response) and properties for the required text and link to use based on the [Terms of Service](https://darksky.net/dev/docs/terms).
 
-You can see an example usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/test/DarkSkyCoreIntegrationTests/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
+You can see an example usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/test/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
 
 ## Additional Information
 

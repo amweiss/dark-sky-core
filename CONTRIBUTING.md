@@ -14,7 +14,7 @@ Please use the [Issues](https://github.com/amweiss/dark-sky-core/issues) section
 You're my favorite kind of person. Here are a couple of friendly tutorials if you have never made a pull request before:
 http://makeapullrequest.com/ and http://www.firsttimersonly.com/
 
-One you know the basics, here's a few additional details for this project:
+Once you know the basics, here's a few additional details for this project:
 
 1. The project builds on [AppVeyor](https://ci.appveyor.com/project/amweiss/dark-sky-core)
 1. You can see the process it follows in the [appveyor.yml](appveyor.yml) file (build and test is the basic idea)
