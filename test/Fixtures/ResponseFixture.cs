@@ -12,10 +12,10 @@ namespace DarkSky.UnitTests.Fixtures
 	{
 		public ResponseFixture()
 		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponse));
+			var mockClient = new Mock<IHttpClient>();
+			mockClient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponse));
 
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
+			var darkSkyService = new DarkSkyService("fakekey", mockClient.Object);
 			NormalResponse = darkSkyService.GetForecast(Latitude, Longitude).Result;
 
 			var mockMissingDataCLient = new Mock<IHttpClient>();
