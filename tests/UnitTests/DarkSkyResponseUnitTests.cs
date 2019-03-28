@@ -1,4 +1,4 @@
-namespace DarkSky.UnitTests.Models
+namespace DarkSky.Tests.UnitTests.Models
 {
 	using DarkSky.Models;
 	using Xunit;

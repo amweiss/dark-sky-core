@@ -1,4 +1,4 @@
-namespace DarkSky.UnitTests.Fixtures
+namespace DarkSky.Tests.UnitTests.Fixtures
 {
 	using System;
 	using System.IO;

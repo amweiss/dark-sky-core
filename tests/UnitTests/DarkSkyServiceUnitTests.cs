@@ -1,4 +1,4 @@
-﻿namespace DarkSky.UnitTests.Services
+﻿namespace DarkSky.Tests.UnitTests.Services
 {
 	using System;
 	using System.IO;
@@ -6,7 +6,7 @@
 	using System.Threading.Tasks;
 	using DarkSky.Models;
 	using DarkSky.Services;
-	using DarkSky.UnitTests.Fixtures;
+	using DarkSky.Tests.UnitTests.Fixtures;
 	using Moq;
 	using Xunit;
 
