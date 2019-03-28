@@ -1,7 +1,7 @@
-namespace DarkSky.UnitTests.Models
+namespace DarkSky.Tests.UnitTests.Models
 {
 	using System;
-	using DarkSky.UnitTests.Fixtures;
+	using DarkSky.Tests.UnitTests.Fixtures;
 	using Xunit;
 
 	public class FlagsUnitTests : IClassFixture<ResponseFixture>

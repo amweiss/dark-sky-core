@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/test/DarkSkyCore.Tests/bin/Debug/netcoreapp1.0/DarkSkyCore.Tests.dll",
+            "program": "${workspaceRoot}/tests/bin/Debug/netcoreapp2.2/DarkSkyCore.Tests.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

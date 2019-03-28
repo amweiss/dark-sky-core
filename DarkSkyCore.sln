@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DarkSkyCoreTests", "test\DarkSkyCoreTests.csproj", "{76143AE1-7895-46F0-A82E-10C6561EF568}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DarkSkyCore.Tests", "tests\DarkSkyCore.Tests.csproj", "{76143AE1-7895-46F0-A82E-10C6561EF568}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DarkSkyCore", "src\DarkSkyCore.csproj", "{1DF227BA-532D-4743-812C-FD5DA066F71D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{165B0768-EEE2-45AF-BBD0-FE9BFB6782C7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{09844B07-2B8F-4B34-B2BC-D893FDD4EE66}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{09844B07-2B8F-4B34-B2BC-D893FDD4EE66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{46789EA1-2430-41F8-9B3D-F77E9A9E790A}"
 	ProjectSection(SolutionItems) = preProject

@@ -1,4 +1,4 @@
-namespace DarkSky.IntegrationTests.Services
+namespace DarkSky.Tests.IntegrationTests.Services
 {
 	using System;
 	using System.Collections.Generic;

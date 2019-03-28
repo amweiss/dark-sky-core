@@ -30,12 +30,12 @@ steps:
   displayName: Build
 
 - powershell: |
-      dotnet test test /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/test/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" /p:Exclude="[xunit*]*" --logger trx
+      dotnet test tests /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/tests/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" /p:Exclude="[xunit*]*" --logger trx
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
-- script: bash <(curl -s https://codecov.io/bash) -f "$(System.DefaultWorkingDirectory)/test/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
+- script: bash <(curl -s https://codecov.io/bash) -f "$(System.DefaultWorkingDirectory)/tests/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
   displayName: Publish Coverage
 
 - task: PublishTestResults@2

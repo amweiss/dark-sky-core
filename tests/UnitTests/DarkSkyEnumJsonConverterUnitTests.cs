@@ -1,4 +1,4 @@
-﻿namespace DarkSky.UnitTests.Services
+﻿namespace DarkSky.Tests.UnitTests.Services
 {
 	using DarkSky.Models;
 	using Newtonsoft.Json;

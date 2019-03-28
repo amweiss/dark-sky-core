@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netcoreapp2.2</TargetFramework>
-		<AssemblyName>DarkSkyCoreTests</AssemblyName>
-		<PackageId>DarkSkyCoreTests</PackageId>
+		<AssemblyName>DarkSkyCore.Tests</AssemblyName>
+		<PackageId>DarkSkyCore.Tests</PackageId>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>

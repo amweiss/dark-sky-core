@@ -1,4 +1,4 @@
-﻿namespace DarkSky.UnitTests.Extensions
+﻿namespace DarkSky.Tests.UnitTests.Extensions
 {
 	using System;
 	using NodaTime;
