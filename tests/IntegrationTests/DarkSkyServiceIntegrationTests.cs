@@ -4,6 +4,7 @@ namespace DarkSky.Tests.IntegrationTests.Services
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Threading.Tasks;
+	using DarkSky.Models;
 	using DarkSky.Services;
 	using Microsoft.Extensions.Configuration;
 	using Newtonsoft.Json;
@@ -23,6 +24,23 @@ namespace DarkSky.Tests.IntegrationTests.Services
 			var apiKey = config.GetValue<string>(_apiEnvVar);
 			Assert.False(string.IsNullOrWhiteSpace(apiKey), $"You must set the environment variable {_apiEnvVar}");
 			_darkSky = new DarkSkyService(apiKey);
+		}
+
+		[Fact]
+		public async Task RawResponseIsExpectedJson()
+		{
+			var forecast = await _darkSky.GetDarkSkyResponse(_latitude, _longitude, new DarkSkyService.OptionalParameters
+			{
+				ExtendHourly = true,
+				DataBlocksToExclude = new List<ExclusionBlock> { ExclusionBlock.Flags },
+				LanguageCode = "x-pig-latin",
+				MeasurementUnits = "si",
+			});
+			var model = JsonConvert.DeserializeObject<Forecast>(forecast.RawResponse);
+
+			Assert.NotNull(forecast);
+			Assert.NotNull(forecast.Headers);
+			Assert.IsType<Forecast>(model);
 		}
 
 		[Fact]

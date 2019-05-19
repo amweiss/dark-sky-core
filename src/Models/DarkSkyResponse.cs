@@ -36,6 +36,11 @@
 		public ResponseHeaders Headers { get; set; }
 
 		/// <summary>
+		/// Holds the raw (hopefully json) response from the body of the http request.
+		/// </summary>
+		public string RawResponse { get; set; }
+
+		/// <summary>
 		/// The response from the Dark Sky API is a success status.
 		/// </summary>
 		public bool IsSuccessStatus { get; set; }

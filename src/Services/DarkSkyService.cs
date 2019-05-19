@@ -37,7 +37,7 @@
 		}
 
 		/// <summary>
-		/// Make a request to get forecast data.
+		///     Make a request to get forecast data, includes typed object deserialization.
 		/// </summary>
 		/// <param name="latitude">Latitude to request data for in decimal degrees.</param>
 		/// <param name="longitude">Longitude to request data for in decimal degrees.</param>
@@ -45,30 +45,11 @@
 		/// <returns>A DarkSkyResponse with the API headers and data.</returns>
 		public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
 		{
-			var requestString = BuildRequestUri(latitude, longitude, parameters);
-			var response = await httpClient.HttpRequest(requestString);
-			var responseContent = await response.Content.ReadAsStringAsync();
-
-			var darkSkyResponse = new DarkSkyResponse()
-			{
-				IsSuccessStatus = response.IsSuccessStatusCode,
-				ResponseReasonPhrase = response.ReasonPhrase,
-			};
+			var darkSkyResponse = await GetDarkSkyResponse(latitude, longitude, parameters);
 
 			if (darkSkyResponse.IsSuccessStatus)
 			{
-				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(responseContent);
-				response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
-				response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
-
-				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
-				{
-					CacheControl = response.Headers.CacheControl,
-					ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed) ?
-						(long?)callsParsed :
-						null,
-					ResponseTime = responseTimeHeader?.FirstOrDefault(),
-				};
+				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(darkSkyResponse.RawResponse);
 
 				if (darkSkyResponse.Response != null)
 				{
@@ -82,6 +63,43 @@
 					darkSkyResponse.Response.Hourly?.Data?.ForEach(h => h.TimeZone = darkSkyResponse.Response.TimeZone);
 					darkSkyResponse.Response.Minutely?.Data?.ForEach(m => m.TimeZone = darkSkyResponse.Response.TimeZone);
 				}
+			}
+
+			return darkSkyResponse;
+		}
+
+		/// <summary>
+		///     Get the request from the forecast API - no json parsing.
+		/// </summary>
+		/// <param name="latitude">Latitude to request data for in decimal degrees.</param>
+		/// <param name="longitude">Longitude to request data for in decimal degrees.</param>
+		/// <param name="parameters">The OptionalParameters to use for the request.</param>
+		/// <returns>A DarkSkyResponse with the API headers and raw response (json).</returns>
+		public async Task<DarkSkyResponse> GetDarkSkyResponse(double latitude, double longitude, OptionalParameters parameters = null)
+		{
+			var requestString = BuildRequestUri(latitude, longitude, parameters);
+			var response = await httpClient.HttpRequest(requestString);
+			var responseContent = await response.Content.ReadAsStringAsync();
+
+			var darkSkyResponse = new DarkSkyResponse()
+			{
+				IsSuccessStatus = response.IsSuccessStatusCode,
+				ResponseReasonPhrase = response.ReasonPhrase,
+				RawResponse = responseContent,
+			};
+
+			if (darkSkyResponse.IsSuccessStatus)
+			{
+				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(darkSkyResponse.RawResponse);
+				response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
+				response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
+
+				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
+				{
+					CacheControl = response.Headers.CacheControl,
+					ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed) ? (long?)callsParsed : null,
+					ResponseTime = responseTimeHeader?.FirstOrDefault(),
+				};
 			}
 
 			return darkSkyResponse;
