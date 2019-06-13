@@ -9,7 +9,7 @@ resources:
 - repo: self
   fetchDepth: 1
 pool:
-  vmImage: ubuntu-16.04
+  vmImage: windows-2019
 
 steps:
 - task: DotNetCoreInstaller@0
