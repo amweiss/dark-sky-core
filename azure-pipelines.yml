@@ -35,7 +35,9 @@ steps:
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
-- script: bash <(curl -s https://codecov.io/bash) -f "$(System.DefaultWorkingDirectory)/tests/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
+- powershell: |
+      choco install codecov
+      codecov.exe -f "$(System.DefaultWorkingDirectory)/tests/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
   displayName: Publish Coverage
 
 - task: PublishTestResults@2
