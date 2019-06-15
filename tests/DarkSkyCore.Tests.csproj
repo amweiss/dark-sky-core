@@ -20,17 +20,17 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.2.0-beta1-final" />
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.analyzers" Version="0.10.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
 		<PackageReference Include="Moq" Version="4.11.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0-preview-20190606-02" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0-preview6.19304.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-preview6.19304.6" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\src\DarkSkyCore.csproj">
