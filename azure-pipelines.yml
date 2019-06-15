@@ -13,9 +13,9 @@ pool:
 
 steps:
 - task: DotNetCoreInstaller@0
+  displayName: Install .NET Core SDK
   inputs:
-    packageType: sdk
-    version: 2.2.105
+    version: 2.x
 
 - powershell: |
     if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
