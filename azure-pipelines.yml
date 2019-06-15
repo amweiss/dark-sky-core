@@ -15,7 +15,7 @@ steps:
 - task: UseDotNet@0
   displayName: Install .NET Core SDK
   inputs:
-    version: 2.x
+    version: 2.2.300
 
 - powershell: |
     if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
