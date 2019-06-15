@@ -37,7 +37,7 @@ steps:
 
 - powershell: |
       choco install codecov
-      codecov.exe -f "$(System.DefaultWorkingDirectory)/tests/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
+      codecov.exe --root "$(System.DefaultWorkingDirectory)" -f "$(System.DefaultWorkingDirectory)/tests/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
   displayName: Publish Coverage
 
 - task: PublishTestResults@2
