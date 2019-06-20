@@ -6,7 +6,6 @@
     using Moq;
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Net.Http;
     using System.Threading.Tasks;
     using Xunit;
@@ -62,8 +61,8 @@
 
             // Check Response (basic deserialization check)
             Assert.NotNull(forecast.Response);
-            Assert.Equal(forecast.Response.Latitude, ResponseFixture.Latitude);
-            Assert.Equal(forecast.Response.Longitude, ResponseFixture.Longitude);
+            Assert.Equal(ResponseFixture.Latitude, forecast.Response.Latitude);
+            Assert.Equal(ResponseFixture.Longitude, forecast.Response.Longitude);
             Assert.NotNull(forecast.Response.Currently);
             Assert.NotNull(forecast.Response.Daily);
             Assert.NotEmpty(forecast.Response.Daily.Data);
@@ -158,12 +157,12 @@
             var totalQuery = $"{baseUri}{expectedQuery}";
 
             var queryCheckClient = new Mock<IHttpClient>();
-            queryCheckClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
-                .Returns((string s) => Task.FromResult(new HttpResponseMessage
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest,
-                    ReasonPhrase = s,
-                }));
+            //queryCheckClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
+            //    .Returns((string s) => Task.FromResult(new HttpResponseMessage
+            //    {
+            //        StatusCode = System.Net.HttpStatusCode.BadRequest,
+            //        ReasonPhrase = s,
+            //    }));
 
             queryCheckClient.Setup(f => f.HttpRequestAsync(totalQuery))
                 .Returns((string s) => Task.FromResult(new HttpResponseMessage
