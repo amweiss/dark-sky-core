@@ -30,21 +30,22 @@ steps:
   displayName: Build
 
 - powershell: |
-      dotnet test tests /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput="$(System.DefaultWorkingDirectory)/tests/coverage/" /p:ExcludeByAttribute="ObsoleteAttribute" /p:Exclude="[xunit*]*" --logger trx
+      dotnet test tests --settings ../coverletArgs.runsettings
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
 
 - powershell: |
       choco install codecov
-      codecov.exe --root "$(System.DefaultWorkingDirectory)" -f "$(System.DefaultWorkingDirectory)/tests/coverage/coverage.opencover.xml" -t "$(CODECOV_TOKEN)"
+      $coverageFile = Get-ChildItem . -Filter coverage.opencover.xml -Recurse | % {$_.FullName}
+      codecov.exe --root "$(System.DefaultWorkingDirectory)" -f "$coverageFile" -t "$(CODECOV_TOKEN)"
   displayName: Publish Coverage
 
 - task: PublishTestResults@2
   displayName: Publish Tests
   inputs:
     testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    testResultsFiles: '**/coverage.opencover.xml'
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -p:SymbolPackageFormat=snupkg -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack

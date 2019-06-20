@@ -4,6 +4,7 @@ namespace DarkSky.Tests.UnitTests.Fixtures
     using DarkSky.Services;
     using Moq;
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -20,29 +21,119 @@ namespace DarkSky.Tests.UnitTests.Fixtures
                 NormalResponse = darkSkyService.GetForecast(Latitude, Longitude).Result;
             }
 
-            var mockMissingDataCLient = new Mock<IHttpClient>();
-            mockMissingDataCLient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseMissingData));
+            var mockMissingDataClient = new Mock<IHttpClient>();
+            mockMissingDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseMissingData));
 
-            using (var darkSkyServiceMissingData = new DarkSkyService("fakekey", httpClient: mockMissingDataCLient.Object))
+            using (var darkSkyServiceMissingData = new DarkSkyService("fakekey", httpClient: mockMissingDataClient.Object))
             {
                 MissingDataResponse = darkSkyServiceMissingData.GetForecast(Latitude, Longitude).Result;
             }
+
+            var invalidKeyClient = new Mock<IHttpClient>();
+            invalidKeyClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseInvalidKey));
+
+            using (var darkSkyServiceForbidden = new DarkSkyService("fakekey", httpClient: invalidKeyClient.Object))
+            {
+                ForbiddenResponse = darkSkyServiceForbidden.GetForecast(Latitude, Longitude).Result;
+            }
+
+            var badDataClient = new Mock<IHttpClient>();
+            badDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseBadData));
+
+            using (var darkSkyServiceBadData = new DarkSkyService("fakekey", httpClient: badDataClient.Object))
+            {
+                BadDataResponse = darkSkyServiceBadData.GetForecast(Latitude, Longitude).Result;
+            }
+
+            var alertDataClient = new Mock<IHttpClient>();
+            alertDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseAlertData));
+
+            using (var darkSkyServiceAlertData = new DarkSkyService("fakekey", httpClient: alertDataClient.Object))
+            {
+                AlertResponse = darkSkyServiceAlertData.GetForecast(Latitude, Longitude).Result;
+            }
         }
 
-        public static double Latitude => 53.7436;  // 42.915;
-        public static double Longitude => -0.3395;  // -78.741;
+        public static long ApiCalls => 100;
+        public static double Latitude => 42.3601;
+        public static double Longitude => -71.0589;
 
-        public static HttpResponseMessage MockHttpResponse => new HttpResponseMessage
-        {
-            Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/KuH.json")),
-        };
+        public static string ResponseTime => "0.200ms";
 
-        public static HttpResponseMessage MockHttpResponseMissingData => new HttpResponseMessage
-        {
-            Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/BuffaloNY_MissingBlocks.json")),
-        };
-
+        public DarkSkyResponse AlertResponse { get; private set; }
+        public DarkSkyResponse BadDataResponse { get; private set; }
         public DarkSkyResponse MissingDataResponse { get; private set; }
         public DarkSkyResponse NormalResponse { get; private set; }
+        public DarkSkyResponse ForbiddenResponse { get; private set; }
+
+        private static HttpResponseMessage MockHttpResponseBadData
+        {
+            get
+            {
+                var response = new HttpResponseMessage
+                {
+                    Content = new StringContent("Hi there"),
+                };
+                response.Headers.Add("Cache-Control", "no-store");
+                response.Headers.Add("X-Response-Time", "not a time");
+                response.Headers.Add("X-Forecast-API-Calls", "cows");
+                return response;
+            }
+        }
+
+        private static HttpResponseMessage MockHttpResponse
+        {
+            get
+            {
+                var response = new HttpResponseMessage
+                {
+                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/Boston_TimeMachine.json")),
+                };
+                response.Headers.Add("X-Response-Time", ResponseTime);
+                response.Headers.Add("X-Forecast-API-Calls", ApiCalls.ToString(CultureInfo.InvariantCulture));
+                return response;
+            }
+        }
+
+        private static HttpResponseMessage MockHttpResponseAlertData
+        {
+            get
+            {
+                var response = new HttpResponseMessage
+                {
+                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/KuH.json")),
+                };
+                response.Headers.Add("Cache-Control", "no-store");
+                return response;
+            }
+        }
+
+        private static HttpResponseMessage MockHttpResponseMissingData
+        {
+            get
+            {
+                var response = new HttpResponseMessage
+                {
+                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/BuffaloNY_MissingBlocks.json")),
+                };
+                response.Headers.Add("Cache-Control", "no-store");
+                return response;
+            }
+        }
+
+        private static HttpResponseMessage MockHttpResponseInvalidKey
+        {
+            get
+            {
+                var response = new HttpResponseMessage
+                {
+                    Content = new StringContent("{\"code\":403,\"error\":\"permission denied\"}"),
+                    StatusCode = System.Net.HttpStatusCode.Forbidden,
+                    ReasonPhrase = "Forbidden",
+                };
+
+                return response;
+            }
+        }
     }
 }

@@ -50,7 +50,7 @@
         {
             var requestString = BuildRequestUri(latitude, longitude, parameters);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{requestString}").ConfigureAwait(false);
-            var responseContent = response.Content.ReadAsStringAsync();
+            var responseContent = response.Content?.ReadAsStringAsync();
 
             var darkSkyResponse = new DarkSkyResponse()
             {
@@ -60,7 +60,19 @@
 
             if (darkSkyResponse.IsSuccessStatus)
             {
-                darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(await responseContent.ConfigureAwait(false));
+                try
+                {
+                    if (responseContent != null)
+                    {
+                        darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(await responseContent.ConfigureAwait(false));
+                    }
+                }
+                catch (JsonReaderException e)
+                {
+                    darkSkyResponse.Response = null;
+                    darkSkyResponse.IsSuccessStatus = false;
+                    darkSkyResponse.ResponseReasonPhrase = $"Error parsing results: {e.Message}";
+                }
                 response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
                 response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
 

@@ -11,4 +11,3 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "options can be null", Scope = "member", Target = "~M:DarkSky.Services.DarkSkyService.GetForecast(System.Double,System.Double,DarkSky.Models.OptionalParameters)~System.Threading.Tasks.Task{DarkSky.Models.DarkSkyResponse}")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "API needs lowercase", Scope = "member", Target = "~M:DarkSky.Services.DarkSkyService.BuildRequestUri(System.Double,System.Double,DarkSky.Models.OptionalParameters)~System.String")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Non static for serialization reasons", Scope = "type", Target = "~T:DarkSky.Models.DarkSkyResponse")]
-

@@ -10,12 +10,12 @@ namespace DarkSky.Tests.IntegrationTests.Services
     using System.Threading.Tasks;
     using Xunit;
 
+    [Trait("Category", "SkipWhenLiveUnitTesting")]
     public class DarkSkyServiceIntegrationTests : IDisposable
     {
         private readonly string _apiEnvVar = "DarkSkyApiKey";
         private readonly double _latitude = 42.915;
         private readonly double _longitude = -78.741;
-        private bool _disposed = false;
         private readonly DarkSkyService _darkSky;
 
         public DarkSkyServiceIntegrationTests()
@@ -237,23 +237,16 @@ namespace DarkSky.Tests.IntegrationTests.Services
             // Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
         }
 
-        [Fact]
-        public async Task HandleInvalidApiKey()
-        {
-            // Use a different client to create one with an invalid API key.
-            using (var client = new DarkSkyService("ThisIsAFakeKey"))
-            {
-                var forecast = await client.GetForecast(_latitude, _longitude);
+        #region IDisposable Support
+        private bool disposedValue = false;
 
-                Assert.NotNull(forecast);
-                Assert.False(forecast.IsSuccessStatus);
-                Assert.NotEmpty(forecast.ResponseReasonPhrase);
-            }
-        }
-
+        /// <summary>
+        /// Dispose of resources used by the class.
+        /// </summary>
+        /// <param name="disposing">If the class is disposing managed resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (!disposedValue)
             {
                 if (disposing)
                 {
@@ -266,19 +259,18 @@ namespace DarkSky.Tests.IntegrationTests.Services
                 };
                 CultureInfo.CurrentCulture = new CultureInfo("en-US");
 
-                _disposed = true;
+                disposedValue = true;
             }
         }
 
+        /// <summary>
+        /// Public access to start disposing of the class instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        ~DarkSkyServiceIntegrationTests()
-        {
-            Dispose(false);
-        }
+        #endregion
     }
 }

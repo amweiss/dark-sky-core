@@ -25,7 +25,7 @@
         /// Set to a conservative value for data caching purposes based on the data present in
         /// the response body.
         /// </summary>
-        [Obsolete("The API no longer deems this necessary.")]
+        [Obsolete("Use CacheControl instead.")]
         public DateTimeOffset? Expires { get; set; }
 
         /// <summary>
