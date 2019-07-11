@@ -16,7 +16,23 @@ If you specify a value for `ForecastDateTime` in an `OptionalParameters` instanc
 The responses all take the form of a [CamelCase](https://en.wikipedia.org/wiki/PascalCase) version of the [Dark Sky Response](https://darksky.net/dev/docs/response) in `DarkSkyResponse`.
 This includes the [headers](https://darksky.net/dev/docs/response#response) and properties for the required text and link to use based on the [Terms of Service](https://darksky.net/dev/docs/terms).
 
-You can see an example usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/tests/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
+```csharp
+var darkSky = new DarkSky.Services.DarkSkyService(apiKey);
+var forecast = await darkSky.GetForecast(42.915, -78.741);
+
+if (forecast?.IsSuccessStatus == true)
+{
+    Console.WriteLine(forecast.Response.Currently.Summary);
+}
+else
+{
+    Console.WriteLine("No current weather data");
+}
+Console.WriteLine(forecast.AttributionLine);
+Console.WriteLine(forecast.DataSource);
+```
+
+You can see more examples of usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/tests/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
 
 ## Additional Information
 
