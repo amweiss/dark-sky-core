@@ -5,8 +5,9 @@
 	<Copyright>Copyright (c) 2017 Adam Weiss</Copyright>
 	<AssemblyTitle>DarkSkyCore</AssemblyTitle>
 	<Authors>Adam Weiss</Authors>
-	<TargetFrameworks>netstandard1.3;netstandard2.0;net46</TargetFrameworks>
-	<DebugType>portable</DebugType>
+	<TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
+	<TargetFrameworks Condition="'$(OS)' != 'Unix'">netstandard1.3;netstandard2.0;net46</TargetFrameworks>
+    <DebugType>portable</DebugType>
 	<AssemblyName>DarkSkyCore</AssemblyName>
 	<PackageId>DarkSkyCore</PackageId>
 	<PackageTags>dotnetcore;core;netstandard;darksky;weather</PackageTags>
