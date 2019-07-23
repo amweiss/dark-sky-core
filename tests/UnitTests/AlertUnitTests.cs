@@ -1,37 +1,37 @@
+#region
+
+using System;
+using DarkSky.Tests.UnitTests.Fixtures;
+using Xunit;
+
+#endregion
+
 namespace DarkSky.Tests.UnitTests.Models
 {
-    using DarkSky.Tests.UnitTests.Fixtures;
-    using System;
-    using Xunit;
-
     public class AlertUnitTests : IClassFixture<ResponseFixture>
     {
-        private readonly ResponseFixture _fixture;
-
         public AlertUnitTests(ResponseFixture fixture)
         {
             _fixture = fixture;
         }
 
+        private readonly ResponseFixture _fixture;
+
         [Fact]
-        public void AlertModelTimeConversionsTest()
+        public void AlertModelDescriptionTest()
         {
             var forecast = _fixture.AlertResponse;
-            Assert.Equal(new DateTime(2018, 9, 20, 4, 0, 0, DateTimeKind.Utc), forecast.Response.Alerts[0].DateTime);
+            Assert.Equal(
+                "of persistent and heavy rain is expected to develop across Wales and northwest England. Spray and flooding on roads probably making journey times longer. Bus and train services probably affected with journey times taking longer. Some interruption to power supplies and other services likely. Flooding of a few homes and business is likely\n",
+                forecast.Response.Alerts[0].Description);
         }
 
         [Fact]
         public void AlertModelExpiresTimeConversionsTest()
         {
             var forecast = _fixture.AlertResponse;
-            Assert.Equal(new DateTime(2018, 9, 20, 22, 0, 0, DateTimeKind.Utc), forecast.Response.Alerts[0].ExpiresDateTime);
-        }
-
-        [Fact]
-        public void AlertModelDescriptionTest()
-        {
-            var forecast = _fixture.AlertResponse;
-            Assert.Equal("of persistent and heavy rain is expected to develop across Wales and northwest England. Spray and flooding on roads probably making journey times longer. Bus and train services probably affected with journey times taking longer. Some interruption to power supplies and other services likely. Flooding of a few homes and business is likely\n", forecast.Response.Alerts[0].Description);
+            Assert.Equal(new DateTime(2018, 9, 20, 22, 0, 0, DateTimeKind.Utc),
+                forecast.Response.Alerts[0].ExpiresDateTime);
         }
 
         [Fact]
@@ -42,10 +42,18 @@ namespace DarkSky.Tests.UnitTests.Models
         }
 
         [Fact]
+        public void AlertModelTimeConversionsTest()
+        {
+            var forecast = _fixture.AlertResponse;
+            Assert.Equal(new DateTime(2018, 9, 20, 4, 0, 0, DateTimeKind.Utc), forecast.Response.Alerts[0].DateTime);
+        }
+
+        [Fact]
         public void AlertModelTitleTest()
         {
             var forecast = _fixture.AlertResponse;
-            Assert.Equal("Yellow Rain Warning For United Kingdom - Yorkshire And The Humber", forecast.Response.Alerts[0].Title);
+            Assert.Equal("Yellow Rain Warning For United Kingdom - Yorkshire And The Humber",
+                forecast.Response.Alerts[0].Title);
         }
 
         [Fact]

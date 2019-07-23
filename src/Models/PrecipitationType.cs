@@ -1,38 +1,38 @@
-﻿namespace DarkSky.Models
-{
-    using DarkSky.Services;
-    using Newtonsoft.Json;
-    using System.Runtime.Serialization;
+﻿#region
 
+using System.Runtime.Serialization;
+using DarkSky.Services;
+using Newtonsoft.Json;
+
+#endregion
+
+namespace DarkSky.Models
+{
     /// <summary>
-    /// Types of precipitation Dark Sky API can return.
+    ///     Types of precipitation Dark Sky API can return.
     /// </summary>
     [JsonConverter(typeof(DarkSkyEnumJsonConverter))]
     public enum PrecipitationType
     {
         /// <summary>
-        /// An unknown precipitation.
+        ///     An unknown precipitation.
         /// </summary>
-        [EnumMember(Value = null)]
-        None,
+        [EnumMember(Value = null)] None,
 
         /// <summary>
-        /// Rain.
+        ///     Rain.
         /// </summary>
-        [EnumMember(Value = "rain")]
-        Rain,
+        [EnumMember(Value = "rain")] Rain,
 
         /// <summary>
-        /// Snow.
+        ///     Snow.
         /// </summary>
-        [EnumMember(Value = "snow")]
-        Snow,
+        [EnumMember(Value = "snow")] Snow,
 
         /// <summary>
-        /// Sleet.
-        /// <para>(which refers to each of freezing rain, ice pellets, and “wintery mix”)</para>
+        ///     Sleet.
+        ///     <para>(which refers to each of freezing rain, ice pellets, and “wintery mix”)</para>
         /// </summary>
-        [EnumMember(Value = "sleet")]
-        Sleet,
+        [EnumMember(Value = "sleet")] Sleet
     }
 }

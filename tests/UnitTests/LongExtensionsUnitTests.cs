@@ -1,20 +1,46 @@
-﻿namespace DarkSky.Tests.UnitTests.Extensions
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using DarkSky.Extensions;
+using NodaTime;
+using Xunit;
+
+#endregion
+
+namespace DarkSky.Tests.UnitTests.Extensions
 {
-    using NodaTime;
-    using System;
-    using Xunit;
-    using static DarkSky.Extensions.LongExtensions;
+    #region
+
+    using static LongExtensions;
+
+    #endregion
 
     public class LongExtensionsUnitTests
     {
-        public static System.Collections.Generic.IEnumerable<object[]> GetDateTimeOffsets()
+        public static IEnumerable<object[]> GetDateTimeOffsets()
         {
-            yield return new object[] { DateTimeOffset.MinValue, "UTC" };
-            yield return new object[] { DateTimeOffset.MaxValue, "UTC" };
-            yield return new object[] { new DateTimeOffset(2017, 1, 1, 1, 0, 0, new TimeSpan(0)), "UTC" };
-            yield return new object[] { new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235), DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(), "America/New_York" };
-            yield return new object[] { new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235), DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(), string.Empty };
-            yield return new object[] { new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235), DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(), null };
+            yield return new object[] {DateTimeOffset.MinValue, "UTC"};
+            yield return new object[] {DateTimeOffset.MaxValue, "UTC"};
+            yield return new object[] {new DateTimeOffset(2017, 1, 1, 1, 0, 0, new TimeSpan(0)), "UTC"};
+            yield return new object[]
+            {
+                new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235),
+                    DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(),
+                "America/New_York"
+            };
+            yield return new object[]
+            {
+                new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235),
+                    DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(),
+                string.Empty
+            };
+            yield return new object[]
+            {
+                new ZonedDateTime(Instant.FromUnixTimeSeconds(1499435235),
+                    DateTimeZoneProviders.Tzdb["America/New_York"]).ToDateTimeOffset(),
+                null
+            };
         }
 
         [Theory]

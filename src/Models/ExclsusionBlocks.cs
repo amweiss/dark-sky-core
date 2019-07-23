@@ -1,43 +1,43 @@
 ﻿namespace DarkSky.Models
 {
     /// <summary>
-    /// Values to indicate which <see cref="DataBlock"/> elements to exclude.
+    ///     Values to indicate which <see cref="DataBlock" /> elements to exclude.
     /// </summary>
     public enum ExclusionBlock
     {
         /// <summary>
-        /// Unknown exclusion.
+        ///     Unknown exclusion.
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// Currently.
+        ///     Currently.
         /// </summary>
         Currently = 1 << 1,
 
         /// <summary>
-        /// Minutely.
+        ///     Minutely.
         /// </summary>
         Minutely = 1 << 2,
 
         /// <summary>
-        /// Hourly.
+        ///     Hourly.
         /// </summary>
         Hourly = 1 << 3,
 
         /// <summary>
-        /// Daily.
+        ///     Daily.
         /// </summary>
         Daily = 1 << 4,
 
         /// <summary>
-        /// Alerts.
+        ///     Alerts.
         /// </summary>
         Alerts = 1 << 5,
 
         /// <summary>
-        /// Flags.
+        ///     Flags.
         /// </summary>
-        Flags = 1 << 6,
+        Flags = 1 << 6
     }
 }

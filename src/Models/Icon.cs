@@ -1,83 +1,78 @@
-﻿namespace DarkSky.Models
-{
-    using DarkSky.Services;
-    using Newtonsoft.Json;
-    using System.Runtime.Serialization;
+﻿#region
 
+using System.Runtime.Serialization;
+using DarkSky.Services;
+using Newtonsoft.Json;
+
+#endregion
+
+namespace DarkSky.Models
+{
     /// <summary>
-    /// A machine-readable text summary of this data point, suitable for selecting an icon for display.
-    /// <para>
-    /// (Developers should ensure that a sensible default is defined, as additional values, such as
-    /// hail, thunderstorm, or tornado, may be defined in the future).
-    /// </para>
+    ///     A machine-readable text summary of this data point, suitable for selecting an icon for display.
+    ///     <para>
+    ///         (Developers should ensure that a sensible default is defined, as additional values, such as
+    ///         hail, thunderstorm, or tornado, may be defined in the future).
+    ///     </para>
     /// </summary>
     [JsonConverter(typeof(DarkSkyEnumJsonConverter))]
     public enum Icon
     {
         /// <summary>
-        /// An unknown icon.
+        ///     An unknown icon.
         /// </summary>
-        [EnumMember(Value = null)]
-        None,
+        [EnumMember(Value = null)] None,
 
         /// <summary>
-        /// Clear Day.
+        ///     Clear Day.
         /// </summary>
-        [EnumMember(Value = "clear-day")]
-        ClearDay,
+        [EnumMember(Value = "clear-day")] ClearDay,
 
         /// <summary>
-        /// Clear Night.
+        ///     Clear Night.
         /// </summary>
-        [EnumMember(Value = "clear-night")]
-        ClearNight,
+        [EnumMember(Value = "clear-night")] ClearNight,
 
         /// <summary>
-        /// Rain.
+        ///     Rain.
         /// </summary>
-        [EnumMember(Value = "rain")]
-        Rain,
+        [EnumMember(Value = "rain")] Rain,
 
         /// <summary>
-        /// Snow.
+        ///     Snow.
         /// </summary>
-        [EnumMember(Value = "snow")]
-        Snow,
+        [EnumMember(Value = "snow")] Snow,
 
         /// <summary>
-        /// Sleet.
+        ///     Sleet.
         /// </summary>
-        [EnumMember(Value = "sleet")]
-        Sleet,
+        [EnumMember(Value = "sleet")] Sleet,
 
         /// <summary>
-        /// Wind.
+        ///     Wind.
         /// </summary>
-        [EnumMember(Value = "wind")]
-        Wind,
+        [EnumMember(Value = "wind")] Wind,
 
         /// <summary>
-        /// Fog.
+        ///     Fog.
         /// </summary>
-        [EnumMember(Value = "fog")]
-        Fog,
+        [EnumMember(Value = "fog")] Fog,
 
         /// <summary>
-        /// Cloudy.
+        ///     Cloudy.
         /// </summary>
-        [EnumMember(Value = "cloudy")]
-        Cloudy,
+        [EnumMember(Value = "cloudy")] Cloudy,
 
         /// <summary>
-        /// Partly Cloudy Day.
+        ///     Partly Cloudy Day.
         /// </summary>
         [EnumMember(Value = "partly-cloudy-day")]
         PartlyCloudyDay,
 
         /// <summary>
-        /// Partly Cloudy Night.
+        ///     Partly Cloudy Night.
         /// </summary>
         [EnumMember(Value = "partly-cloudy-night")]
-        PartlyCloudyNight,
+        PartlyCloudyNight
     }
 }

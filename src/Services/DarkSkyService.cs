@@ -1,16 +1,25 @@
-﻿namespace DarkSky.Services
+﻿#region
+
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DarkSky.Models;
+using Newtonsoft.Json;
+
+#endregion
+
+namespace DarkSky.Services
 {
-    using DarkSky.Models;
-    using Newtonsoft.Json;
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using static System.FormattableString;
+    #region
+
+    using static FormattableString;
+
+    #endregion
 
     /// <summary>
-    /// Wrapper class for interacting with the Dark Sky API.
+    ///     Wrapper class for interacting with the Dark Sky API.
     /// </summary>
     public class DarkSkyService : IDisposable
     {
@@ -19,13 +28,13 @@
         private readonly IHttpClient httpClient;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DarkSkyService"/> class. A wrapper for the
-        /// Dark Sky API.
+        ///     Initializes a new instance of the <see cref="DarkSkyService" /> class. A wrapper for the
+        ///     Dark Sky API.
         /// </summary>
         /// <param name="apiKey">Your API key for the Dark Sky API.</param>
         /// <param name="baseUri">The base URI for the Dark Sky API. Defaults to https://api.darksky.net/ .</param>
         /// <param name="httpClient">
-        /// An optional HTTP client to contact an API with (useful for mocking data for testing).
+        ///     An optional HTTP client to contact an API with (useful for mocking data for testing).
         /// </param>
         public DarkSkyService(string apiKey, Uri baseUri = null, IHttpClient httpClient = null)
         {
@@ -40,22 +49,22 @@
         }
 
         /// <summary>
-        /// Make a request to get forecast data.
+        ///     Make a request to get forecast data.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
         /// <param name="parameters">The OptionalParameters to use for the request.</param>
         /// <returns>A DarkSkyResponse with the API headers and data.</returns>
-        public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
+        public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude,
+            OptionalParameters parameters = null)
         {
             var requestString = BuildRequestUri(latitude, longitude, parameters);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{requestString}").ConfigureAwait(false);
             var responseContent = response.Content?.ReadAsStringAsync();
 
-            var darkSkyResponse = new DarkSkyResponse()
+            var darkSkyResponse = new DarkSkyResponse
             {
-                IsSuccessStatus = response.IsSuccessStatusCode,
-                ResponseReasonPhrase = response.ReasonPhrase,
+                IsSuccessStatus = response.IsSuccessStatusCode, ResponseReasonPhrase = response.ReasonPhrase
             };
 
             if (darkSkyResponse.IsSuccessStatus)
@@ -64,7 +73,8 @@
                 {
                     if (responseContent != null)
                     {
-                        darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(await responseContent.ConfigureAwait(false));
+                        darkSkyResponse.Response =
+                            JsonConvert.DeserializeObject<Forecast>(await responseContent.ConfigureAwait(false));
                     }
                 }
                 catch (JsonReaderException e)
@@ -73,16 +83,17 @@
                     darkSkyResponse.IsSuccessStatus = false;
                     darkSkyResponse.ResponseReasonPhrase = $"Error parsing results: {e.Message}";
                 }
+
                 response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
                 response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
 
                 darkSkyResponse.Headers = new ResponseHeaders
                 {
                     CacheControl = response.Headers.CacheControl,
-                    ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed) ?
-                        (long?)callsParsed :
-                        null,
-                    ResponseTime = responseTimeHeader?.FirstOrDefault(),
+                    ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed)
+                        ? (long?)callsParsed
+                        : null,
+                    ResponseTime = responseTimeHeader?.FirstOrDefault()
                 };
 
                 if (darkSkyResponse.Response != null)
@@ -95,7 +106,8 @@
                     darkSkyResponse.Response.Alerts?.ForEach(a => a.TimeZone = darkSkyResponse.Response.TimeZone);
                     darkSkyResponse.Response.Daily?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
                     darkSkyResponse.Response.Hourly?.Data?.ForEach(h => h.TimeZone = darkSkyResponse.Response.TimeZone);
-                    darkSkyResponse.Response.Minutely?.Data?.ForEach(m => m.TimeZone = darkSkyResponse.Response.TimeZone);
+                    darkSkyResponse.Response.Minutely?.Data?.ForEach(
+                        m => m.TimeZone = darkSkyResponse.Response.TimeZone);
                 }
             }
 
@@ -107,7 +119,8 @@
             var queryString = new StringBuilder(Invariant($"forecast/{apiKey}/{latitude:N4},{longitude:N4}"));
             if (parameters?.ForecastDateTime != null)
             {
-                queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture)}");
+                queryString.Append(
+                    $",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture)}");
             }
 
             if (parameters != null)
@@ -115,7 +128,8 @@
                 queryString.Append("?");
                 if (parameters.DataBlocksToExclude != null)
                 {
-                    queryString.Append($"&exclude={string.Join(",", parameters.DataBlocksToExclude.Select(x => x.ToString().ToLowerInvariant()))}");
+                    queryString.Append(
+                        $"&exclude={string.Join(",", parameters.DataBlocksToExclude.Select(x => x.ToString().ToLowerInvariant()))}");
                 }
 
                 if (parameters.ExtendHourly != null && parameters.ExtendHourly.Value)
@@ -138,10 +152,11 @@
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+
+        private bool disposedValue; // To detect redundant calls
 
         /// <summary>
-        /// Dispose of resources used by the class.
+        ///     Dispose of resources used by the class.
         /// </summary>
         /// <param name="disposing">If the class is disposing managed resources.</param>
         protected virtual void Dispose(bool disposing)
@@ -158,13 +173,14 @@
         }
 
         /// <summary>
-        /// Public access to start disposing of the class instance.
+        ///     Public access to start disposing of the class instance.
         /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         #endregion
     }
 }

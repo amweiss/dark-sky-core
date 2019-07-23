@@ -1,14 +1,19 @@
+#region
+
+using System;
+using System.Globalization;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using DarkSky.Models;
+using DarkSky.Services;
+using Moq;
+
+#endregion
+
 namespace DarkSky.Tests.UnitTests.Fixtures
 {
-    using DarkSky.Models;
-    using DarkSky.Services;
-    using Moq;
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-
     public class ResponseFixture
     {
         public ResponseFixture()
@@ -22,15 +27,18 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             }
 
             var mockMissingDataClient = new Mock<IHttpClient>();
-            mockMissingDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseMissingData));
+            mockMissingDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(MockHttpResponseMissingData));
 
-            using (var darkSkyServiceMissingData = new DarkSkyService("fakekey", httpClient: mockMissingDataClient.Object))
+            using (var darkSkyServiceMissingData =
+                new DarkSkyService("fakekey", httpClient: mockMissingDataClient.Object))
             {
                 MissingDataResponse = darkSkyServiceMissingData.GetForecast(Latitude, Longitude).Result;
             }
 
             var invalidKeyClient = new Mock<IHttpClient>();
-            invalidKeyClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseInvalidKey));
+            invalidKeyClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(MockHttpResponseInvalidKey));
 
             using (var darkSkyServiceForbidden = new DarkSkyService("fakekey", httpClient: invalidKeyClient.Object))
             {
@@ -38,7 +46,8 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             }
 
             var badDataClient = new Mock<IHttpClient>();
-            badDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseBadData));
+            badDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(MockHttpResponseBadData));
 
             using (var darkSkyServiceBadData = new DarkSkyService("fakekey", httpClient: badDataClient.Object))
             {
@@ -46,7 +55,8 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             }
 
             var alertDataClient = new Mock<IHttpClient>();
-            alertDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockHttpResponseAlertData));
+            alertDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(MockHttpResponseAlertData));
 
             using (var darkSkyServiceAlertData = new DarkSkyService("fakekey", httpClient: alertDataClient.Object))
             {
@@ -60,20 +70,17 @@ namespace DarkSky.Tests.UnitTests.Fixtures
 
         public static string ResponseTime => "0.200ms";
 
-        public DarkSkyResponse AlertResponse { get; private set; }
-        public DarkSkyResponse BadDataResponse { get; private set; }
-        public DarkSkyResponse MissingDataResponse { get; private set; }
-        public DarkSkyResponse NormalResponse { get; private set; }
-        public DarkSkyResponse ForbiddenResponse { get; private set; }
+        public DarkSkyResponse AlertResponse { get; }
+        public DarkSkyResponse BadDataResponse { get; }
+        public DarkSkyResponse MissingDataResponse { get; }
+        public DarkSkyResponse NormalResponse { get; }
+        public DarkSkyResponse ForbiddenResponse { get; }
 
         private static HttpResponseMessage MockHttpResponseBadData
         {
             get
             {
-                var response = new HttpResponseMessage
-                {
-                    Content = new StringContent("Hi there"),
-                };
+                var response = new HttpResponseMessage {Content = new StringContent("Hi there")};
                 response.Headers.Add("Cache-Control", "no-store");
                 response.Headers.Add("X-Response-Time", "not a time");
                 response.Headers.Add("X-Forecast-API-Calls", "cows");
@@ -87,7 +94,8 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             {
                 var response = new HttpResponseMessage
                 {
-                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/Boston_TimeMachine.json")),
+                    Content = new StringContent(
+                        File.ReadAllText($"{AppContext.BaseDirectory}/Data/Boston_TimeMachine.json"))
                 };
                 response.Headers.Add("X-Response-Time", ResponseTime);
                 response.Headers.Add("X-Forecast-API-Calls", ApiCalls.ToString(CultureInfo.InvariantCulture));
@@ -101,7 +109,7 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             {
                 var response = new HttpResponseMessage
                 {
-                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/KuH.json")),
+                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/KuH.json"))
                 };
                 response.Headers.Add("Cache-Control", "no-store");
                 return response;
@@ -114,7 +122,8 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             {
                 var response = new HttpResponseMessage
                 {
-                    Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/BuffaloNY_MissingBlocks.json")),
+                    Content = new StringContent(
+                        File.ReadAllText($"{AppContext.BaseDirectory}/Data/BuffaloNY_MissingBlocks.json"))
                 };
                 response.Headers.Add("Cache-Control", "no-store");
                 return response;
@@ -128,8 +137,8 @@ namespace DarkSky.Tests.UnitTests.Fixtures
                 var response = new HttpResponseMessage
                 {
                     Content = new StringContent("{\"code\":403,\"error\":\"permission denied\"}"),
-                    StatusCode = System.Net.HttpStatusCode.Forbidden,
-                    ReasonPhrase = "Forbidden",
+                    StatusCode = HttpStatusCode.Forbidden,
+                    ReasonPhrase = "Forbidden"
                 };
 
                 return response;

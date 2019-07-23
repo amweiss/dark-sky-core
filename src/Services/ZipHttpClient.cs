@@ -1,21 +1,27 @@
-﻿namespace DarkSky.Services
-{
-    using System;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
+﻿#region
 
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+#endregion
+
+namespace DarkSky.Services
+{
     /// <summary>
-    /// An implementation of <see cref="IHttpClient"/> that uses <see
-    /// cref="DecompressionMethods.GZip"/> and <see cref="DecompressionMethods.Deflate"/>.
+    ///     An implementation of <see cref="IHttpClient" /> that uses
+    ///     <see
+    ///         cref="DecompressionMethods.GZip" />
+    ///     and <see cref="DecompressionMethods.Deflate" />.
     /// </summary>
     public class ZipHttpClient : IHttpClient
     {
         private readonly HttpClientHandler handler = new HttpClientHandler();
-        private readonly HttpClient httpClient = null;
+        private readonly HttpClient httpClient;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ZipHttpClient"/> class.
+        ///     Initializes a new instance of the <see cref="ZipHttpClient" /> class.
         /// </summary>
         public ZipHttpClient()
         {
@@ -23,23 +29,26 @@
             {
                 handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
+
             httpClient = new HttpClient(handler);
         }
 
         /// <summary>
-        /// Make a request to the <paramref name="requestString"/>.
+        ///     Make a request to the <paramref name="requestString" />.
         /// </summary>
         /// <param name="requestString">
-        /// The actual URL after the root domain to make the request to.
+        ///     The actual URL after the root domain to make the request to.
         /// </param>
-        /// <returns>The <see cref="HttpRequestMessage"/> from the URL.</returns>
-        public async Task<HttpResponseMessage> HttpRequestAsync(string requestString) => await httpClient.GetAsync(new Uri(requestString)).ConfigureAwait(false);
+        /// <returns>The <see cref="HttpRequestMessage" /> from the URL.</returns>
+        public async Task<HttpResponseMessage> HttpRequestAsync(string requestString) =>
+            await httpClient.GetAsync(new Uri(requestString)).ConfigureAwait(false);
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+
+        private bool disposedValue; // To detect redundant calls
 
         /// <summary>
-        /// Dispose of resources used by the class.
+        ///     Dispose of resources used by the class.
         /// </summary>
         /// <param name="disposing">If the class is disposing managed resources.</param>
         protected virtual void Dispose(bool disposing)
@@ -57,7 +66,7 @@
         }
 
         /// <summary>
-        /// Public access to start disposing of the class instance.
+        ///     Public access to start disposing of the class instance.
         /// </summary>
         public void Dispose()
         {
@@ -65,6 +74,7 @@
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         #endregion
     }
 }

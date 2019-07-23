@@ -1,20 +1,20 @@
-﻿namespace DarkSky.Tests.UnitTests
-{
-    using DarkSky.Services;
-    using DarkSky.Tests.UnitTests.Fixtures;
-    using Moq;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Xunit;
+﻿#region
 
+using DarkSky.Tests.UnitTests.Fixtures;
+using Xunit;
+
+#endregion
+
+namespace DarkSky.Tests.UnitTests
+{
     public class ResponseHeadersUnitTests : IClassFixture<ResponseFixture>
     {
-        private readonly ResponseFixture _fixture;
-
         public ResponseHeadersUnitTests(ResponseFixture fixture)
         {
             _fixture = fixture;
         }
+
+        private readonly ResponseFixture _fixture;
 
         [Fact]
         public void ApiCallsHeaderBadValueTest()

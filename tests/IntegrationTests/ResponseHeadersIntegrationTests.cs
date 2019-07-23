@@ -1,19 +1,18 @@
-﻿namespace DarkSky.Tests.IntegrationTests
-{
-    using DarkSky.Services;
-    using Microsoft.Extensions.Configuration;
-    using System;
-    using System.Threading.Tasks;
-    using Xunit;
+﻿#region
 
+using System;
+using System.Threading.Tasks;
+using DarkSky.Services;
+using Microsoft.Extensions.Configuration;
+using Xunit;
+
+#endregion
+
+namespace DarkSky.Tests.IntegrationTests
+{
     [Trait("Category", "SkipWhenLiveUnitTesting")]
     public class ResponseHeadersIntegrationTests : IDisposable
     {
-        private readonly string _apiEnvVar = "DarkSkyApiKey";
-        private readonly double _latitude = 42.915;
-        private readonly double _longitude = -78.741;
-        private readonly DarkSkyService _darkSky;
-
         public ResponseHeadersIntegrationTests()
         {
             var configBuilder = new ConfigurationBuilder().AddEnvironmentVariables();
@@ -23,19 +22,23 @@
             _darkSky = new DarkSkyService(apiKey);
         }
 
-        [Fact]
-        public async Task CacheControlHeaderNullValueTest()
+        /// <summary>
+        ///     Public access to start disposing of the class instance.
+        /// </summary>
+        public void Dispose()
         {
-            var forecast = await _darkSky.GetForecast(_latitude, _longitude);
-            Assert.NotNull(forecast.Headers);
-            Assert.NotNull(forecast.Headers.CacheControl);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false;
+        private readonly string _apiEnvVar = "DarkSkyApiKey";
+        private readonly double _latitude = 42.915;
+        private readonly double _longitude = -78.741;
+        private readonly DarkSkyService _darkSky;
+        private bool disposedValue;
 
         /// <summary>
-        /// Dispose of resources used by the class.
+        ///     Dispose of resources used by the class.
         /// </summary>
         /// <param name="disposing">If the class is disposing managed resources.</param>
         protected virtual void Dispose(bool disposing)
@@ -51,14 +54,12 @@
             }
         }
 
-        /// <summary>
-        /// Public access to start disposing of the class instance.
-        /// </summary>
-        public void Dispose()
+        [Fact]
+        public async Task CacheControlHeaderNullValueTest()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            var forecast = await _darkSky.GetForecast(_latitude, _longitude);
+            Assert.NotNull(forecast.Headers);
+            Assert.NotNull(forecast.Headers.CacheControl);
         }
-        #endregion
     }
 }

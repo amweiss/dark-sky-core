@@ -1,16 +1,20 @@
+#region
+
+using DarkSky.Tests.UnitTests.Fixtures;
+using Xunit;
+
+#endregion
+
 namespace DarkSky.Tests.UnitTests.Models
 {
-    using DarkSky.Tests.UnitTests.Fixtures;
-    using Xunit;
-
     public class FlagsUnitTests : IClassFixture<ResponseFixture>
     {
-        private readonly ResponseFixture _fixture;
-
         public FlagsUnitTests(ResponseFixture fixture)
         {
             _fixture = fixture;
         }
+
+        private readonly ResponseFixture _fixture;
 
         [Fact]
         public void FlagsAdditionalDataExistsTest()

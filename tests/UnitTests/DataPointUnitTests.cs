@@ -1,24 +1,29 @@
+#region
+
+using System;
+using DarkSky.Tests.UnitTests.Fixtures;
+using Xunit;
+
+#endregion
+
 namespace DarkSky.Tests.UnitTests.Models
 {
-    using DarkSky.Tests.UnitTests.Fixtures;
-    using System;
-    using Xunit;
-
     public class DataPointUnitTests : IClassFixture<ResponseFixture>
     {
-        private readonly ResponseFixture _fixture;
-
         public DataPointUnitTests(ResponseFixture fixture)
         {
             _fixture = fixture;
         }
+
+        private readonly ResponseFixture _fixture;
 
         [Fact]
         public void ApparentTemperatureHighDateTimeTest()
         {
             var dataPoint = _fixture.NormalResponse.Response.Daily.Data[0]; // 1978-02-06T11:00:00.0000000-05:00
 
-            Assert.Equal(new DateTime(1978, 2, 6, 16, 0, 0, DateTimeKind.Utc), dataPoint.ApparentTemperatureHighDateTime);
+            Assert.Equal(new DateTime(1978, 2, 6, 16, 0, 0, DateTimeKind.Utc),
+                dataPoint.ApparentTemperatureHighDateTime);
         }
 
         [Fact]

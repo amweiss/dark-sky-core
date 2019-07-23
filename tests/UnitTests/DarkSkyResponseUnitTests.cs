@@ -1,8 +1,12 @@
+#region
+
+using DarkSky.Models;
+using Xunit;
+
+#endregion
+
 namespace DarkSky.Tests.UnitTests.Models
 {
-    using DarkSky.Models;
-    using Xunit;
-
     public class DarkSkyResponseUnitTests
     {
         private readonly DarkSkyResponse _model = new DarkSkyResponse();
