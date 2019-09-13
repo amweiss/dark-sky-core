@@ -16,21 +16,21 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="coverlet.msbuild" Version="2.6.3">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
+		<PackageReference Include="coverlet.collector" Version="1.0.69-gafe227b39e">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1-beta3-final" />
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.5-beta1.final">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.analyzers" Version="0.10.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
 		<PackageReference Include="Moq" Version="4.13.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0-preview-20190828-03" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0-preview9.19423.4" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-preview9.19423.4" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\src\DarkSkyCore.csproj">

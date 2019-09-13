@@ -1,203 +1,186 @@
-﻿namespace DarkSky.Services
+﻿#region
+
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DarkSky.Models;
+using Newtonsoft.Json;
+
+#endregion
+
+namespace DarkSky.Services
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-	using DarkSky.Models;
-	using Newtonsoft.Json;
-	using static System.FormattableString;
+    #region
 
-	/// <summary>
-	/// Wrapper class for interacting with the Dark Sky API.
-	/// </summary>
-	public partial class DarkSkyService
-	{
-		readonly string apiKey;
-		readonly IHttpClient httpClient;
+    using static FormattableString;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DarkSkyService"/> class. A wrapper for the
-		/// Dark Sky API.
-		/// </summary>
-		/// <param name="apiKey">Your API key for the Dark Sky API.</param>
-		/// <param name="httpClient">
-		/// An optional HTTP client to contact an API with (useful for mocking data for testing).
-		/// </param>
-		public DarkSkyService(string apiKey, IHttpClient httpClient = null)
-		{
-			if (string.IsNullOrWhiteSpace(apiKey))
-			{
-				throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
-			}
+    #endregion
 
-			this.apiKey = apiKey;
-			this.httpClient = httpClient ?? new ZipHttpClient("https://api.darksky.net/");
-		}
+    /// <summary>
+    ///     Wrapper class for interacting with the Dark Sky API.
+    /// </summary>
+    public class DarkSkyService : IDisposable
+    {
+        private readonly string apiKey;
+        private readonly Uri baseUri;
+        private readonly IHttpClient httpClient;
 
-		/// <summary>
-		/// Make a request to get forecast data.
-		/// </summary>
-		/// <param name="latitude">Latitude to request data for in decimal degrees.</param>
-		/// <param name="longitude">Longitude to request data for in decimal degrees.</param>
-		/// <param name="parameters">The OptionalParameters to use for the request.</param>
-		/// <returns>A DarkSkyResponse with the API headers and data.</returns>
-		public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude, OptionalParameters parameters = null)
-		{
-			var requestString = BuildRequestUri(latitude, longitude, parameters);
-			var response = await httpClient.HttpRequest(requestString);
-			var responseContent = await response.Content.ReadAsStringAsync();
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DarkSkyService" /> class. A wrapper for the
+        ///     Dark Sky API.
+        /// </summary>
+        /// <param name="apiKey">Your API key for the Dark Sky API.</param>
+        /// <param name="baseUri">The base URI for the Dark Sky API. Defaults to https://api.darksky.net/ .</param>
+        /// <param name="httpClient">
+        ///     An optional HTTP client to contact an API with (useful for mocking data for testing).
+        /// </param>
+        public DarkSkyService(string apiKey, Uri baseUri = null, IHttpClient httpClient = null)
+        {
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
+            }
 
-			var darkSkyResponse = new DarkSkyResponse()
-			{
-				IsSuccessStatus = response.IsSuccessStatusCode,
-				ResponseReasonPhrase = response.ReasonPhrase,
-			};
+            this.apiKey = apiKey;
+            this.baseUri = baseUri ?? new Uri("https://api.darksky.net/");
+            this.httpClient = httpClient ?? new ZipHttpClient();
+        }
 
-			if (darkSkyResponse.IsSuccessStatus)
-			{
-				darkSkyResponse.Response = JsonConvert.DeserializeObject<Forecast>(responseContent);
-				response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
-				response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
+        /// <summary>
+        ///     Make a request to get forecast data.
+        /// </summary>
+        /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
+        /// <param name="parameters">The OptionalParameters to use for the request.</param>
+        /// <returns>A DarkSkyResponse with the API headers and data.</returns>
+        public async Task<DarkSkyResponse> GetForecast(double latitude, double longitude,
+            OptionalParameters parameters = null)
+        {
+            var requestString = BuildRequestUri(latitude, longitude, parameters);
+            var response = await httpClient.HttpRequestAsync($"{baseUri}{requestString}").ConfigureAwait(false);
+            var responseContent = response.Content?.ReadAsStringAsync();
 
-				darkSkyResponse.Headers = new DarkSkyResponse.ResponseHeaders
-				{
-					CacheControl = response.Headers.CacheControl,
-					ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed) ?
-						(long?)callsParsed :
-						null,
-					ResponseTime = responseTimeHeader?.FirstOrDefault(),
-				};
+            var darkSkyResponse = new DarkSkyResponse
+            {
+                IsSuccessStatus = response.IsSuccessStatusCode, ResponseReasonPhrase = response.ReasonPhrase
+            };
 
-				if (darkSkyResponse.Response != null)
-				{
-					if (darkSkyResponse.Response.Currently != null)
-					{
-						darkSkyResponse.Response.Currently.TimeZone = darkSkyResponse.Response.TimeZone;
-					}
+            if (darkSkyResponse.IsSuccessStatus)
+            {
+                try
+                {
+                    if (responseContent != null)
+                    {
+                        darkSkyResponse.Response =
+                            JsonConvert.DeserializeObject<Forecast>(await responseContent.ConfigureAwait(false));
+                    }
+                }
+                catch (JsonReaderException e)
+                {
+                    darkSkyResponse.Response = null;
+                    darkSkyResponse.IsSuccessStatus = false;
+                    darkSkyResponse.ResponseReasonPhrase = $"Error parsing results: {e.Message}";
+                }
 
-					darkSkyResponse.Response.Alerts?.ForEach(a => a.TimeZone = darkSkyResponse.Response.TimeZone);
-					darkSkyResponse.Response.Daily?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
-					darkSkyResponse.Response.Hourly?.Data?.ForEach(h => h.TimeZone = darkSkyResponse.Response.TimeZone);
-					darkSkyResponse.Response.Minutely?.Data?.ForEach(m => m.TimeZone = darkSkyResponse.Response.TimeZone);
-				}
-			}
+                response.Headers.TryGetValues("X-Forecast-API-Calls", out var apiCallsHeader);
+                response.Headers.TryGetValues("X-Response-Time", out var responseTimeHeader);
 
-			return darkSkyResponse;
-		}
+                darkSkyResponse.Headers = new ResponseHeaders
+                {
+                    CacheControl = response.Headers.CacheControl,
+                    ApiCalls = long.TryParse(apiCallsHeader?.FirstOrDefault(), out var callsParsed)
+                        ? (long?)callsParsed
+                        : null,
+                    ResponseTime = responseTimeHeader?.FirstOrDefault()
+                };
 
-		string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
-		{
-			var queryString = new StringBuilder(Invariant($"forecast/{apiKey}/{latitude:N4},{longitude:N4}"));
-			if (parameters?.ForecastDateTime != null)
-			{
-				queryString.Append($",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ssK")}");
-			}
+                if (darkSkyResponse.Response != null)
+                {
+                    if (darkSkyResponse.Response.Currently != null)
+                    {
+                        darkSkyResponse.Response.Currently.TimeZone = darkSkyResponse.Response.TimeZone;
+                    }
 
-			if (parameters != null)
-			{
-				queryString.Append("?");
-				if (parameters.DataBlocksToExclude != null)
-				{
-					queryString.Append($"&exclude={string.Join(",", parameters.DataBlocksToExclude.Select(x => x.ToString().ToLowerInvariant()))}");
-				}
+                    darkSkyResponse.Response.Alerts?.ForEach(a => a.TimeZone = darkSkyResponse.Response.TimeZone);
+                    darkSkyResponse.Response.Daily?.Data?.ForEach(d => d.TimeZone = darkSkyResponse.Response.TimeZone);
+                    darkSkyResponse.Response.Hourly?.Data?.ForEach(h => h.TimeZone = darkSkyResponse.Response.TimeZone);
+                    darkSkyResponse.Response.Minutely?.Data?.ForEach(
+                        m => m.TimeZone = darkSkyResponse.Response.TimeZone);
+                }
+            }
 
-				if (parameters.ExtendHourly != null && parameters.ExtendHourly.Value)
-				{
-					queryString.Append("&extend=hourly");
-				}
+            return darkSkyResponse;
+        }
 
-				if (!string.IsNullOrWhiteSpace(parameters.LanguageCode))
-				{
-					queryString.Append($"&lang={parameters.LanguageCode}");
-				}
+        private string BuildRequestUri(double latitude, double longitude, OptionalParameters parameters)
+        {
+            var queryString = new StringBuilder(Invariant($"forecast/{apiKey}/{latitude:N4},{longitude:N4}"));
+            if (parameters?.ForecastDateTime != null)
+            {
+                queryString.Append(
+                    $",{parameters.ForecastDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture)}");
+            }
 
-				if (!string.IsNullOrWhiteSpace(parameters.MeasurementUnits))
-				{
-					queryString.Append($"&units={parameters.MeasurementUnits}");
-				}
-			}
+            if (parameters != null)
+            {
+                queryString.Append("?");
+                if (parameters.DataBlocksToExclude != null)
+                {
+                    queryString.Append(
+                        $"&exclude={string.Join(",", parameters.DataBlocksToExclude.Select(x => x.ToString().ToLowerInvariant()))}");
+                }
 
-			return queryString.ToString();
-		}
+                if (parameters.ExtendHourly != null && parameters.ExtendHourly.Value)
+                {
+                    queryString.Append("&extend=hourly");
+                }
 
-		/// <summary>
-		/// Optional parameters that an be used to modify the API request.
-		/// </summary>
-		public partial class OptionalParameters
-		{
-			/// <summary>
-			/// A List of <see cref="ExclusionBlock"/> that prevent specific <see cref="DataBlock"/>
-			/// properties from being populated from the API.
-			/// </summary>
-			public List<ExclusionBlock> DataBlocksToExclude { get; set; }
+                if (!string.IsNullOrWhiteSpace(parameters.LanguageCode))
+                {
+                    queryString.Append($"&lang={parameters.LanguageCode}");
+                }
 
-			/// <summary>
-			/// When present, return hour-by-hour data for the next 168 hours, instead of the next 48.
-			/// <para>When using this option, we strongly recommend enabling HTTP compression.</para>
-			/// </summary>
-			public bool? ExtendHourly { get; set; }
+                if (!string.IsNullOrWhiteSpace(parameters.MeasurementUnits))
+                {
+                    queryString.Append($"&units={parameters.MeasurementUnits}");
+                }
+            }
 
-			/// <summary>
-			/// A Time Machine Request returns the observed (in the past) or forecasted (in the
-			/// future) hour-by-hour weather and daily weather conditions for a particular date.
-			/// <para>
-			/// A Time Machine request is identical in structure to a <see cref="Forecast"/>, except:
-			/// </para>
-			/// <list type="bullet">
-			/// <item>
-			/// <description>
-			/// The currently data point will refer to the time provided, rather than the current time.
-			/// </description>
-			/// </item>
-			/// <item>
-			/// <description>
-			/// The minutely data block will be omitted, unless you are requesting a time within an
-			/// hour of the present.
-			/// </description>
-			/// </item>
-			/// <item>
-			/// <description>
-			/// The hourly data block will contain data points starting at midnight (local time) of
-			/// the day requested, and continuing until midnight (local time) of the following day.
-			/// </description>
-			/// </item>
-			/// <item>
-			/// <description>
-			/// The daily data block will contain a single data point referring to the requested date.
-			/// </description>
-			/// </item>
-			/// <item>
-			/// <description>The alerts data block will be omitted.</description>
-			/// </item>
-			/// </list>
-			/// </summary>
-			public DateTime? ForecastDateTime { get; set; }
+            return queryString.ToString();
+        }
 
-			/// <summary>
-			/// Return <see cref="DataBlock.Summary"/> properties in the desired language.
-			/// <para>
-			/// (Note that units in the summary will be set according to the <see
-			/// cref="MeasurementUnits"/> parameter, so be sure to set both parameters appropriately.).
-			/// </para>
-			/// <para>
-			/// English is the default, but see the <a
-			/// href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for
-			/// supported languages.
-			/// </para>
-			/// </summary>
-			public string LanguageCode { get; set; }
+        #region IDisposable Support
 
-			/// <summary>
-			/// Return weather conditions in the requested units.
-			/// <para>
-			/// US Imperial Units are the default, but see the <a
-			/// href="https://darksky.net/dev/docs/forecast">forecast documentation page</a> for
-			/// supported units.
-			/// </para>
-			/// </summary>
-			public string MeasurementUnits { get; set; }
-		}
-	}
+        private bool disposedValue; // To detect redundant calls
+
+        /// <summary>
+        ///     Dispose of resources used by the class.
+        /// </summary>
+        /// <param name="disposing">If the class is disposing managed resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    httpClient.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        ///     Public access to start disposing of the class instance.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
+    }
 }

@@ -1,190 +1,196 @@
-﻿namespace DarkSky.Tests.UnitTests.Services
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using DarkSky.Models;
+using DarkSky.Services;
+using DarkSky.Tests.UnitTests.Fixtures;
+using Moq;
+using Xunit;
+
+#endregion
+
+namespace DarkSky.Tests.UnitTests.Services
 {
-	using System;
-	using System.IO;
-	using System.Net.Http;
-	using System.Threading.Tasks;
-	using DarkSky.Models;
-	using DarkSky.Services;
-	using DarkSky.Tests.UnitTests.Fixtures;
-	using Moq;
-	using Xunit;
+    public class DarkSkyServiceUnitTests : IClassFixture<ResponseFixture>
+    {
+        public DarkSkyServiceUnitTests(ResponseFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
-	public class DarkSkyServiceUnitTests : IClassFixture<ResponseFixture>
-	{
-		ResponseFixture _fixture;
+        private readonly ResponseFixture _fixture;
 
-		public DarkSkyServiceUnitTests(ResponseFixture fixture)
-		{
-			_fixture = fixture;
-		}
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("	")]
+        [InlineData("  ")]
+        public void ExceptionThrownForMissingApiKey(string value) =>
+            Assert.ThrowsAny<ArgumentException>(() => new DarkSkyService(value));
 
-		[Fact]
-		public async Task ApiCallsHeaderBadValueTest()
-		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
+        [Fact]
+        public void ConstructorWithNonEmptyApiKey()
+        {
+            using (var darkSkyService = new DarkSkyService("fakekey"))
+            {
+                Assert.NotNull(darkSkyService);
+            }
+        }
 
-			HttpResponseMessage MockResponse()
-			{
-				var response = _fixture.MockHttpResponse;
-				response.Headers.Add("X-Forecast-API-Calls", "cows");
-				return response;
-			}
+        [Fact]
+        public void DailyBlockEmptyTest()
+        {
+            var forecast = _fixture.MissingDataResponse;
 
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_fixture.Latitude, _fixture.Longitude);
+            Assert.NotNull(forecast);
 
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ApiCalls);
-		}
+            // Check Response (basic deserialization check)
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Response.Daily);
+            Assert.Null(forecast.Response.Daily.Data);
+        }
 
-		[Fact]
-		public void ApiCallsHeaderMissingTest()
-		{
-			var forecast = _fixture.NormalResponse;
+        [Fact]
+        public void FullQueryBuilderTest()
+        {
+            var expectedQuery =
+                $"forecast/fakekey/{ResponseFixture.Latitude},{ResponseFixture.Longitude},1970-01-01T00:00:00Z?&exclude=alerts,flags&extend=hourly&lang=x-pig-latin&units=si";
+            const string baseUri = @"https://api.darksky.net/";
+            var totalQuery = $"{baseUri}{expectedQuery}";
 
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ApiCalls);
-		}
+            var queryCheckClient = new Mock<IHttpClient>();
+            //queryCheckClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
+            //    .Returns((string s) => Task.FromResult(new HttpResponseMessage
+            //    {
+            //        StatusCode = System.Net.HttpStatusCode.BadRequest,
+            //        ReasonPhrase = s,
+            //    }));
 
-		[Fact]
-		public async Task ApiCallsHeaderNullValueTest()
-		{
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
+            queryCheckClient.Setup(f => f.HttpRequestAsync(totalQuery))
+                .Returns((string s) => Task.FromResult(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK, ReasonPhrase = s
+                }));
 
-			HttpResponseMessage MockResponse()
-			{
-				var response = _fixture.MockHttpResponse;
-				response.Headers.Add("X-Forecast-API-Calls", (string)null);
-				return response;
-			}
+            using (var darkSkyServiceQueryCheck =
+                new DarkSkyService("fakekey", new Uri(baseUri), queryCheckClient.Object))
+            {
+                var parameters = new OptionalParameters
+                {
+                    DataBlocksToExclude = new List<ExclusionBlocks> { ExclusionBlocks.Alerts, ExclusionBlocks.Flags },
+                    ExtendHourly = true,
+                    LanguageCode = "x-pig-latin",
+                    MeasurementUnits = "si",
+                    ForecastDateTime = DateTime.UnixEpoch
+                };
+                var result = darkSkyServiceQueryCheck
+                    .GetForecast(ResponseFixture.Latitude, ResponseFixture.Longitude, parameters).Result;
 
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_fixture.Latitude, _fixture.Longitude);
+                Assert.Equal(result.ResponseReasonPhrase, totalQuery);
+                Assert.True(result.IsSuccessStatus);
+            }
+        }
 
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ApiCalls);
-		}
+        [Fact]
+        public void GetForecastWithAlertData()
+        {
+            var forecast = _fixture.AlertResponse;
 
-		[Fact]
-		public void ConstructorWithNonEmptyApiKey()
-		{
-			var darkSkyService = new DarkSkyService("fakekey");
-			Assert.NotNull(darkSkyService);
-		}
+            Assert.NotNull(forecast);
 
-		[Fact]
-		public void DailyBlockEmptyTest()
-		{
-			var forecast = _fixture.MissingDataResponse;
+            // Check Response (basic deserialization check)
+            Assert.NotNull(forecast.Response);
+            Assert.NotEmpty(forecast.Response.Alerts);
+            Assert.NotNull(forecast.Response.Currently);
+            Assert.NotNull(forecast.Response.Daily);
+            Assert.NotEmpty(forecast.Response.Daily.Data);
+            Assert.NotNull(forecast.Response.Flags);
+            Assert.NotNull(forecast.Response.Hourly);
+            Assert.NotEmpty(forecast.Response.Hourly.Data);
+            Assert.NotNull(forecast.Response.Minutely);
+            Assert.NotEmpty(forecast.Response.Minutely.Data);
+            Assert.NotNull(forecast.Response.TimeZone);
+        }
 
-			Assert.NotNull(forecast);
+        [Fact]
+        public void GetForecastWithTimeMachineMockData()
+        {
+            var forecast = _fixture.NormalResponse;
 
-			// Check Response (basic deserialization check)
-			Assert.NotNull(forecast.Response);
-			Assert.NotNull(forecast.Response.Daily);
-			Assert.Null(forecast.Response.Daily.Data);
-		}
+            Assert.NotNull(forecast);
 
-		[Theory]
-		[InlineData(null)]
-		[InlineData("")]
-		[InlineData(" ")]
-		[InlineData("	")]
-		[InlineData("  ")]
-		public void ExceptionThrownForMissingApiKey(string value)
-		{
-			Assert.ThrowsAny<ArgumentException>(() =>
-			{
-				var darkSkyService = new DarkSkyService(value);
-				var result = darkSkyService.GetForecast(0, 0);
-			});
-		}
+            // Check Response (basic deserialization check)
+            Assert.NotNull(forecast.Response);
+            Assert.Equal(ResponseFixture.Latitude, forecast.Response.Latitude);
+            Assert.Equal(ResponseFixture.Longitude, forecast.Response.Longitude);
+            Assert.NotNull(forecast.Response.Currently);
+            Assert.NotNull(forecast.Response.Daily);
+            Assert.NotEmpty(forecast.Response.Daily.Data);
+            Assert.NotNull(forecast.Response.Flags);
+            Assert.NotNull(forecast.Response.Hourly);
+            Assert.NotEmpty(forecast.Response.Hourly.Data);
+            Assert.NotNull(forecast.Response.TimeZone);
+        }
 
-		[Fact]
-		public void GetForecastWithMockData()
-		{
-			var forecast = _fixture.NormalResponse;
+        [Fact]
+        public void HandleInvalidApiKey()
+        {
+            var forecast = _fixture.ForbiddenResponse;
 
-			Assert.NotNull(forecast);
+            Assert.NotNull(forecast);
+            Assert.False(forecast.IsSuccessStatus);
+            Assert.NotEmpty(forecast.ResponseReasonPhrase);
+        }
 
-			// Check Response (basic deserialization check)
-			Assert.NotNull(forecast.Response);
-			Assert.Equal(forecast.Response.Latitude, _fixture.Latitude);
-			Assert.Equal(forecast.Response.Longitude, _fixture.Longitude);
-			Assert.NotEmpty(forecast.Response.Alerts);
-			Assert.NotNull(forecast.Response.Currently);
-			Assert.NotNull(forecast.Response.Daily);
-			Assert.NotEmpty(forecast.Response.Daily.Data);
-			Assert.NotNull(forecast.Response.Flags);
-			Assert.NotNull(forecast.Response.Hourly);
-			Assert.NotEmpty(forecast.Response.Hourly.Data);
-			Assert.NotNull(forecast.Response.Minutely);
-			Assert.NotEmpty(forecast.Response.Minutely.Data);
-			Assert.NotNull(forecast.Response.TimeZone);
-		}
+        [Fact]
+        public void HourlyBlockEmptyTest()
+        {
+            var forecast = _fixture.MissingDataResponse;
 
-		[Fact]
-		public void HourlyBlockEmptyTest()
-		{
-			var forecast = _fixture.MissingDataResponse;
+            Assert.NotNull(forecast);
 
-			Assert.NotNull(forecast);
+            // Check Response (basic deserialization check)
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Response.Hourly);
+            Assert.Null(forecast.Response.Hourly.Data);
+        }
 
-			// Check Response (basic deserialization check)
-			Assert.NotNull(forecast.Response);
-			Assert.NotNull(forecast.Response.Hourly);
-			Assert.Null(forecast.Response.Hourly.Data);
-		}
+        [Fact]
+        public void MinutelyBlockEmptyTest()
+        {
+            var forecast = _fixture.MissingDataResponse;
 
-		[Fact]
-		public void MinutelyBlockEmptyTest()
-		{
-			var forecast = _fixture.MissingDataResponse;
+            Assert.NotNull(forecast);
 
-			Assert.NotNull(forecast);
+            // Check Response (basic deserialization check)
+            Assert.NotNull(forecast.Response);
+            Assert.NotNull(forecast.Response.Minutely);
+            Assert.Null(forecast.Response.Minutely.Data);
+        }
 
-			// Check Response (basic deserialization check)
-			Assert.NotNull(forecast.Response);
-			Assert.NotNull(forecast.Response.Minutely);
-			Assert.Null(forecast.Response.Minutely.Data);
-		}
+        [Fact]
+        public void ResponseTimeHeaderMissingTest()
+        {
+            var forecast = _fixture.MissingDataResponse;
 
-		[Fact]
-		public void ResponseTimeHeaderMissingTest()
-		{
-			var forecast = _fixture.NormalResponse;
+            // Check Headers (match pre-defined values)
+            Assert.NotNull(forecast.Headers);
+            Assert.Null(forecast.Headers.ResponseTime);
+        }
 
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Null(forecast.Headers.ResponseTime);
-		}
+        [Fact]
+        public void ResponseTimeHeaderTest()
+        {
+            var forecast = _fixture.NormalResponse;
 
-		[Fact]
-		public async Task ResponseTimeHeaderTest()
-		{
-			var responseTimeText = "30ms";
-			var mockCLient = new Mock<IHttpClient>();
-			mockCLient.Setup(f => f.HttpRequest(It.IsAny<string>())).Returns(Task.FromResult(MockResponse()));
-
-			HttpResponseMessage MockResponse()
-			{
-				var response = _fixture.MockHttpResponse;
-				response.Headers.Add("X-Response-Time", responseTimeText);
-				return response;
-			}
-
-			var darkSkyService = new DarkSkyService("fakekey", mockCLient.Object);
-			var forecast = await darkSkyService.GetForecast(_fixture.Latitude, _fixture.Longitude);
-
-			// Check Headers (match pre-defined values)
-			Assert.NotNull(forecast.Headers);
-			Assert.Equal(responseTimeText, forecast.Headers.ResponseTime);
-		}
-	}
+            // Check Headers (match pre-defined values)
+            Assert.NotNull(forecast.Headers);
+            Assert.Equal(ResponseFixture.ResponseTime, forecast.Headers.ResponseTime);
+        }
+    }
 }
