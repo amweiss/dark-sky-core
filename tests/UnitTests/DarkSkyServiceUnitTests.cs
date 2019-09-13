@@ -36,8 +36,10 @@ namespace DarkSky.Tests.UnitTests.Services
         [Fact]
         public void ConstructorWithNonEmptyApiKey()
         {
-            using var darkSkyService = new DarkSkyService("fakekey");
-            Assert.NotNull(darkSkyService);
+            using (var darkSkyService = new DarkSkyService("fakekey"))
+            {
+                Assert.NotNull(darkSkyService);
+            }
         }
 
         [Fact]
@@ -75,21 +77,23 @@ namespace DarkSky.Tests.UnitTests.Services
                     StatusCode = HttpStatusCode.OK, ReasonPhrase = s
                 }));
 
-            using var darkSkyServiceQueryCheck =
-                new DarkSkyService("fakekey", new Uri(baseUri), queryCheckClient.Object);
-            var parameters = new OptionalParameters
+            using (var darkSkyServiceQueryCheck =
+                new DarkSkyService("fakekey", new Uri(baseUri), queryCheckClient.Object))
             {
-                DataBlocksToExclude = new List<ExclusionBlocks> { ExclusionBlocks.Alerts, ExclusionBlocks.Flags },
-                ExtendHourly = true,
-                LanguageCode = "x-pig-latin",
-                MeasurementUnits = "si",
-                ForecastDateTime = DateTime.UnixEpoch
-            };
-            var result = darkSkyServiceQueryCheck
-                .GetForecast(ResponseFixture.Latitude, ResponseFixture.Longitude, parameters).Result;
+                var parameters = new OptionalParameters
+                {
+                    DataBlocksToExclude = new List<ExclusionBlocks> { ExclusionBlocks.Alerts, ExclusionBlocks.Flags },
+                    ExtendHourly = true,
+                    LanguageCode = "x-pig-latin",
+                    MeasurementUnits = "si",
+                    ForecastDateTime = DateTime.UnixEpoch
+                };
+                var result = darkSkyServiceQueryCheck
+                    .GetForecast(ResponseFixture.Latitude, ResponseFixture.Longitude, parameters).Result;
 
-            Assert.Equal(result.ResponseReasonPhrase, totalQuery);
-            Assert.True(result.IsSuccessStatus);
+                Assert.Equal(result.ResponseReasonPhrase, totalQuery);
+                Assert.True(result.IsSuccessStatus);
+            }
         }
 
         [Fact]

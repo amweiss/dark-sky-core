@@ -6,6 +6,7 @@ Sorry for not starting it earlier, this may change over time but for now I'll li
 
 The `ResponseHeaders` are now a separate model class, not an inner class.
 The `ExclusionBlocks` are now a separate model class, not an inner class.
+`ExclusionBlocks` now is correctly tagged with `FlagsAttribute`.
 The `OptionalParameters` are now a separate model class, not an inner class.
 `DarkSkyService` now correctly implements `IDisposable` and should be handled as such.
 `IHttpClient` now correctly implements `IDisposable` and should be handled as such.

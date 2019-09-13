@@ -58,8 +58,10 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             alertDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(MockHttpResponseAlertData));
 
-            using var darkSkyServiceAlertData = new DarkSkyService("fakekey", httpClient: alertDataClient.Object);
-            AlertResponse = darkSkyServiceAlertData.GetForecast(Latitude, Longitude).Result;
+            using (var darkSkyServiceAlertData = new DarkSkyService("fakekey", httpClient: alertDataClient.Object))
+            {
+                AlertResponse = darkSkyServiceAlertData.GetForecast(Latitude, Longitude).Result;
+            }
         }
 
         public static long ApiCalls => 100;
