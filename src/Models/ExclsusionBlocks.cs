@@ -1,8 +1,11 @@
-﻿namespace DarkSky.Models
+﻿using System;
+
+namespace DarkSky.Models
 {
     /// <summary>
     ///     Values to indicate which <see cref="DataBlock" /> elements to exclude.
     /// </summary>
+    [Flags]
     public enum ExclusionBlocks
     {
         /// <summary>
