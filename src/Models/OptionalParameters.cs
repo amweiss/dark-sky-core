@@ -13,10 +13,10 @@ namespace DarkSky.Models
     public class OptionalParameters
     {
         /// <summary>
-        ///     A List of <see cref="ExclusionBlock" /> that prevent specific <see cref="DataBlock" />
+        ///     A List of <see cref="ExclusionBlocks" /> that prevent specific <see cref="DataBlock" />
         ///     properties from being populated from the API.
         /// </summary>
-        public List<ExclusionBlock> DataBlocksToExclude { get; set; }
+        public List<ExclusionBlocks> DataBlocksToExclude { get; set; }
 
         /// <summary>
         ///     When present, return hour-by-hour data for the next 168 hours, instead of the next 48.

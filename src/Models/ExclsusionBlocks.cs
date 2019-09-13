@@ -3,7 +3,7 @@
     /// <summary>
     ///     Values to indicate which <see cref="DataBlock" /> elements to exclude.
     /// </summary>
-    public enum ExclusionBlock
+    public enum ExclusionBlocks
     {
         /// <summary>
         ///     Unknown exclusion.

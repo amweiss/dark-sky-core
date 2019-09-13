@@ -71,7 +71,7 @@ namespace DarkSky.Tests.IntegrationTests.Services
                 new OptionalParameters
                 {
                     ExtendHourly = true,
-                    DataBlocksToExclude = new List<ExclusionBlock> {ExclusionBlock.Flags},
+                    DataBlocksToExclude = new List<ExclusionBlocks> {ExclusionBlocks.Flags},
                     LanguageCode = "x-pig-latin",
                     MeasurementUnits = "si"
                 });
@@ -94,7 +94,7 @@ namespace DarkSky.Tests.IntegrationTests.Services
                 new OptionalParameters
                 {
                     ExtendHourly = true,
-                    DataBlocksToExclude = new List<ExclusionBlock> {ExclusionBlock.Flags},
+                    DataBlocksToExclude = new List<ExclusionBlocks> {ExclusionBlocks.Flags},
                     LanguageCode = "x-pig-latin",
                     MeasurementUnits = "si"
                 });
@@ -125,7 +125,7 @@ namespace DarkSky.Tests.IntegrationTests.Services
             var forecast = await _darkSky.GetForecast(_latitude, _longitude,
                 new OptionalParameters
                 {
-                    DataBlocksToExclude = new List<ExclusionBlock> {ExclusionBlock.Daily, ExclusionBlock.Hourly}
+                    DataBlocksToExclude = new List<ExclusionBlocks> {ExclusionBlocks.Daily, ExclusionBlocks.Hourly}
                 });
 
             Assert.NotNull(forecast);
@@ -248,7 +248,7 @@ namespace DarkSky.Tests.IntegrationTests.Services
                 new OptionalParameters
                 {
                     ForecastDateTime = DateTime.UtcNow.AddHours(2),
-                    DataBlocksToExclude = new List<ExclusionBlock> {ExclusionBlock.Flags},
+                    DataBlocksToExclude = new List<ExclusionBlocks> {ExclusionBlocks.Flags},
                     LanguageCode = "x-pig-latin",
                     MeasurementUnits = "si"
                 });
