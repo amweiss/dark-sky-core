@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netcoreapp2.2</TargetFramework>
+		<TargetFramework>netcoreapp3.0</TargetFramework>
 		<AssemblyName>DarkSkyCore.Tests</AssemblyName>
 		<PackageId>DarkSkyCore.Tests</PackageId>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>
-		</DebugType>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<NoWarn>1701;1702;1705;1633;SA1027;SA1633;SA1516;SA1309;SA1101;SA1400;SA0001;SA1600</NoWarn>
 	</PropertyGroup>
