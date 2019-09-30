@@ -5,8 +5,8 @@
     <Copyright>Copyright (c) 2019 Adam Weiss</Copyright>
     <AssemblyTitle>DarkSkyCore</AssemblyTitle>
     <Authors>Adam Weiss</Authors>
-    <TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' != 'Unix'">netstandard1.3;netstandard2.0;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Unix'">netstandard1.3;netstandard2.0;netstandard2.1;net46</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>DarkSkyCore</AssemblyName>
     <PackageId>DarkSkyCore</PackageId>
@@ -39,12 +39,19 @@
     </PackageReference>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NodaTime" Version="2.4.7" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'net46'">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3' and '$(TargetFramework)' != 'net46'">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-      <Version>3.2.1</Version>
+      <PrivateAssets>all</PrivateAssets>
+      <Version>3.3.1</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

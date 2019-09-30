@@ -1,13 +1,9 @@
-﻿#region
-
-using System.Runtime.Serialization;
-using DarkSky.Services;
-using Newtonsoft.Json;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
+    using Services;
+
     /// <summary>
     ///     Types of precipitation Dark Sky API can return.
     /// </summary>

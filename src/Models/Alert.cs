@@ -1,19 +1,9 @@
-﻿#region
-
-using System;
-using System.Collections.Generic;
-using DarkSky.Extensions;
-using Newtonsoft.Json;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
-    #region
-
-    using static LongExtensions;
-
-    #endregion
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using static Extensions.LongExtensions;
 
     /// <summary>
     ///     The alerts array contains objects representing the severe weather warnings issued for the

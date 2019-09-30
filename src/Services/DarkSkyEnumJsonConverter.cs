@@ -1,13 +1,9 @@
-﻿#region
-
-using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-#endregion
-
-namespace DarkSky.Services
+﻿namespace DarkSky.Services
 {
+    using System;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
     /// <summary>
     ///     <see cref="JsonConverter" /> for handling Dark Sky enum codes.
     /// </summary>

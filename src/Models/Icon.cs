@@ -1,13 +1,9 @@
-﻿#region
-
-using System.Runtime.Serialization;
-using DarkSky.Services;
-using Newtonsoft.Json;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
+    using Services;
+
     /// <summary>
     ///     A machine-readable text summary of this data point, suitable for selecting an icon for display.
     ///     <para>
