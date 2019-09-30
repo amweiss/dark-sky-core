@@ -30,7 +30,7 @@ steps:
   displayName: Build
 
 - powershell: |
-      dotnet test tests --settings ../coverletArgs.runsettings
+      dotnet test tests --settings coverletArgs.runsettings
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
