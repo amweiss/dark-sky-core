@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
-using System.Net.Http.Headers;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System;
+    using System.Net.Http.Headers;
+
     /// <summary>
     ///     The API will set the following HTTP response headers to values useful to developers.
     /// </summary>

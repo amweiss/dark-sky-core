@@ -1,18 +1,8 @@
-﻿#region
-
-using System;
-using DarkSky.Extensions;
-using Newtonsoft.Json;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
-    #region
-
-    using static LongExtensions;
-
-    #endregion
+    using System;
+    using Newtonsoft.Json;
+    using static Extensions.LongExtensions;
 
     /// <summary>
     ///     A data point object contains various properties, each representing the average (unless

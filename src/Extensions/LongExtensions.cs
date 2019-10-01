@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
-using NodaTime;
-
-#endregion
-
-namespace DarkSky.Extensions
+﻿namespace DarkSky.Extensions
 {
+    using System;
+    using NodaTime;
+
     /// <summary>
     ///     Extensions for the <see cref="long" /> type.
     /// </summary>

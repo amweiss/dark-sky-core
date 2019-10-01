@@ -12,10 +12,10 @@ pool:
   vmImage: windows-2019
 
 steps:
-- task: UseDotNet@0
+- task: UseDotNet@2
   displayName: Install .NET Core SDK
   inputs:
-    version: 2.2.401
+    version: 3.0.100
 
 - powershell: |
     if ($env:BUILD_SOURCEBRANCH -like "refs/tags/v*") {
@@ -30,7 +30,7 @@ steps:
   displayName: Build
 
 - powershell: |
-      dotnet test tests --settings ../coverletArgs.runsettings
+      dotnet test tests --settings coverletArgs.runsettings
   displayName: Test
   env:
     DarkSkyApiKey: $(DarkSkyApiKey)
@@ -45,7 +45,7 @@ steps:
   displayName: Publish Tests
   inputs:
     testRunner: VSTest
-    testResultsFiles: '**/coverage.opencover.xml'
+    testResultsFiles: 'tests/TestResults/**/coverage.opencover.xml'
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -p:SymbolPackageFormat=snupkg -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack

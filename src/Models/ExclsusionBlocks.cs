@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System;
+
     /// <summary>
     ///     Values to indicate which <see cref="DataBlock" /> elements to exclude.
     /// </summary>

@@ -1,12 +1,8 @@
-﻿#region
-
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     /// <summary>
     ///     A data block object represents the various weather phenomena occurring over a period of time.
     /// </summary>

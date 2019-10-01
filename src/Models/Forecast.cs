@@ -1,13 +1,9 @@
-﻿#region
-
-using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     /// <summary>
     ///     API responses consist of a UTF-8-encoded, JSON-formatted object that this class wraps.
     /// </summary>

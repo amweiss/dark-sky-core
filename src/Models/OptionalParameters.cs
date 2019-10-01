@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
-using System.Collections.Generic;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     ///     Optional parameters that an be used to modify the API request.
     /// </summary>

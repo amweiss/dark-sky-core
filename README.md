@@ -7,7 +7,7 @@ A .NET Standard Library for using the [Dark Sky API](https://darksky.net/dev/doc
 ## Usage
 
 The main class is [`DarkSkyService`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/DarkSkyService.cs). When using it you will need provide your API key after [signing up](https://darksky.net/dev/) for a dev account.
-You can also provide an implementation of [`IHttpClient`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/IHttpClient.cs) if you want to replace the default [`ZipHttpClient`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/ZipHttpClient.cs)
+You can also provide an implementations of [`IHttpClient`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/IHttpClient.cs) and [`IJsonSerializerService`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/IJsonSerializerService.cs) if you want to replace the default [`ZipHttpClient`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/ZipHttpClient.cs) and [`JsonNetJsonSerializerService`](https://github.com/amweiss/dark-sky-core/blob/master/src/Services/JsonNetJsonSerializerService.cs)
 for testing or other purposes.
 
 Once you have an instance of the class, use `GetForecast` to use the API. The method by default is a [forecast](https://darksky.net/dev/docs/forecast) request.
@@ -32,7 +32,7 @@ Console.WriteLine(forecast.AttributionLine);
 Console.WriteLine(forecast.DataSource);
 ```
 
-You can see more examples of usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/tests/IntegrationTests/DarkSkyServiceIntegrationTests.cs).
+You can see more examples of usage in the [integration tests](https://github.com/amweiss/dark-sky-core/blob/master/tests/IntegrationTests/Services/DarkSkyServiceIntegrationTests.cs).
 
 ## Additional Information
 

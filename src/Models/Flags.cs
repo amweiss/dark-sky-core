@@ -1,13 +1,9 @@
-﻿#region
-
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-#endregion
-
-namespace DarkSky.Models
+﻿namespace DarkSky.Models
 {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     /// <summary>
     ///     The flags object contains various metadata information related to the request.
     /// </summary>

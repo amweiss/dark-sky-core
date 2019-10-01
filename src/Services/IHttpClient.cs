@@ -1,13 +1,9 @@
-﻿#region
-
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-#endregion
-
-namespace DarkSky.Services
+﻿namespace DarkSky.Services
 {
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     Interface to use for making an HTTP request.
     /// </summary>

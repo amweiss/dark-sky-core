@@ -1,19 +1,15 @@
-#region
-
-using System;
-using System.Globalization;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using DarkSky.Models;
-using DarkSky.Services;
-using Moq;
-
-#endregion
-
-namespace DarkSky.Tests.UnitTests.Fixtures
+namespace DarkSkyCore.Tests.Fixtures
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using DarkSky.Models;
+    using DarkSky.Services;
+    using Moq;
+
     public class ResponseFixture
     {
         public ResponseFixture()
@@ -58,10 +54,8 @@ namespace DarkSky.Tests.UnitTests.Fixtures
             alertDataClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>()))
                 .Returns(Task.FromResult(MockHttpResponseAlertData));
 
-            using (var darkSkyServiceAlertData = new DarkSkyService("fakekey", httpClient: alertDataClient.Object))
-            {
-                AlertResponse = darkSkyServiceAlertData.GetForecast(Latitude, Longitude).Result;
-            }
+            using var darkSkyServiceAlertData = new DarkSkyService("fakekey", httpClient: alertDataClient.Object);
+            AlertResponse = darkSkyServiceAlertData.GetForecast(Latitude, Longitude).Result;
         }
 
         public static long ApiCalls => 100;
