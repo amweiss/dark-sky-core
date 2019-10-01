@@ -1,12 +1,8 @@
 namespace DarkSkyCore.Tests.UnitTests.Models
 {
-    #region
-
     using System;
     using Fixtures;
     using Xunit;
-
-    #endregion
 
     public class DataPointUnitTests : IClassFixture<ResponseFixture>
     {

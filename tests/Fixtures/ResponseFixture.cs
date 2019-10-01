@@ -1,7 +1,5 @@
 namespace DarkSkyCore.Tests.Fixtures
 {
-    #region
-
     using System;
     using System.Globalization;
     using System.IO;
@@ -11,8 +9,6 @@ namespace DarkSkyCore.Tests.Fixtures
     using DarkSky.Models;
     using DarkSky.Services;
     using Moq;
-
-    #endregion
 
     public class ResponseFixture
     {

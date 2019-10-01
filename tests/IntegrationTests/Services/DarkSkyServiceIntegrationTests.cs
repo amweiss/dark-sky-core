@@ -1,7 +1,5 @@
 namespace DarkSkyCore.Tests.IntegrationTests.Services
 {
-    #region
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -11,8 +9,6 @@ namespace DarkSkyCore.Tests.IntegrationTests.Services
     using DarkSkyCore.Tests.Fixtures;
     using Microsoft.Extensions.Configuration;
     using Xunit;
-
-    #endregion
 
     [Trait("Category", "SkipWhenLiveUnitTesting")]
     public sealed class DarkSkyServiceIntegrationTests : IDisposable

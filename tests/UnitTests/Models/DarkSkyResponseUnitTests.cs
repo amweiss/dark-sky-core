@@ -1,11 +1,7 @@
 namespace DarkSkyCore.Tests.UnitTests.Models
 {
-    #region
-
     using DarkSky.Models;
     using Xunit;
-
-    #endregion
 
     public class DarkSkyResponseUnitTests
     {

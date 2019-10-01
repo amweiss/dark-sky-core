@@ -1,7 +1,5 @@
 ﻿namespace DarkSkyCore.Tests.UnitTests.Services
 {
-    #region
-
     using System;
     using System.Collections.Generic;
     using System.Net;
@@ -12,8 +10,6 @@
     using Fixtures;
     using Moq;
     using Xunit;
-
-    #endregion
 
     public class DarkSkyServiceUnitTests : IClassFixture<ResponseFixture>
     {

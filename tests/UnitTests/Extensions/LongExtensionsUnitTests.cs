@@ -1,14 +1,10 @@
 ﻿namespace DarkSkyCore.Tests.UnitTests.Extensions
 {
-    #region
-
     using System;
     using System.Collections.Generic;
     using DarkSky.Extensions;
     using NodaTime;
     using Xunit;
-
-    #endregion
 
     public class LongExtensionsUnitTests
     {

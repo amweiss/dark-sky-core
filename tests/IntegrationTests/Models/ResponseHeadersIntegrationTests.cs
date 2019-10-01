@@ -1,14 +1,10 @@
 ﻿namespace DarkSkyCore.Tests.IntegrationTests.Models
 {
-    #region
-
     using System;
     using System.Threading.Tasks;
     using DarkSky.Services;
     using Microsoft.Extensions.Configuration;
     using Xunit;
-
-    #endregion
 
     [Trait("Category", "SkipWhenLiveUnitTesting")]
     public class ResponseHeadersIntegrationTests : IDisposable

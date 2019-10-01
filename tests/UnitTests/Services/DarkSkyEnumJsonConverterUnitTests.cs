@@ -1,12 +1,8 @@
 ﻿namespace DarkSkyCore.Tests.UnitTests.Services
 {
-    #region
-
     using DarkSky.Models;
     using Newtonsoft.Json;
     using Xunit;
-
-    #endregion
 
     public class DarkSkyEnumJsonConverterUnitTests
     {
