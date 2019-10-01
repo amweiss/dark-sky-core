@@ -65,11 +65,6 @@ namespace DarkSkyCore.Tests.IntegrationTests.Services
                 _darkSky.Dispose();
             }
 
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };
-
             disposedValue = true;
         }
 
