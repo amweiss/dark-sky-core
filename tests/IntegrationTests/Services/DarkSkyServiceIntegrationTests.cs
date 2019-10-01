@@ -264,12 +264,5 @@ namespace DarkSkyCore.Tests.IntegrationTests.Services
 
             // Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
         }
-
-        [Fact]
-        public void DisposalTest()
-        {
-            _darkSky.Dispose();
-            Assert.True(true);
-        }
     }
 }
