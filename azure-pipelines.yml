@@ -45,7 +45,7 @@ steps:
   displayName: Publish Tests
   inputs:
     testRunner: VSTest
-    testResultsFiles: '**/coverage.opencover.xml'
+    testResultsFiles: 'tests/TestResults/**/coverage.opencover.xml'
 
 - script: dotnet pack --configuration $(BuildConfiguration) --include-symbols /p:PackageVersion=$(version) -p:SymbolPackageFormat=snupkg -o $(Build.ArtifactStagingDirectory) src
   displayName: Pack
