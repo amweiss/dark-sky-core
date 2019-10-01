@@ -168,15 +168,17 @@
         /// <param name="disposing">If the class is disposing managed resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposedValue)
             {
-                if (disposing)
-                {
-                    httpClient.Dispose();
-                }
-
-                disposedValue = true;
+                return;
             }
+
+            if (disposing)
+            {
+                httpClient.Dispose();
+            }
+
+            disposedValue = true;
         }
 
         /// <summary>

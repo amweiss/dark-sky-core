@@ -6,7 +6,7 @@
         <Configuration>
           <Format>opencover</Format>
           <Exclude>[xunit*]*</Exclude>
-          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+          <ExcludeByAttribute>Obsolete,GeneratedCode,CompilerGenerated</ExcludeByAttribute>
           <SingleHit>false</SingleHit>
           <UseSourceLink>true</UseSourceLink>
         </Configuration>

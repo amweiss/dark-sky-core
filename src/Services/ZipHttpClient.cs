@@ -57,16 +57,18 @@
         /// <param name="disposing">If the class is disposing managed resources.</param>
         private void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposedValue)
             {
-                if (disposing)
-                {
-                    handler.Dispose();
-                    httpClient.Dispose();
-                }
-
-                disposedValue = true;
+                return;
             }
+
+            if (disposing)
+            {
+                handler.Dispose();
+                httpClient.Dispose();
+            }
+
+            disposedValue = true;
         }
 
         /// <summary>
