@@ -10,8 +10,6 @@ namespace DarkSkyCore.Tests.IntegrationTests.Services
     using DarkSky.Services;
     using DarkSkyCore.Tests.Fixtures;
     using Microsoft.Extensions.Configuration;
-    using Moq;
-    using Newtonsoft.Json;
     using Xunit;
 
     #endregion
@@ -269,6 +267,13 @@ namespace DarkSkyCore.Tests.IntegrationTests.Services
             Assert.Equal(forecast.Response.Longitude, _longitude);
 
             // Contrary to documentation, Alerts is not always omitted for time machine requests. Assert.Null(forecast.Response.Alerts);
+        }
+
+        [Fact]
+        public void DisposalTest()
+        {
+            _darkSky.Dispose();
+            Assert.True(true);
         }
     }
 }
