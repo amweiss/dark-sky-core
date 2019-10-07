@@ -26,7 +26,7 @@
             }
             catch (JsonReaderException e)
             {
-                throw new FormatException("Json Parsing Erorr", e);
+                throw new FormatException("Json Parsing Error", e);
             }
         }
     }
