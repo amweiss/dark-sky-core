@@ -1,5 +1,6 @@
 ﻿namespace DarkSkyCore.Tests.UnitTests.Services
 {
+    using System;
     using DarkSky.Services;
     using Xunit;
 
@@ -8,8 +9,7 @@
         [Fact]
         public void DisposeTest()
         {
-            var service = new ZipHttpClient();
-            service.Dispose();
+            using var service = new ZipHttpClient();
             service.Dispose();
         }
     }

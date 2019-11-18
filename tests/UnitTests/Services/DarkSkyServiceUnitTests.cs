@@ -182,8 +182,7 @@
         [Fact]
         public void DisposeTest()
         {
-            var service = new DarkSkyService("ABCD");
-            service.Dispose();
+            using var service = new DarkSkyService("ABCD");
             service.Dispose();
         }
     }
