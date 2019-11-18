@@ -178,5 +178,13 @@
             Assert.NotNull(forecast.Headers);
             Assert.Equal(ResponseFixture.ResponseTime, forecast.Headers.ResponseTime);
         }
+
+        [Fact]
+        public void DisposeTest()
+        {
+            var service = new DarkSkyService("ABCD");
+            service.Dispose();
+            service.Dispose();
+        }
     }
 }
