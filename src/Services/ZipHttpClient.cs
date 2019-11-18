@@ -39,14 +39,6 @@
         public async Task<HttpResponseMessage> HttpRequestAsync(string requestString) =>
             await httpClient.GetAsync(new Uri(requestString)).ConfigureAwait(false);
 
-        /// <summary>
-        ///     Destructor
-        /// </summary>
-        ~ZipHttpClient()
-        {
-            Dispose(false);
-        }
-
         #region IDisposable Support
 
         private bool disposedValue; // To detect redundant calls
