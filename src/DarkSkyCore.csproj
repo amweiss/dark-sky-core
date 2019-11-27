@@ -42,7 +42,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" >
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19554-01" >
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" >
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
